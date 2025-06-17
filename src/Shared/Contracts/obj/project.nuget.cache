@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "4XFcW9uSU/U=",
+  "success": true,
+  "projectFilePath": "C:\\Users\\aleks\\source\\repos\\MarketPlace\\src\\Shared\\Contracts\\Shared.Contracts.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\aleks\\.nuget\\packages\\microsoft.net.sdk.compilers.toolset\\9.0.200\\microsoft.net.sdk.compilers.toolset.9.0.200.nupkg.sha512"
+  ],
+  "logs": []
+}

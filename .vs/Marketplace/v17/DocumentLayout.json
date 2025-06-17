@@ -1,0 +1,37 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\aleks\\source\\repos\\Marketplace\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{4C19D3A8-B35E-4EBA-9E00-AFFAB879393B}|src\\Services\\UsersService\\UsersService.csproj|c:\\users\\aleks\\source\\repos\\marketplace\\src\\services\\usersservice\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4C19D3A8-B35E-4EBA-9E00-AFFAB879393B}|src\\Services\\UsersService\\UsersService.csproj|solutionrelative:src\\services\\usersservice\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\aleks\\source\\repos\\Marketplace\\src\\Services\\UsersService\\Program.cs",
+              "RelativeDocumentMoniker": "src\\Services\\UsersService\\Program.cs",
+              "ToolTip": "C:\\Users\\aleks\\source\\repos\\Marketplace\\src\\Services\\UsersService\\Program.cs",
+              "RelativeToolTip": "src\\Services\\UsersService\\Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAEAAAA9AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-06-14T20:12:56.654Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
