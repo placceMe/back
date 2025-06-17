@@ -13,8 +13,8 @@ using UsersService.Data;
 namespace UsersService.Migrations
 {
     [DbContext(typeof(UsersDbContext))]
-    [Migration("20250614203929_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20250617211548_Init")]
+    partial class Init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -32,6 +32,12 @@ namespace UsersService.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
+
+                    b.Property<string>("AvatarUrl")
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -51,6 +57,14 @@ namespace UsersService.Migrations
                     b.Property<List<string>>("Roles")
                         .IsRequired()
                         .HasColumnType("text[]");
+
+                    b.Property<string>("State")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Surname")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
