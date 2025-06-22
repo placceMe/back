@@ -1,4 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
+using ProductsService.Models;
+using ProductsService.Services;
 
 namespace ProductsService.Controllers
 {
@@ -20,7 +22,7 @@ namespace ProductsService.Controllers
         }
 
         [HttpPut("{id}")]
-        public IActionResult UpdateCategory(int id, [FromBody] Category category)
+        public IActionResult UpdateCategory(Guid id, [FromBody] Category category)
         {
             var updated = _service.UpdateCategory(id, category);
             if (!updated) return NotFound();
@@ -28,7 +30,7 @@ namespace ProductsService.Controllers
         }
 
         [HttpDelete("{id}")]
-        public IActionResult DeleteCategory(int id)
+        public IActionResult DeleteCategory(Guid id)
         {
             var deleted = _service.DeleteCategory(id);
             if (!deleted) return NotFound();
@@ -36,7 +38,7 @@ namespace ProductsService.Controllers
         }
 
         [HttpGet("{id}")]
-        public ActionResult<Category> GetCategoryById(int id)
+        public ActionResult<Category> GetCategoryById(Guid id)
         {
             var category = _service.GetCategoryById(id);
             if (category == null) return NotFound();

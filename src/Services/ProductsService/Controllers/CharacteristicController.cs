@@ -1,4 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
+using ProductsService.Models;
+using ProductsService.Services;
 
 namespace ProductsService.Controllers
 {

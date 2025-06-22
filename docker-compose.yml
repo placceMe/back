@@ -20,18 +20,6 @@ services:
     depends_on:
       - users-service
 
-  postgres-db:
-    image: postgres:16
-    restart: always
-    environment:
-      POSTGRES_USER: marketplace
-      POSTGRES_PASSWORD: marketplace_password
-      POSTGRES_DB: marketplace_db
-    ports:
-      - "5432:5432"
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-
   products-service:
     build:
       context: ./src/Services/ProductsService
@@ -43,5 +31,29 @@ services:
     depends_on:
       - postgres-db  
 
+  postgres-db:
+    image: postgres:16
+    restart: always
+    environment:
+      POSTGRES_USER: marketplace
+      POSTGRES_PASSWORD: marketplace_password
+      POSTGRES_DB: marketplace_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      
+  minio:
+    image: minio/minio
+    ports:
+      - "9000:9000"
+    environment:
+      MINIO_ACCESS_KEY: minioadmin
+      MINIO_SECRET_KEY: minioadmin
+    command: server /data
+    volumes:
+      - minio_data:/data
+
 volumes:
   postgres_data:
+  minio_data:

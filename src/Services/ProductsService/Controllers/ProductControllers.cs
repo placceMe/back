@@ -1,4 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
+using ProductsService.Models;
+using ProductsService.Services;
 
 namespace ProductsService.Controllers
 {
@@ -21,7 +23,7 @@ namespace ProductsService.Controllers
         }
 
         [HttpPut("{id}")]
-        public IActionResult UpdateProduct(int id, [FromBody] Product product)
+        public IActionResult UpdateProduct(Guid id, [FromBody] Product product)
         {
             var updated = _service.UpdateProduct(id, product);
             if (!updated) return NotFound();
@@ -29,7 +31,7 @@ namespace ProductsService.Controllers
         }
 
         [HttpDelete("{id}")]
-        public IActionResult DeleteProduct(int id)
+        public IActionResult DeleteProduct(Guid id)
         {
             var deleted = _service.DeleteProduct(id);
             if (!deleted) return NotFound();
@@ -37,7 +39,7 @@ namespace ProductsService.Controllers
         }
 
         [HttpGet("{id}")]
-        public ActionResult<Product> GetProductById(int id)
+        public ActionResult<Product> GetProductById(Guid id)
         {
             var product = _service.GetProductById(id);
             if (product == null) return NotFound();
@@ -45,7 +47,7 @@ namespace ProductsService.Controllers
         }
 
         [HttpGet("{productId}/embedding")]
-        public ActionResult<ProductEmbedding> GetEmbedding(int productId)
+        public ActionResult<ProductEmbedding> GetEmbedding(Guid productId)
         {
             var embedding = _service.GetProductEmbedding(productId);
             if (embedding == null) return NotFound();
@@ -53,7 +55,7 @@ namespace ProductsService.Controllers
         }
 
         [HttpPut("{productId}/embedding")]
-        public IActionResult UpdateEmbedding(int productId, [FromBody] float[] embedding)
+        public IActionResult UpdateEmbedding(Guid productId, [FromBody] float[] embedding)
         {
             _service.AddOrUpdateProductEmbedding(new ProductEmbedding { ProductId = productId, Embedding = embedding });
             return Ok();

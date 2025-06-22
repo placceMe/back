@@ -6,22 +6,65 @@ namespace ProductsService.Data;
 
 public class ProductsDBContext : DbContext
 {
+
+    public ProductsDBContext(DbContextOptions<ProductsDBContext> options) : base(options)
+    {
+        Database.ExecuteSqlRaw("CREATE SCHEMA IF NOT EXISTS products_service;");
+
+    }
+
     public DbSet<Product> Products { get; set; }
     public DbSet<Category> Categories { get; set; }
-    public DbSet<ProductEmbedding> ProductEmbeddings { get; set; } // Додаємо DbSet для ProductEmbedding
+    public DbSet<ProductEmbedding> ProductEmbeddings { get; set; }
+    public DbSet<Characteristic> Characteristics { get; set; }
+    public DbSet<CharacteristicDict> CharacteristicDicts { get; set; }
+    public DbSet<Attachment> Attachments { get; set; }
+    public DbSet<Rating> Ratings { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        // Налаштування для Product
         modelBuilder.Entity<Product>()
-            .HasKey(p => p.Id);
+             .HasKey(p => p.Id);
+        modelBuilder.Entity<Product>()
+            .HasOne(p => p.Category)
+            .WithMany(c => c.Products)
+            .HasForeignKey(p => p.CategoryId);
+        modelBuilder.Entity<Product>()
+            .HasMany(p => p.Characteristics)
+            .WithOne()
+            .HasForeignKey(c => c.ProductId);
+        modelBuilder.Entity<Product>()
+            .HasMany(p => p.Attachments)
+            .WithOne(a => a.Product)
+            .HasForeignKey(a => a.ProductId);
 
-        // Налаштування для Category
+        // Category
         modelBuilder.Entity<Category>()
             .HasKey(c => c.Id);
+        modelBuilder.Entity<Category>()
+            .HasMany(c => c.Products)
+            .WithOne(p => p.Category)
+            .HasForeignKey(p => p.CategoryId);
 
-        // Налаштування для ProductEmbedding
+        // ProductEmbedding
         modelBuilder.Entity<ProductEmbedding>()
             .HasKey(pe => pe.ProductId);
+
+        // Characteristic
+        modelBuilder.Entity<Characteristic>()
+            .HasKey(c => c.Id);
+
+        // CharacteristicDict
+        modelBuilder.Entity<CharacteristicDict>()
+            .HasKey(cd => cd.Id);
+
+        // Attachment
+        modelBuilder.Entity<Attachment>()
+            .HasKey(a => a.Id);
+
+        // Rating
+        modelBuilder.Entity<Rating>()
+            .HasKey(r => r.Id);
+
     }
 }
