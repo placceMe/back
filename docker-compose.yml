@@ -1,4 +1,4 @@
-version: '3.4'
+version: '3.8'
 
 services:
   users-service:
@@ -31,6 +31,17 @@ services:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+
+  products-service:
+    build:
+      context: ./src/Services/ProductsService
+    ports:
+      - "8080:80"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Host=postgres-db;Port=5432;Database=marketplace_db;Username=marketplace;Password=marketplace_password;Search Path=users_service;
+    depends_on:
+      - postgres-db  
 
 volumes:
   postgres_data:

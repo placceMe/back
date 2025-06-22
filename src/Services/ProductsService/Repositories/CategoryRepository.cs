@@ -1,0 +1,42 @@
+using ProductsService.Models;
+using ProductsService.Data;
+
+namespace ProductsService.Repositories;
+
+public class CategoryRepository : ICategoryRepository
+{
+    private readonly ProductsDBContext _context;
+    public CategoryRepository(ProductsDBContext context)
+    {
+        _context = context;
+    }
+    public void CreateCategory(Category category)
+    {
+        _context.Categories.Add(category);
+        _context.SaveChanges();
+    }
+    public bool UpdateCategory(Guid id, Category category)
+    {
+        var existing = _context.Categories.FirstOrDefault(c => c.Id == id);
+        if (existing == null) return false;
+        existing.Name = category.Name;
+        existing.ParentCategoryId = category.ParentCategoryId;
+        existing.Status = category.Status;
+        _context.Categories.Update(existing);
+        _context.SaveChanges();
+        return true;
+    }
+    public bool DeleteCategory(Guid id)
+    {
+        var existing = _context.Categories.FirstOrDefault(c => c.Id == id);
+        if (existing == null) return false;
+        existing.Status = CategoryState.Deleted;
+        _context.Categories.Update(existing);
+        _context.SaveChanges();
+        return true;
+    }
+    public Category? GetCategoryById(Guid id)
+    {
+        return _context.Categories.FirstOrDefault(c => c.Id == id);
+    }
+}
