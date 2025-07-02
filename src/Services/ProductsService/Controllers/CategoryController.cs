@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using ProductsService.Extensions;
 using ProductsService.Models;
 using ProductsService.Services;
 
@@ -17,7 +18,7 @@ namespace ProductsService.Controllers
         public ActionResult<IEnumerable<Category>> GetAllCategories()
         {
             var categories = _service.GetAllCategories();
-            return Ok(categories);
+            return Ok(categories.ToDto());
         }
 
         [HttpPost]

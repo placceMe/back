@@ -78,8 +78,8 @@ namespace ProductsService.Controllers
                     SellerId = Guid.NewGuid(),
                     State = ProductState.Moderation,
                     Quantity = (uint)(10 + i * 5),
-                    Characteristics = new List<Characteristic>(),
-                    Attachments = new List<Attachment>()
+                    // Characteristics = new List<Characteristic>(),
+                    // Attachments = new List<Attachment>()
                 };
 
                 _service.CreateProduct(product);

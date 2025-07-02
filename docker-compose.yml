@@ -5,7 +5,7 @@ services:
     build: ./src/Services/UsersService
     container_name: users-service
     ports:
-      - "5002:80"  # Змінив порт, щоб не конфліктувати з files-service
+      - "5002:80"
     environment:
       - ASPNETCORE_HTTP_PORTS=80
       - ASPNETCORE_ENVIRONMENT=Development
@@ -35,11 +35,11 @@ services:
       context: ./src/Services/ProductsService
     container_name: products-service
     ports:
-      - "5003:80"  # Змінив порт для унікальності
+      - "5003:80"
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:80
-      - ConnectionStrings__DefaultConnection=Host=postgres-db;Port=5432;Database=marketplace_db;Username=marketplace;Password=marketplace_password;Search Path=products_service;  # Виправив схему
+      - ConnectionStrings__DefaultConnection=Host=postgres-db;Port=5432;Database=marketplace_db;Username=marketplace;Password=marketplace_password;Search Path=products_service;
     depends_on:
       - postgres-db
     networks:
@@ -85,8 +85,8 @@ services:
     image: minio/minio:latest
     container_name: minio
     ports:
-      - "9000:9000"     # API порт
-      - "9001:9001"     # Console порт
+      - "9000:9000"
+      - "9001:9001"
     environment:
       MINIO_ROOT_USER: minioadmin
       MINIO_ROOT_PASSWORD: minioadmin123

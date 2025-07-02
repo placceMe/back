@@ -27,14 +27,14 @@ public class ProductsDBContext : DbContext
              .HasKey(p => p.Id);
         modelBuilder.Entity<Product>()
             .HasOne(p => p.Category);
-        modelBuilder.Entity<Product>()
-            .HasMany(p => p.Characteristics)
-            .WithOne()
-            .HasForeignKey(c => c.ProductId);
-        modelBuilder.Entity<Product>()
-            .HasMany(p => p.Attachments)
-            .WithOne(a => a.Product)
-            .HasForeignKey(a => a.ProductId);
+        // modelBuilder.Entity<Product>()
+        //     .HasMany(p => p.Characteristics)
+        //     .WithOne()
+        //     .HasForeignKey(c => c.ProductId);
+        // modelBuilder.Entity<Product>()
+        //     .HasMany(p => p.Attachments)
+        //     .WithOne(a => a.Product)
+        //     .HasForeignKey(a => a.ProductId);
 
         // Category
         modelBuilder.Entity<Category>()
