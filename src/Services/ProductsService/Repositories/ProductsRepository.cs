@@ -1,5 +1,6 @@
-using ProductsService.Models; // Змініть на відповідний простір імен
+using ProductsService.Models;
 using ProductsService.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace ProductsService.Repositories;
 
@@ -37,6 +38,7 @@ public class ProductsRepository : IProductsRepository
     //     _context.SaveChanges();
     // }
 
+    // IProductRepository implementation
     public void CreateProduct(Product product)
     {
         _context.Products.Add(product);
@@ -47,11 +49,16 @@ public class ProductsRepository : IProductsRepository
     {
         var existing = _context.Products.FirstOrDefault(p => p.Id == id);
         if (existing == null) return false;
+
         existing.Title = product.Title;
         existing.Description = product.Description;
+        existing.Price = product.Price;
+        existing.Color = product.Color;
+        existing.Weight = product.Weight;
+        existing.MainImageUrl = product.MainImageUrl;
         existing.CategoryId = product.CategoryId;
-        existing.SellerId = product.SellerId;
-        existing.State = product.State;
+        existing.Quantity = product.Quantity;
+
         _context.Products.Update(existing);
         _context.SaveChanges();
         return true;
@@ -61,15 +68,40 @@ public class ProductsRepository : IProductsRepository
     {
         var existing = _context.Products.FirstOrDefault(p => p.Id == id);
         if (existing == null) return false;
-        existing.State = ProductState.Deleted;
-        _context.Products.Update(existing);
+
+        _context.Products.Remove(existing);
         _context.SaveChanges();
         return true;
     }
 
     public Product? GetProductById(Guid id)
     {
-        return _context.Products.FirstOrDefault(p => p.Id == id);
+        return _context.Products
+            .Include(p => p.Category)
+            .FirstOrDefault(p => p.Id == id);
+    }
+
+    public IEnumerable<Product> GetAllProducts()
+    {
+        return _context.Products
+            .Include(p => p.Category)
+            .ToList();
+    }
+
+    public IEnumerable<Product> GetProductsByCategoryId(Guid categoryId)
+    {
+        return _context.Products
+            .Include(p => p.Category)
+            .Where(p => p.CategoryId == categoryId)
+            .ToList();
+    }
+
+    public IEnumerable<Product> GetProductsBySellerId(Guid sellerId)
+    {
+        return _context.Products
+            .Include(p => p.Category)
+            .Where(p => p.SellerId == sellerId)
+            .ToList();
     }
 
     // Temporary implementations for disabled ProductEmbeddings functionality

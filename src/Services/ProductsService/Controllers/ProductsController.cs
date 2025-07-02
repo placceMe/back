@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using ProductsService.DTOs;
 using ProductsService.Models;
-using ProductsService.Data;
-using Microsoft.EntityFrameworkCore;
+using ProductsService.Repositories;
+using ProductsService.Extensions;
 
 namespace ProductsService.Controllers;
 
@@ -10,83 +10,41 @@ namespace ProductsService.Controllers;
 [Route("api/[controller]")]
 public class ProductsController : ControllerBase
 {
-    private readonly ProductsDBContext _context;
+    private readonly IProductsRepository _productsRepository;
+    private readonly ICategoryRepository _categoryRepository;
 
-    public ProductsController(ProductsDBContext context)
+    public ProductsController(IProductsRepository productsRepository, ICategoryRepository categoryRepository)
     {
-        _context = context;
+        _productsRepository = productsRepository;
+        _categoryRepository = categoryRepository;
     }
 
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<ProductDto>>> GetProducts()
+    public ActionResult<IEnumerable<ProductDto>> GetProducts()
     {
-        var products = await _context.Products
-            .Include(p => p.Category)
-            .Select(p => new ProductDto
-            {
-                Id = p.Id,
-                Title = p.Title,
-                Description = p.Description,
-                Price = p.Price,
-                Color = p.Color,
-                Weight = p.Weight,
-                CategoryId = p.CategoryId,
-                SellerId = p.SellerId,
-                State = p.State,
-                Quantity = p.Quantity,
-                Category = p.Category != null ? new CategoryDto
-                {
-                    Id = p.Category.Id,
-                    Name = p.Category.Name,
-                    Status = p.Category.Status
-                } : null
-            })
-            .ToListAsync();
-
-        return Ok(products);
+        var products = _productsRepository.GetAllProducts();
+        return Ok(products.ToDto());
     }
 
     [HttpGet("{id}")]
-    public async Task<ActionResult<ProductDto>> GetProduct(Guid id)
+    public ActionResult<ProductDto> GetProduct(Guid id)
     {
-        var product = await _context.Products
-            .Include(p => p.Category)
-            .FirstOrDefaultAsync(p => p.Id == id);
+        var product = _productsRepository.GetProductById(id);
 
         if (product == null)
         {
             return NotFound();
         }
 
-        var productDto = new ProductDto
-        {
-            Id = product.Id,
-            Title = product.Title,
-            Description = product.Description,
-            Price = product.Price,
-            Color = product.Color,
-            Weight = product.Weight,
-            CategoryId = product.CategoryId,
-            SellerId = product.SellerId,
-            State = product.State,
-            Quantity = product.Quantity,
-            Category = product.Category != null ? new CategoryDto
-            {
-                Id = product.Category.Id,
-                Name = product.Category.Name,
-                Status = product.Category.Status
-            } : null
-        };
-
-        return Ok(productDto);
+        return Ok(product.ToDto());
     }
 
     [HttpPost]
-    public async Task<ActionResult<ProductDto>> CreateProduct(CreateProductDto createProductDto)
+    public ActionResult<ProductDto> CreateProduct(CreateProductDto createProductDto)
     {
         // Verify that the category exists
-        var categoryExists = await _context.Categories.AnyAsync(c => c.Id == createProductDto.CategoryId);
-        if (!categoryExists)
+        var category = _categoryRepository.GetCategoryById(createProductDto.CategoryId);
+        if (category == null)
         {
             return BadRequest("Category does not exist");
         }
@@ -99,100 +57,63 @@ public class ProductsController : ControllerBase
             Price = createProductDto.Price,
             Color = createProductDto.Color,
             Weight = createProductDto.Weight,
+            MainImageUrl = createProductDto.MainImageUrl,
             CategoryId = createProductDto.CategoryId,
             SellerId = createProductDto.SellerId,
             Quantity = createProductDto.Quantity
         };
 
-        _context.Products.Add(product);
-        await _context.SaveChangesAsync();
+        _productsRepository.CreateProduct(product);
 
         // Load the category for the response
-        await _context.Entry(product)
-            .Reference(p => p.Category)
-            .LoadAsync();
+        product.Category = category;
 
-        var productDto = new ProductDto
-        {
-            Id = product.Id,
-            Title = product.Title,
-            Description = product.Description,
-            Price = product.Price,
-            Color = product.Color,
-            Weight = product.Weight,
-            CategoryId = product.CategoryId,
-            SellerId = product.SellerId,
-            State = product.State,
-            Quantity = product.Quantity,
-            Category = product.Category != null ? new CategoryDto
-            {
-                Id = product.Category.Id,
-                Name = product.Category.Name,
-                Status = product.Category.Status
-            } : null
-        };
-
-        return CreatedAtAction(nameof(GetProduct), new { id = product.Id }, productDto);
+        return CreatedAtAction(nameof(GetProduct), new { id = product.Id }, product.ToDto());
     }
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> UpdateProduct(Guid id, UpdateProductDto updateProductDto)
+    public IActionResult UpdateProduct(Guid id, UpdateProductDto updateProductDto)
     {
-        var product = await _context.Products.FindAsync(id);
-
-        if (product == null)
-        {
-            return NotFound();
-        }
-
         // Verify that the category exists
-        var categoryExists = await _context.Categories.AnyAsync(c => c.Id == updateProductDto.CategoryId);
-        if (!categoryExists)
+        var category = _categoryRepository.GetCategoryById(updateProductDto.CategoryId);
+        if (category == null)
         {
             return BadRequest("Category does not exist");
         }
 
-        product.Title = updateProductDto.Title;
-        product.Description = updateProductDto.Description;
-        product.Price = updateProductDto.Price;
-        product.Color = updateProductDto.Color;
-        product.Weight = updateProductDto.Weight;
-        product.CategoryId = updateProductDto.CategoryId;
-        product.Quantity = updateProductDto.Quantity;
+        var product = new Product
+        {
+            Id = id,
+            Title = updateProductDto.Title,
+            Description = updateProductDto.Description,
+            Price = updateProductDto.Price,
+            Color = updateProductDto.Color,
+            Weight = updateProductDto.Weight,
+            MainImageUrl = updateProductDto.MainImageUrl,
+            CategoryId = updateProductDto.CategoryId,
+            Quantity = updateProductDto.Quantity
+        };
 
-        try
+        var success = _productsRepository.UpdateProduct(id, product);
+
+        if (!success)
         {
-            await _context.SaveChangesAsync();
-        }
-        catch (DbUpdateConcurrencyException)
-        {
-            if (!ProductExists(id))
-            {
-                return NotFound();
-            }
-            throw;
+            return NotFound();
         }
 
         return NoContent();
     }
 
     [HttpDelete("{id}")]
-    public async Task<IActionResult> DeleteProduct(Guid id)
+    public IActionResult DeleteProduct(Guid id)
     {
-        var product = await _context.Products.FindAsync(id);
-        if (product == null)
+        var success = _productsRepository.DeleteProduct(id);
+
+        if (!success)
         {
             return NotFound();
         }
 
-        _context.Products.Remove(product);
-        await _context.SaveChangesAsync();
-
         return NoContent();
-    }
-
-    private bool ProductExists(Guid id)
-    {
-        return _context.Products.Any(e => e.Id == id);
     }
 }

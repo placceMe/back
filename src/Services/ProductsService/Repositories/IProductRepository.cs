@@ -2,13 +2,8 @@ using ProductsService.Models;
 
 namespace ProductsService.Repositories;
 
-public interface IProductsRepository
+public interface IProductRepository
 {
-    // Existing ProductEmbedding methods
-    ProductEmbedding GetProductEmbedding(Guid productId);
-    void AddOrUpdateProductEmbedding(ProductEmbedding embedding);
-
-    // Product CRUD methods
     void CreateProduct(Product product);
     bool UpdateProduct(Guid id, Product product);
     bool DeleteProduct(Guid id);

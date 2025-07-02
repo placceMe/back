@@ -8,6 +8,7 @@ public class ProductDto
     public uint Price { get; set; }
     public string Color { get; set; } = string.Empty;
     public uint Weight { get; set; }
+    public string MainImageUrl { get; set; } = string.Empty;
     public Guid CategoryId { get; set; }
     public Guid SellerId { get; set; }
     public string State { get; set; } = string.Empty;
@@ -22,6 +23,7 @@ public class CreateProductDto
     public uint Price { get; set; }
     public string Color { get; set; } = string.Empty;
     public uint Weight { get; set; }
+    public string MainImageUrl { get; set; } = string.Empty;
     public Guid CategoryId { get; set; }
     public Guid SellerId { get; set; }
     public uint Quantity { get; set; }
@@ -34,6 +36,7 @@ public class UpdateProductDto
     public uint Price { get; set; }
     public string Color { get; set; } = string.Empty;
     public uint Weight { get; set; }
+    public string MainImageUrl { get; set; } = string.Empty;
     public Guid CategoryId { get; set; }
     public uint Quantity { get; set; }
 }
