@@ -20,7 +20,6 @@ public class CategoryRepository : ICategoryRepository
         var existing = _context.Categories.FirstOrDefault(c => c.Id == id);
         if (existing == null) return false;
         existing.Name = category.Name;
-        existing.ParentCategoryId = category.ParentCategoryId;
         existing.Status = category.Status;
         _context.Categories.Update(existing);
         _context.SaveChanges();
@@ -38,5 +37,9 @@ public class CategoryRepository : ICategoryRepository
     public Category? GetCategoryById(Guid id)
     {
         return _context.Categories.FirstOrDefault(c => c.Id == id);
+    }
+    public IEnumerable<Category> GetAllCategories()
+    {
+        return _context.Categories.Where(c => c.Status != CategoryState.Deleted).ToList();
     }
 }

@@ -21,7 +21,7 @@ public class CharacteristicRepository : ICharacteristicRepository
         if (existing == null) return false;
         existing.Value = characteristic.Value;
         existing.ProductId = characteristic.ProductId;
-        existing.CharesteristicDictId = characteristic.CharesteristicDictId;
+        existing.CharacteristicDictId = characteristic.CharacteristicDictId;
         _context.Set<Characteristic>().Update(existing);
         _context.SaveChanges();
         return true;

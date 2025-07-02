@@ -13,6 +13,12 @@ namespace ProductsService.Controllers
         {
             _service = service;
         }
+        [HttpGet]
+        public ActionResult<IEnumerable<Category>> GetAllCategories()
+        {
+            var categories = _service.GetAllCategories();
+            return Ok(categories);
+        }
 
         [HttpPost]
         public IActionResult CreateCategory([FromBody] Category category)

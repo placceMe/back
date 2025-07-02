@@ -1,26 +1,36 @@
 # 1. Build stage
-FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
-WORKDIR /app
+FROM mcr.microsoft.com/dotnet/sdk:8.0-alpine AS build
+WORKDIR /src
 
-# Копіюємо все
-COPY . . 
+# Copy project file first for better layer caching
+COPY ["UsersService.csproj", "."]
 
-# Відновлюємо залежності
-RUN dotnet restore
+# Clear any existing NuGet config and restore
+RUN dotnet nuget locals all --clear && \
+    dotnet restore "UsersService.csproj" --no-cache
 
-# Публікуємо додаток у /publish
-RUN dotnet publish -c Release -o /publish
+# Copy source code
+COPY . .
+
+# Build and publish (with fresh restore to avoid cache issues)
+RUN dotnet publish "UsersService.csproj" -c Release -o /app/publish
 
 # 2. Runtime stage
-FROM mcr.microsoft.com/dotnet/aspnet:8.0
+FROM mcr.microsoft.com/dotnet/aspnet:8.0-alpine AS base
 WORKDIR /app
 
-# Копіюємо з попереднього етапу
-COPY --from=build /publish .
+# Add non-root user for security
+RUN adduser -D -s /bin/sh appuser
+USER appuser
 
-# Відкриваємо порт
+# Copy published app
+COPY --from=build /app/publish .
+
+# Set environment variables
 ENV ASPNETCORE_URLS=http://+:80
+ENV DOTNET_RUNNING_IN_CONTAINER=true
+ENV DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=1
+
 EXPOSE 80
 
-# Запускаємо сервіс
 ENTRYPOINT ["dotnet", "UsersService.dll"]

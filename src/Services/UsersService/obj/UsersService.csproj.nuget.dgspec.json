@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\aleks\\source\\repos\\Marketplace\\src\\Services\\UsersService\\UsersService.csproj": {}
+    "C:\\Users\\aleks\\source\\repos\\MarketPlace\\src\\Services\\UsersService\\UsersService.csproj": {}
   },
   "projects": {
-    "C:\\Users\\aleks\\source\\repos\\Marketplace\\src\\Services\\UsersService\\UsersService.csproj": {
+    "C:\\Users\\aleks\\source\\repos\\MarketPlace\\src\\Services\\UsersService\\UsersService.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\aleks\\source\\repos\\Marketplace\\src\\Services\\UsersService\\UsersService.csproj",
+        "projectUniqueName": "C:\\Users\\aleks\\source\\repos\\MarketPlace\\src\\Services\\UsersService\\UsersService.csproj",
         "projectName": "UsersService",
-        "projectPath": "C:\\Users\\aleks\\source\\repos\\Marketplace\\src\\Services\\UsersService\\UsersService.csproj",
+        "projectPath": "C:\\Users\\aleks\\source\\repos\\MarketPlace\\src\\Services\\UsersService\\UsersService.csproj",
         "packagesPath": "C:\\Users\\aleks\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\aleks\\source\\repos\\Marketplace\\src\\Services\\UsersService\\obj\\",
+        "outputPath": "C:\\Users\\aleks\\source\\repos\\MarketPlace\\src\\Services\\UsersService\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -104,6 +104,10 @@
             {
               "name": "Microsoft.AspNetCore.App.Ref",
               "version": "[8.0.13, 8.0.13]"
+            },
+            {
+              "name": "Microsoft.Net.Sdk.Compilers.Toolset",
+              "version": "[9.0.200, 9.0.200]"
             },
             {
               "name": "Microsoft.NETCore.App.Host.win-x64",

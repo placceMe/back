@@ -1,26 +1,17 @@
-# 1. Build stage
-FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+# Build stage
+FROM mcr.microsoft.com/dotnet/sdk:8.0-alpine AS build
 WORKDIR /app
 
-# Копіюємо все
-COPY . . 
-
-# Відновлюємо залежності
+# Копіюємо csproj і restore
+COPY *.csproj ./
 RUN dotnet restore
 
-# Публікуємо додаток у /publish
-RUN dotnet publish -c Release -o /publish
+# Копіюємо решту коду
+COPY . ./
+RUN dotnet publish -c Release -o /out
 
-# 2. Runtime stage
-FROM mcr.microsoft.com/dotnet/aspnet:8.0
+# Runtime stage
+FROM mcr.microsoft.com/dotnet/aspnet:8.0-alpine AS runtime
 WORKDIR /app
-
-# Копіюємо з попереднього етапу
-COPY --from=build /publish .
-
-# Відкриваємо порт
-ENV ASPNETCORE_URLS=http://+:80
-EXPOSE 80
-
-# Запускаємо сервіс
+COPY --from=build /out .
 ENTRYPOINT ["dotnet", "ProductsService.dll"]

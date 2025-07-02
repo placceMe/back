@@ -15,20 +15,18 @@ public class ProductsDBContext : DbContext
 
     public DbSet<Product> Products { get; set; }
     public DbSet<Category> Categories { get; set; }
-    public DbSet<ProductEmbedding> ProductEmbeddings { get; set; }
-    public DbSet<Characteristic> Characteristics { get; set; }
-    public DbSet<CharacteristicDict> CharacteristicDicts { get; set; }
-    public DbSet<Attachment> Attachments { get; set; }
-    public DbSet<Rating> Ratings { get; set; }
+    // public DbSet<ProductEmbedding> ProductEmbeddings { get; set; }
+    // public DbSet<Characteristic> Characteristics { get; set; }
+    // public DbSet<CharacteristicDict> CharacteristicDicts { get; set; }
+    // public DbSet<Attachment> Attachments { get; set; }
+    // public DbSet<Rating> Ratings { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Product>()
              .HasKey(p => p.Id);
         modelBuilder.Entity<Product>()
-            .HasOne(p => p.Category)
-            .WithMany(c => c.Products)
-            .HasForeignKey(p => p.CategoryId);
+            .HasOne(p => p.Category);
         modelBuilder.Entity<Product>()
             .HasMany(p => p.Characteristics)
             .WithOne()
@@ -44,27 +42,27 @@ public class ProductsDBContext : DbContext
         modelBuilder.Entity<Category>()
             .HasMany(c => c.Products)
             .WithOne(p => p.Category)
-            .HasForeignKey(p => p.CategoryId);
+             .HasForeignKey(p => p.CategoryId);
 
-        // ProductEmbedding
-        modelBuilder.Entity<ProductEmbedding>()
-            .HasKey(pe => pe.ProductId);
+        // // ProductEmbedding
+        // modelBuilder.Entity<ProductEmbedding>()
+        //     .HasKey(pe => pe.ProductId);
 
-        // Characteristic
-        modelBuilder.Entity<Characteristic>()
-            .HasKey(c => c.Id);
+        // // Characteristic
+        // modelBuilder.Entity<Characteristic>()
+        //     .HasKey(c => c.Id);
 
-        // CharacteristicDict
-        modelBuilder.Entity<CharacteristicDict>()
-            .HasKey(cd => cd.Id);
+        // // CharacteristicDict
+        // modelBuilder.Entity<CharacteristicDict>()
+        //     .HasKey(cd => cd.Id);
 
-        // Attachment
-        modelBuilder.Entity<Attachment>()
-            .HasKey(a => a.Id);
+        // // Attachment
+        // modelBuilder.Entity<Attachment>()
+        //     .HasKey(a => a.Id);
 
-        // Rating
-        modelBuilder.Entity<Rating>()
-            .HasKey(r => r.Id);
+        // // Rating
+        // modelBuilder.Entity<Rating>()
+        //     .HasKey(r => r.Id);
 
     }
 }

@@ -15,4 +15,9 @@ public class CategoryService : ICategoryService
     public bool UpdateCategory(Guid id, Category category) => _repository.UpdateCategory(id, category);
     public bool DeleteCategory(Guid id) => _repository.DeleteCategory(id);
     public Category? GetCategoryById(Guid id) => _repository.GetCategoryById(id);
+
+    public IEnumerable<Category> GetAllCategories()
+    {
+        return _repository.GetAllCategories().ToList();
+    }
 }

@@ -8,4 +8,5 @@ public interface ICategoryRepository
     bool UpdateCategory(Guid id, Category category);
     bool DeleteCategory(Guid id);
     Category? GetCategoryById(Guid id);
+    IEnumerable<Category> GetAllCategories();
 }

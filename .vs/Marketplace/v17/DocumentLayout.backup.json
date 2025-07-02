@@ -1,12 +1,105 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "C:\\Users\\aleks\\source\\repos\\Marketplace\\",
-  "Documents": [],
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{B4BA6298-62AD-441B-B775-D1F020A2725E}|src\\Services\\FilesService\\FilesService.csproj|c:\\users\\aleks\\source\\repos\\marketplace\\src\\services\\filesservice\\controllers\\filescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B4BA6298-62AD-441B-B775-D1F020A2725E}|src\\Services\\FilesService\\FilesService.csproj|solutionrelative:src\\services\\filesservice\\controllers\\filescontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B4BA6298-62AD-441B-B775-D1F020A2725E}|src\\Services\\FilesService\\FilesService.csproj|c:\\users\\aleks\\source\\repos\\marketplace\\src\\services\\filesservice\\services\\filesservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B4BA6298-62AD-441B-B775-D1F020A2725E}|src\\Services\\FilesService\\FilesService.csproj|solutionrelative:src\\services\\filesservice\\services\\filesservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B4BA6298-62AD-441B-B775-D1F020A2725E}|src\\Services\\FilesService\\FilesService.csproj|c:\\users\\aleks\\source\\repos\\marketplace\\src\\services\\filesservice\\services\\ifilesservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B4BA6298-62AD-441B-B775-D1F020A2725E}|src\\Services\\FilesService\\FilesService.csproj|solutionrelative:src\\services\\filesservice\\services\\ifilesservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B4BA6298-62AD-441B-B775-D1F020A2725E}|src\\Services\\FilesService\\FilesService.csproj|c:\\users\\aleks\\source\\repos\\marketplace\\src\\services\\filesservice\\models\\miniioconfig.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B4BA6298-62AD-441B-B775-D1F020A2725E}|src\\Services\\FilesService\\FilesService.csproj|solutionrelative:src\\services\\filesservice\\models\\miniioconfig.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{B4BA6298-62AD-441B-B775-D1F020A2725E}|src\\Services\\FilesService\\FilesService.csproj|c:\\users\\aleks\\source\\repos\\marketplace\\src\\services\\filesservice\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{B4BA6298-62AD-441B-B775-D1F020A2725E}|src\\Services\\FilesService\\FilesService.csproj|solutionrelative:src\\services\\filesservice\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
       "VerticalTabListWidth": 256,
-      "DocumentGroups": []
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 4,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\aleks\\source\\repos\\Marketplace\\src\\Services\\FilesService\\Program.cs",
+              "RelativeDocumentMoniker": "src\\Services\\FilesService\\Program.cs",
+              "ToolTip": "C:\\Users\\aleks\\source\\repos\\Marketplace\\src\\Services\\FilesService\\Program.cs",
+              "RelativeToolTip": "src\\Services\\FilesService\\Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACkAAAADAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-01T14:25:00.328Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "IFilesService.cs",
+              "DocumentMoniker": "C:\\Users\\aleks\\source\\repos\\Marketplace\\src\\Services\\FilesService\\Services\\IFilesService.cs",
+              "RelativeDocumentMoniker": "src\\Services\\FilesService\\Services\\IFilesService.cs",
+              "ToolTip": "C:\\Users\\aleks\\source\\repos\\Marketplace\\src\\Services\\FilesService\\Services\\IFilesService.cs",
+              "RelativeToolTip": "src\\Services\\FilesService\\Services\\IFilesService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAqwAsAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-01T14:24:57.132Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "FilesService.cs",
+              "DocumentMoniker": "C:\\Users\\aleks\\source\\repos\\Marketplace\\src\\Services\\FilesService\\Services\\FilesService.cs",
+              "RelativeDocumentMoniker": "src\\Services\\FilesService\\Services\\FilesService.cs",
+              "ToolTip": "C:\\Users\\aleks\\source\\repos\\Marketplace\\src\\Services\\FilesService\\Services\\FilesService.cs",
+              "RelativeToolTip": "src\\Services\\FilesService\\Services\\FilesService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEgAAAByAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-01T14:24:40.719Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "MiniIOConfig.cs",
+              "DocumentMoniker": "C:\\Users\\aleks\\source\\repos\\Marketplace\\src\\Services\\FilesService\\Models\\MiniIOConfig.cs",
+              "RelativeDocumentMoniker": "src\\Services\\FilesService\\Models\\MiniIOConfig.cs",
+              "ToolTip": "C:\\Users\\aleks\\source\\repos\\Marketplace\\src\\Services\\FilesService\\Models\\MiniIOConfig.cs",
+              "RelativeToolTip": "src\\Services\\FilesService\\Models\\MiniIOConfig.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-01T14:24:37.412Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "FilesController.cs",
+              "DocumentMoniker": "C:\\Users\\aleks\\source\\repos\\Marketplace\\src\\Services\\FilesService\\Controllers\\FilesController.cs",
+              "RelativeDocumentMoniker": "src\\Services\\FilesService\\Controllers\\FilesController.cs",
+              "ToolTip": "C:\\Users\\aleks\\source\\repos\\Marketplace\\src\\Services\\FilesService\\Controllers\\FilesController.cs",
+              "RelativeToolTip": "src\\Services\\FilesService\\Controllers\\FilesController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAZAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-07-01T14:23:10.176Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
     }
   ]
 }
