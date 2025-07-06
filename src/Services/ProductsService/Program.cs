@@ -3,6 +3,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL; // Add this line
 using ProductsService.Data;
 using ProductsService.Repositories;
 using ProductsService.Services;
+using ProductsService.Repositories.Interfaces;
+using ProductsService.Services.Interfaces;
 using Serilog;
 using Serilog.Sinks.PostgreSQL;
 
@@ -29,8 +31,6 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<ProductsDBContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-
-
 builder.Services.AddScoped<IProductsService, ProductsService.Services.ProductsService>();
 builder.Services.AddScoped<IProductsRepository, ProductsRepository>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
@@ -40,7 +40,17 @@ builder.Services.AddScoped<ICharacteristicDictRepository, CharacteristicDictRepo
 builder.Services.AddScoped<ICharacteristicService, CharacteristicService>();
 builder.Services.AddScoped<ICharacteristicRepository, CharacteristicRepository>();
 
+// Repository and Service registration
+builder.Services.AddScoped<IAttachmentRepository, AttachmentRepository>();
+builder.Services.AddScoped<IAttachmentService, AttachmentService>();
+builder.Services.AddScoped<IFilesServiceClient, FilesServiceClient>();
 
+// HTTP Client configuration for FilesService
+builder.Services.AddHttpClient<FilesServiceClient>(client =>
+{
+    client.BaseAddress = new Uri("http://localhost:5001/"); // URL вашого FilesService
+    client.Timeout = TimeSpan.FromMinutes(5); // Для великих файлів
+});
 
 builder.Services.AddHealthChecks();
 

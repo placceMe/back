@@ -18,7 +18,7 @@ public class ProductsDBContext : DbContext
     // public DbSet<ProductEmbedding> ProductEmbeddings { get; set; }
     // public DbSet<Characteristic> Characteristics { get; set; }
     // public DbSet<CharacteristicDict> CharacteristicDicts { get; set; }
-    // public DbSet<Attachment> Attachments { get; set; }
+    public DbSet<Attachment> Attachments { get; set; }
     // public DbSet<Rating> Ratings { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -31,10 +31,10 @@ public class ProductsDBContext : DbContext
         //     .HasMany(p => p.Characteristics)
         //     .WithOne()
         //     .HasForeignKey(c => c.ProductId);
-        // modelBuilder.Entity<Product>()
-        //     .HasMany(p => p.Attachments)
-        //     .WithOne(a => a.Product)
-        //     .HasForeignKey(a => a.ProductId);
+        modelBuilder.Entity<Product>()
+            .HasMany(p => p.Attachments)
+            .WithOne(a => a.Product)
+            .HasForeignKey(a => a.ProductId);
 
         // Category
         modelBuilder.Entity<Category>()
@@ -56,9 +56,9 @@ public class ProductsDBContext : DbContext
         // modelBuilder.Entity<CharacteristicDict>()
         //     .HasKey(cd => cd.Id);
 
-        // // Attachment
-        // modelBuilder.Entity<Attachment>()
-        //     .HasKey(a => a.Id);
+        // Attachment
+        modelBuilder.Entity<Attachment>()
+            .HasKey(a => a.Id);
 
         // // Rating
         // modelBuilder.Entity<Rating>()

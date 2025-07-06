@@ -3,6 +3,7 @@ using ProductsService.DTOs;
 using ProductsService.Models;
 using ProductsService.Repositories;
 using ProductsService.Extensions;
+using ProductsService.Services;
 
 namespace ProductsService.Controllers;
 
@@ -12,24 +13,29 @@ public class ProductsController : ControllerBase
 {
     private readonly IProductsRepository _productsRepository;
     private readonly ICategoryRepository _categoryRepository;
+    private readonly IProductsService _productsService;
 
-    public ProductsController(IProductsRepository productsRepository, ICategoryRepository categoryRepository)
+    public ProductsController(
+        IProductsRepository productsRepository,
+        ICategoryRepository categoryRepository,
+        IProductsService productsService)
     {
         _productsRepository = productsRepository;
         _categoryRepository = categoryRepository;
+        _productsService = productsService;
     }
 
     [HttpGet]
-    public ActionResult<IEnumerable<ProductDto>> GetProducts()
+    public async Task<ActionResult<IEnumerable<ProductDto>>> GetProducts()
     {
-        var products = _productsRepository.GetAllProducts();
+        var products = await _productsService.GetAllProductsAsync();
         return Ok(products.ToDto());
     }
 
     [HttpGet("{id}")]
-    public ActionResult<ProductDto> GetProduct(Guid id)
+    public async Task<ActionResult<ProductDto>> GetProduct(Guid id)
     {
-        var product = _productsRepository.GetProductById(id);
+        var product = await _productsService.GetProductByIdAsync(id);
 
         if (product == null)
         {
@@ -39,6 +45,24 @@ public class ProductsController : ControllerBase
         return Ok(product.ToDto());
     }
 
+    // Новий endpoint для створення продукту з файлами
+    [HttpPost("with-files")]
+    public async Task<ActionResult<ProductDto>> CreateProductWithFiles(
+        [FromForm] CreateProductWithFilesDto createProductDto,
+        CancellationToken cancellationToken)
+    {
+        try
+        {
+            var product = await _productsService.CreateProductWithFilesAsync(createProductDto, cancellationToken);
+            return CreatedAtAction(nameof(GetProduct), new { id = product.Id }, product.ToDto());
+        }
+        catch (ArgumentException ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+
+    // Існуючий endpoint залишається для зворотної сумісності
     [HttpPost]
     public ActionResult<ProductDto> CreateProduct(CreateProductDto createProductDto)
     {
@@ -63,7 +87,7 @@ public class ProductsController : ControllerBase
             Quantity = createProductDto.Quantity
         };
 
-        _productsRepository.CreateProduct(product);
+        _productsService.CreateProduct(product);
 
         // Load the category for the response
         product.Category = category;
@@ -94,7 +118,7 @@ public class ProductsController : ControllerBase
             Quantity = updateProductDto.Quantity
         };
 
-        var success = _productsRepository.UpdateProduct(id, product);
+        var success = _productsService.UpdateProduct(id, product);
 
         if (!success)
         {
@@ -105,9 +129,9 @@ public class ProductsController : ControllerBase
     }
 
     [HttpDelete("{id}")]
-    public IActionResult DeleteProduct(Guid id)
+    public async Task<IActionResult> DeleteProduct(Guid id, CancellationToken cancellationToken)
     {
-        var success = _productsRepository.DeleteProduct(id);
+        var success = await _productsService.DeleteProductAsync(id, cancellationToken);
 
         if (!success)
         {

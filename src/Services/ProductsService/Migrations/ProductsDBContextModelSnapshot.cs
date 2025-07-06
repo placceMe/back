@@ -22,6 +22,26 @@ namespace ProductsService.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
+            modelBuilder.Entity("ProductsService.Models.Attachment", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<string>("FilePath")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("ProductId")
+                        .HasColumnType("uuid");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("Attachments");
+                });
+
             modelBuilder.Entity("ProductsService.Models.Category", b =>
                 {
                     b.Property<Guid>("Id")
@@ -89,6 +109,17 @@ namespace ProductsService.Migrations
                     b.ToTable("Products");
                 });
 
+            modelBuilder.Entity("ProductsService.Models.Attachment", b =>
+                {
+                    b.HasOne("ProductsService.Models.Product", "Product")
+                        .WithMany("Attachments")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Product");
+                });
+
             modelBuilder.Entity("ProductsService.Models.Product", b =>
                 {
                     b.HasOne("ProductsService.Models.Category", "Category")
@@ -103,6 +134,11 @@ namespace ProductsService.Migrations
             modelBuilder.Entity("ProductsService.Models.Category", b =>
                 {
                     b.Navigation("Products");
+                });
+
+            modelBuilder.Entity("ProductsService.Models.Product", b =>
+                {
+                    b.Navigation("Attachments");
                 });
 #pragma warning restore 612, 618
         }
