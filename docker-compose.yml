@@ -40,8 +40,10 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:80
       - ConnectionStrings__DefaultConnection=Host=postgres-db;Port=5432;Database=marketplace_db;Username=marketplace;Password=marketplace_password;Search Path=products_service;
+      - FilesService__BaseUrl=http://files-service:80/
     depends_on:
       - postgres-db
+      - files-service
     networks:
       - app-network
 

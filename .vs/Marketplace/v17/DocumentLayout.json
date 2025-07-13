@@ -30,8 +30,12 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 4,
+          "SelectedChildIndex": 5,
           "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
             {
               "$type": "Document",
               "DocumentIndex": 4,
@@ -42,8 +46,7 @@
               "RelativeToolTip": "src\\Services\\FilesService\\Program.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAACkAAAADAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-01T14:25:00.328Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-07-01T14:25:00.328Z"
             },
             {
               "$type": "Document",
@@ -55,8 +58,7 @@
               "RelativeToolTip": "src\\Services\\FilesService\\Services\\IFilesService.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAqwAsAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-01T14:24:57.132Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-07-01T14:24:57.132Z"
             },
             {
               "$type": "Document",
@@ -68,8 +70,7 @@
               "RelativeToolTip": "src\\Services\\FilesService\\Services\\FilesService.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAEgAAAByAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-01T14:24:40.719Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-07-01T14:24:40.719Z"
             },
             {
               "$type": "Document",
@@ -81,8 +82,7 @@
               "RelativeToolTip": "src\\Services\\FilesService\\Models\\MiniIOConfig.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-07-01T14:24:37.412Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-07-01T14:24:37.412Z"
             },
             {
               "$type": "Document",

@@ -5,6 +5,7 @@ using ProductsService.Repositories;
 using ProductsService.Services;
 using ProductsService.Repositories.Interfaces;
 using ProductsService.Services.Interfaces;
+using ProductsService.Models;
 using Serilog;
 using Serilog.Sinks.PostgreSQL;
 
@@ -24,6 +25,16 @@ Log.Logger = new LoggerConfiguration()
     .CreateLogger();
 
 builder.Host.UseSerilog();
+
+// Remove the alternative configuration for now
+builder.Services.AddHttpClient<FilesServiceClient>((serviceProvider, client) =>
+{
+    var configuration = serviceProvider.GetRequiredService<IConfiguration>();
+    var filesServiceUrl = configuration["FilesService:BaseUrl"] ?? "http://files-service:80/";
+    Log.Information($"Configuring FilesServiceClient with BaseUrl: {filesServiceUrl}");
+    client.BaseAddress = new Uri(filesServiceUrl);
+    client.Timeout = TimeSpan.FromMinutes(5);
+});
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
@@ -45,12 +56,7 @@ builder.Services.AddScoped<IAttachmentRepository, AttachmentRepository>();
 builder.Services.AddScoped<IAttachmentService, AttachmentService>();
 builder.Services.AddScoped<IFilesServiceClient, FilesServiceClient>();
 
-// HTTP Client configuration for FilesService
-builder.Services.AddHttpClient<FilesServiceClient>(client =>
-{
-    client.BaseAddress = new Uri("http://localhost:5001/"); // URL вашого FilesService
-    client.Timeout = TimeSpan.FromMinutes(5); // Для великих файлів
-});
+
 
 builder.Services.AddHealthChecks();
 
