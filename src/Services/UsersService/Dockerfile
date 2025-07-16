@@ -5,8 +5,9 @@ WORKDIR /src
 # Copy project file first for better layer caching
 COPY ["UsersService.csproj", "."]
 
-# Clear any existing NuGet config and restore
-RUN dotnet nuget locals all --clear && \
+# Install EF Core tools globally and restore packages
+RUN dotnet tool install --global dotnet-ef && \
+    dotnet nuget locals all --clear && \
     dotnet restore "UsersService.csproj" --no-cache
 
 # Copy source code
@@ -21,7 +22,15 @@ WORKDIR /app
 
 # Add non-root user for security
 RUN adduser -D -s /bin/sh appuser
+
+# Copy .NET tools from build stage
+COPY --from=build /root/.dotnet/tools /home/appuser/.dotnet/tools
+RUN chown -R appuser:appuser /home/appuser/.dotnet
+
 USER appuser
+
+# Add .NET tools to PATH for non-root user
+ENV PATH="$PATH:/home/appuser/.dotnet/tools"
 
 # Copy published app
 COPY --from=build /app/publish .
