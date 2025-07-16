@@ -7,6 +7,11 @@ using ProductsService.Services;
 
 namespace ProductsService.Controllers;
 
+public class IdsDto
+{
+    public IEnumerable<Guid> Ids { get; set; }
+}
+
 [ApiController]
 [Route("api/[controller]")]
 public class ProductsController : ControllerBase
@@ -32,10 +37,10 @@ public class ProductsController : ControllerBase
         return Ok(products.ToDto());
     }
 
-    [HttpGet("many")]
-    public async Task<ActionResult<IEnumerable<ProductDto>>> GetProductsMany([FromBody] IEnumerable<Guid> ids)
+    [HttpPost("many")]
+    public async Task<ActionResult<IEnumerable<ProductDto>>> GetProductsMany([FromBody] IdsDto dto)
     {
-        var products = await _productsService.GetProductsByIdsAsync(ids);
+        var products = await _productsService.GetProductsByIdsAsync(dto.Ids);
         return Ok(products.ToDto());
     }
 
