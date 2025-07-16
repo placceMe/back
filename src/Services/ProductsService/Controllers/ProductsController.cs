@@ -32,6 +32,13 @@ public class ProductsController : ControllerBase
         return Ok(products.ToDto());
     }
 
+    [HttpGet("many")]
+    public async Task<ActionResult<IEnumerable<ProductDto>>> GetProductsMany([FromBody] IEnumerable<Guid> ids)
+    {
+        var products = await _productsService.GetProductsByIdsAsync(ids);
+        return Ok(products.ToDto());
+    }
+
     [HttpGet("{id}")]
     public async Task<ActionResult<ProductDto>> GetProduct(Guid id)
     {
@@ -43,6 +50,12 @@ public class ProductsController : ControllerBase
         }
 
         return Ok(product.ToDto());
+    }
+    [HttpGet("category/{categoryId}")]
+    public async Task<ActionResult<IEnumerable<ProductDto>>> GetProductsByCategoryId(Guid categoryId)
+    {
+        var products = await _productsService.GetProductsByCategoryIdAsync(categoryId);
+        return Ok(products.ToDto());
     }
 
     // Новий endpoint для створення продукту з файлами

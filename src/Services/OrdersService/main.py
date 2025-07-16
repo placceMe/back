@@ -2,8 +2,7 @@ from fastapi import FastAPI
 from app.api.v1.api_router import api_router
 from app.core.config import settings
 from app.db.session import engine
-from app.db.base import Base
-# Import all models for Alembic
+from app.db.base_class import Base# Import all models for Alembic
 from app.db.models.status import Status
 from app.db.models.promo_code import PromoCode
 from app.db.models.order import Order
@@ -14,7 +13,7 @@ import os
 app = FastAPI(title="Orders Service", version="1.0.0")
 
 # Include API router
-app.include_router(api_router, prefix="/api/v1")
+app.include_router(api_router, prefix="/api")
 
 @app.get("/")
 async def root():

@@ -1,7 +1,7 @@
 from sqlalchemy import Column, Integer, String, Numeric, ForeignKey, DateTime
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
-from app.db.base import Base
+from app.db.base_class import Base
 from app.core.config import settings
 
 
@@ -10,11 +10,11 @@ class Order(Base):
     __table_args__ = {"schema": settings.db_schema}
 
     id = Column(Integer, primary_key=True, index=True)
-    customer_id = Column(Integer, nullable=False)
+    customer_id = Column(String, nullable=False)
     total_amount = Column(Numeric(10, 2), nullable=False)  # Сума без знижки
     discount_amount = Column(Numeric(10, 2), default=0.00)  # Сума знижки
     final_amount = Column(Numeric(10, 2), nullable=False)  # Підсумкова сума
-    status_id = Column(Integer, ForeignKey("statuses.id"), nullable=False)
+    status_id = Column(Integer, ForeignKey(f"{settings.db_schema}.statuses.id"))
     promo_code = Column(String(50), nullable=True)
     delivery_address = Column(String(500), nullable=False)
     notes = Column(String(1000), nullable=True)

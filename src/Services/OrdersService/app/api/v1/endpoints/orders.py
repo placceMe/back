@@ -1,9 +1,10 @@
 from typing import List
 from fastapi import APIRouter, HTTPException, Depends, status
 from sqlalchemy.orm import Session
-from app.core.dependencies import DatabaseSession
-from app.schemas.order import Order, OrderCreate, OrderUpdate, OrderResponse
+from app.core.dependencies import get_db
+from app.schemas.order import Order, OrderCreate, OrderUpdate, OrderResponse, OrderItemResponse
 from app.services.order_service import OrderService
+from app.db.models.order_item import OrderItem
 import logging
 
 logger = logging.getLogger(__name__)
@@ -14,25 +15,26 @@ router = APIRouter()
 @router.post("/", response_model=OrderResponse, status_code=status.HTTP_201_CREATED)
 async def create_order(
     order_data: OrderCreate,
-    db: Session = Depends(DatabaseSession),
+    db: Session = Depends(get_db),
 ):
     """Create new order with automatic price calculation"""
     try:
         order_service = OrderService(db)
         order = await order_service.create_order(order_data)
+        items = db.query(OrderItem).filter(OrderItem.order_id == order.id).all()
         return OrderResponse(
             id=order.id,
             customer_id=order.customer_id,
             items=[
-                {
-                    "id": item.id,
-                    "product_id": item.product_id,
-                    "product_name": item.product_name,
-                    "quantity": item.quantity,
-                    "price": item.price,
-                    "total_price": item.total_price,
-                }
-                for item in order.items
+                OrderItemResponse(
+                    id=item.id,
+                    product_id=item.product_id,
+                    product_name=item.product_name,
+                    quantity=item.quantity,
+                    price=item.price,
+                    total_price=item.total_price,
+                )
+                for item in items
             ],
             total_amount=order.total_amount,
             discount_amount=order.discount_amount,
@@ -59,7 +61,7 @@ async def create_order(
 @router.get("/{order_id}", response_model=OrderResponse)
 async def get_order(
     order_id: int,
-    db: Session = Depends(DatabaseSession),
+    db: Session = Depends(get_db),
 ):
     """Get order by ID"""
     order_service = OrderService(db)
@@ -69,19 +71,20 @@ async def get_order(
             status_code=status.HTTP_404_NOT_FOUND,
             detail="Order not found",
         )
+    items = db.query(OrderItem).filter(OrderItem.order_id == order.id).all()
     return OrderResponse(
         id=order.id,
         customer_id=order.customer_id,
         items=[
-            {
-                "id": item.id,
-                "product_id": item.product_id,
-                "product_name": item.product_name,
-                "quantity": item.quantity,
-                "price": item.price,
-                "total_price": item.total_price,
-            }
-            for item in order.items
+            OrderItemResponse(
+                id=item.id,
+                product_id=item.product_id,
+                product_name=item.product_name,
+                quantity=item.quantity,
+                price=item.price,
+                total_price=item.total_price,
+            )
+            for item in items
         ],
         total_amount=order.total_amount,
         discount_amount=order.discount_amount,
@@ -98,7 +101,7 @@ async def get_order(
 @router.get("/customer/{customer_id}", response_model=List[OrderResponse])
 async def get_customer_orders(
     customer_id: int,
-    db: Session = Depends(DatabaseSession),
+    db: Session = Depends(get_db),
 ):
     """Get all orders for a customer"""
     order_service = OrderService(db)
@@ -108,15 +111,15 @@ async def get_customer_orders(
             id=order.id,
             customer_id=order.customer_id,
             items=[
-                {
-                    "id": item.id,
-                    "product_id": item.product_id,
-                    "product_name": item.product_name,
-                    "quantity": item.quantity,
-                    "price": item.price,
-                    "total_price": item.total_price,
-                }
-                for item in order.items
+                OrderItemResponse(
+                    id=item.id,
+                    product_id=item.product_id,
+                    product_name=item.product_name,
+                    quantity=item.quantity,
+                    price=item.price,
+                    total_price=item.total_price,
+                )
+                for item in db.query(OrderItem).filter(OrderItem.order_id == order.id).all()
             ],
             total_amount=order.total_amount,
             discount_amount=order.discount_amount,
@@ -134,7 +137,7 @@ async def get_customer_orders(
 
 @router.get("/", response_model=List[OrderResponse])
 async def get_all_orders(
-    db: Session = Depends(DatabaseSession),
+    db: Session = Depends(get_db),
 ):
     """Get all orders"""
     order_service = OrderService(db)
@@ -144,15 +147,15 @@ async def get_all_orders(
             id=order.id,
             customer_id=order.customer_id,
             items=[
-                {
-                    "id": item.id,
-                    "product_id": item.product_id,
-                    "product_name": item.product_name,
-                    "quantity": item.quantity,
-                    "price": item.price,
-                    "total_price": item.total_price,
-                }
-                for item in order.items
+                OrderItemResponse(
+                    id=item.id,
+                    product_id=item.product_id,
+                    product_name=item.product_name,
+                    quantity=item.quantity,
+                    price=item.price,
+                    total_price=item.total_price,
+                )
+                for item in db.query(OrderItem).filter(OrderItem.order_id == order.id).all()
             ],
             total_amount=order.total_amount,
             discount_amount=order.discount_amount,

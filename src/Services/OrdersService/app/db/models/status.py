@@ -1,6 +1,7 @@
 from sqlalchemy import Column, Integer, String, DateTime, Boolean
 from sqlalchemy.sql import func
-from app.db.base import Base
+from sqlalchemy.orm import relationship
+from app.db.base_class import Base
 from app.core.config import settings
 
 
@@ -14,3 +15,4 @@ class Status(Base):
     is_active = Column(Boolean, default=True)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     updated_at = Column(DateTime(timezone=True), onupdate=func.now())
+    orders = relationship("Order", back_populates="status") 

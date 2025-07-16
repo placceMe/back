@@ -111,3 +111,7 @@ class OrderService:
     def get_orders_by_customer(self, customer_id: int) -> List[Order]:
         """Get all orders for a customer"""
         return self.db.query(Order).filter(Order.customer_id == customer_id).all()
+    
+    def get_all_orders(self) -> List[Order]:
+        """Get all orders"""
+        return self.db.query(Order).all()

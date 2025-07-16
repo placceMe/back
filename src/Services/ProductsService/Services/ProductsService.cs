@@ -173,5 +173,17 @@ public class ProductsService : IProductsService
         _repository.AddOrUpdateProductEmbedding(embedding);
     }
 
+    public Task<IEnumerable<Product>> GetProductsByIdsAsync(IEnumerable<Guid> ids)
+    {
+        var products = _repository.GetAllProducts().Where(p => ids.Contains(p.Id));
+        return Task.FromResult(products);
+    }
+
+    public async Task<IEnumerable<Product>> GetProductsByCategoryIdAsync(Guid categoryId)
+    {
+        var products = _repository.GetAllProducts().Where(p => p.CategoryId == categoryId);
+        return await Task.FromResult(products);
+    }
+
     // ...інші методи...
 }
