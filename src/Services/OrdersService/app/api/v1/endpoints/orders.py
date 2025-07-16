@@ -1,78 +1,132 @@
 from typing import List
-from fastapi import APIRouter, HTTPException, Depends
+from fastapi import APIRouter, HTTPException, Depends, status
 from sqlalchemy.orm import Session
 from app.core.dependencies import DatabaseSession
-from app.schemas.order import Order, OrderCreate, OrderUpdate
-from app.services.order_service import order_service
+from app.schemas.order import Order, OrderCreate, OrderUpdate, OrderResponse
+from app.services.order_service import OrderService
+import logging
+
+logger = logging.getLogger(__name__)
 
 router = APIRouter()
 
 
-@router.post("/", response_model=Order)
-def create_order(
-    *,
-    db: DatabaseSession,
-    order_in: OrderCreate,
+@router.post("/", response_model=OrderResponse, status_code=status.HTTP_201_CREATED)
+async def create_order(
+    order_data: OrderCreate,
+    db: Session = Depends(DatabaseSession),
 ):
-    """Create new order"""
-    return order_service.create_order(db, order_in)
+    """Create new order with automatic price calculation"""
+    try:
+        order_service = OrderService(db)
+        order = await order_service.create_order(order_data)
+        return OrderResponse(
+            id=order.id,
+            customer_id=order.customer_id,
+            items=[
+                {
+                    "id": item.id,
+                    "product_id": item.product_id,
+                    "product_name": item.product_name,
+                    "quantity": item.quantity,
+                    "price": item.price,
+                    "total_price": item.total_price,
+                }
+                for item in order.items
+            ],
+            total_amount=order.total_amount,
+            discount_amount=order.discount_amount,
+            final_amount=order.final_amount,
+            status=order.status.name,
+            promo_code=order.promo_code,
+            delivery_address=order.delivery_address,
+            notes=order.notes,
+            created_at=order.created_at,
+            updated_at=order.updated_at,
+        )
+    except ValueError as e:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST, detail=str(e)
+        )
+    except Exception as e:
+        logger.error(f"Error creating order: {e}")
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail="Internal server error",
+        )
 
 
-@router.get("/", response_model=List[Order])
-def read_orders(
-    db: DatabaseSession,
-    skip: int = 0,
-    limit: int = 100,
-):
-    """Retrieve orders"""
-    return order_service.get_orders(db, skip=skip, limit=limit)
-
-
-@router.get("/{order_id}", response_model=Order)
-def read_order(
-    *,
-    db: DatabaseSession,
+@router.get("/{order_id}", response_model=OrderResponse)
+async def get_order(
     order_id: int,
+    db: Session = Depends(DatabaseSession),
 ):
     """Get order by ID"""
-    order = order_service.get_order(db, order_id)
+    order_service = OrderService(db)
+    order = order_service.get_order_by_id(order_id)
     if not order:
-        raise HTTPException(status_code=404, detail="Order not found")
-    return order
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Order not found",
+        )
+    return OrderResponse(
+        id=order.id,
+        customer_id=order.customer_id,
+        items=[
+            {
+                "id": item.id,
+                "product_id": item.product_id,
+                "product_name": item.product_name,
+                "quantity": item.quantity,
+                "price": item.price,
+                "total_price": item.total_price,
+            }
+            for item in order.items
+        ],
+        total_amount=order.total_amount,
+        discount_amount=order.discount_amount,
+        final_amount=order.final_amount,
+        status=order.status.name,
+        promo_code=order.promo_code,
+        delivery_address=order.delivery_address,
+        notes=order.notes,
+        created_at=order.created_at,
+        updated_at=order.updated_at,
+    )
 
 
-@router.put("/{order_id}", response_model=Order)
-def update_order(
-    *,
-    db: DatabaseSession,
-    order_id: int,
-    order_in: OrderUpdate,
+@router.get("/customer/{customer_id}", response_model=List[OrderResponse])
+async def get_customer_orders(
+    customer_id: int,
+    db: Session = Depends(DatabaseSession),
 ):
-    """Update order"""
-    order = order_service.update_order(db, order_id, order_in)
-    if not order:
-        raise HTTPException(status_code=404, detail="Order not found")
-    return order
-
-
-@router.delete("/{order_id}")
-def delete_order(
-    *,
-    db: DatabaseSession,
-    order_id: int,
-):
-    """Delete order"""
-    order = order_service.delete_order(db, order_id)
-    if not order:
-        raise HTTPException(status_code=404, detail="Order not found")
-    return {"message": "Order deleted successfully"}
-
-
-@router.get("/user/{user_id}", response_model=List[Order])
-def read_user_orders(
-    *,
-    db: DatabaseSession,
-    user_id: int,
-):
-    """Get orders by user ID"""
-    return order_service.get_user_orders(db, user_id)
+    """Get all orders for a customer"""
+    order_service = OrderService(db)
+    orders = order_service.get_orders_by_customer(customer_id)
+    return [
+        OrderResponse(
+            id=order.id,
+            customer_id=order.customer_id,
+            items=[
+                {
+                    "id": item.id,
+                    "product_id": item.product_id,
+                    "product_name": item.product_name,
+                    "quantity": item.quantity,
+                    "price": item.price,
+                    "total_price": item.total_price,
+                }
+                for item in order.items
+            ],
+            total_amount=order.total_amount,
+            discount_amount=order.discount_amount,
+            final_amount=order.final_amount,
+            status=order.status.name,
+            promo_code=order.promo_code,
+            delivery_address=order.delivery_address,
+            notes=order.notes,
+            created_at=order.created_at,
+            updated_at=order.updated_at,
+        )
+        for order in orders
+    ]

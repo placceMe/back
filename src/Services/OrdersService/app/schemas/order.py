@@ -1,9 +1,15 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from typing import Optional, List
 from datetime import datetime
+from decimal import Decimal
 from app.schemas.order_item import OrderItem, OrderItemCreate
 from app.schemas.status import Status
 from app.schemas.promo_code import PromoCode
+
+
+class OrderItemCreate(BaseModel):
+    product_id: int = Field(..., gt=0, description="ID товару")
+    quantity: int = Field(..., gt=0, description="Кількість товару")
 
 
 class OrderBase(BaseModel):
@@ -14,6 +20,7 @@ class OrderBase(BaseModel):
 class OrderCreate(OrderBase):
     items: List[OrderItemCreate]
     promo_code: Optional[str] = None
+    delivery_address: str = Field(..., min_length=1, description="Адреса доставки")
 
 
 class OrderUpdate(OrderBase):
@@ -45,3 +52,30 @@ class Order(OrderInDBBase):
 
 class OrderInDB(OrderInDBBase):
     pass
+
+
+class OrderItemResponse(BaseModel):
+    id: int
+    product_id: int
+    product_name: str
+    quantity: int
+    price: Decimal
+    total_price: Decimal
+
+
+class OrderResponse(BaseModel):
+    id: int
+    customer_id: int
+    items: List[OrderItemResponse]
+    total_amount: Decimal
+    discount_amount: Decimal
+    final_amount: Decimal
+    status: str
+    promo_code: Optional[str]
+    delivery_address: str
+    notes: Optional[str]
+    created_at: datetime
+    updated_at: datetime
+
+    class Config:
+        orm_mode = True

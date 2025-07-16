@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, Float, DateTime, String, ForeignKey
+from sqlalchemy import Column, Integer, String, Numeric, ForeignKey, DateTime
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
 from app.db.base import Base
@@ -10,17 +10,17 @@ class Order(Base):
     __table_args__ = {"schema": settings.db_schema}
 
     id = Column(Integer, primary_key=True, index=True)
-    user_id = Column(Integer, index=True)
-    status_id = Column(Integer, ForeignKey(f"{settings.db_schema}.statuses.id"))
-    promo_code_id = Column(Integer, ForeignKey(f"{settings.db_schema}.promo_codes.id"), nullable=True)
-    total_amount = Column(Float)
-    discount_amount = Column(Float, default=0)
-    final_amount = Column(Float)
-    notes = Column(String)
-    created_at = Column(DateTime(timezone=True), server_default=func.now())
-    updated_at = Column(DateTime(timezone=True), onupdate=func.now())
+    customer_id = Column(Integer, nullable=False)
+    total_amount = Column(Numeric(10, 2), nullable=False)  # Сума без знижки
+    discount_amount = Column(Numeric(10, 2), default=0.00)  # Сума знижки
+    final_amount = Column(Numeric(10, 2), nullable=False)  # Підсумкова сума
+    status_id = Column(Integer, ForeignKey("statuses.id"), nullable=False)
+    promo_code = Column(String(50), nullable=True)
+    delivery_address = Column(String(500), nullable=False)
+    notes = Column(String(1000), nullable=True)
+    created_at = Column(DateTime, default=func.now())
+    updated_at = Column(DateTime, default=func.now(), onupdate=func.now())
 
     # Relationships
-    status = relationship("Status")
-    promo_code = relationship("PromoCode")
+    status = relationship("Status", back_populates="orders")
     items = relationship("OrderItem", back_populates="order")
