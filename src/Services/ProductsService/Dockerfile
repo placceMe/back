@@ -20,4 +20,9 @@ COPY --from=build /root/.dotnet/tools /root/.dotnet/tools
 ENV PATH="$PATH:/root/.dotnet/tools"
 
 COPY --from=build /out .
-ENTRYPOINT ["dotnet", "ProductsService.dll"]
+
+# Copy entrypoint script
+COPY entrypoint.sh ./
+RUN chmod +x entrypoint.sh
+
+ENTRYPOINT ["./entrypoint.sh"]

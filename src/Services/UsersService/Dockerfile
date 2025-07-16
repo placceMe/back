@@ -35,6 +35,10 @@ ENV PATH="$PATH:/home/appuser/.dotnet/tools"
 # Copy published app
 COPY --from=build /app/publish .
 
+# Copy entrypoint script
+COPY entrypoint.sh ./
+RUN chmod +x entrypoint.sh
+
 # Set environment variables
 ENV ASPNETCORE_URLS=http://+:80
 ENV DOTNET_RUNNING_IN_CONTAINER=true
@@ -42,4 +46,4 @@ ENV DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=1
 
 EXPOSE 80
 
-ENTRYPOINT ["dotnet", "UsersService.dll"]
+ENTRYPOINT ["./entrypoint.sh"]
