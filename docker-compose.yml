@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   users-service:
     build: ./src/Services/UsersService
@@ -12,7 +10,9 @@ services:
       - ASPNETCORE_URLS=http://+:80
       - ConnectionStrings__DefaultConnection=Host=postgres-db;Port=5432;Database=marketplace_db;Username=marketplace;Password=marketplace_password;Search Path=users_service;
     depends_on:
-      - postgres-db
+      postgres-db:
+        condition: service_healthy
+    restart: on-failure
     networks:
       - app-network
 
@@ -42,8 +42,11 @@ services:
       - ConnectionStrings__DefaultConnection=Host=postgres-db;Port=5432;Database=marketplace_db;Username=marketplace;Password=marketplace_password;Search Path=products_service;
       - FilesService__BaseUrl=http://files-service:80/
     depends_on:
-      - postgres-db
-      - files-service
+      postgres-db:
+        condition: service_healthy
+      files-service:
+        condition: service_started
+    restart: on-failure
     networks:
       - app-network
 
@@ -95,6 +98,11 @@ services:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U marketplace -d marketplace_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
     networks:
       - app-network
       

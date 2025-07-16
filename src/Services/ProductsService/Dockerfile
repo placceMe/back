@@ -2,12 +2,15 @@
 FROM mcr.microsoft.com/dotnet/sdk:8.0-alpine AS build
 WORKDIR /app
 
-# Копіюємо csproj і restore
+# Copy project file and restore with retry
 COPY *.csproj ./
 RUN dotnet tool install --global dotnet-ef && \
-    dotnet restore
+    dotnet nuget locals all --clear && \
+    (dotnet restore --no-cache --disable-parallel || \
+     (sleep 5 && dotnet restore --no-cache --disable-parallel) || \
+     (sleep 10 && dotnet restore --no-cache --disable-parallel))
 
-# Копіюємо решту коду
+# Copy source code and publish
 COPY . ./
 RUN dotnet publish -c Release -o /out
 
@@ -15,14 +18,6 @@ RUN dotnet publish -c Release -o /out
 FROM mcr.microsoft.com/dotnet/aspnet:8.0-alpine AS runtime
 WORKDIR /app
 
-# Copy .NET tools from build stage
-COPY --from=build /root/.dotnet/tools /root/.dotnet/tools
-ENV PATH="$PATH:/root/.dotnet/tools"
-
 COPY --from=build /out .
 
-# Copy entrypoint script
-COPY entrypoint.sh ./
-RUN chmod +x entrypoint.sh
-
-ENTRYPOINT ["./entrypoint.sh"]
+ENTRYPOINT ["dotnet", "ProductsService.dll"]
