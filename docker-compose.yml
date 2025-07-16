@@ -68,6 +68,21 @@ services:
     networks:
       - app-network
 
+  orders-service:
+    build:
+      context: ./src/Services/OrdersService
+      dockerfile: Dockerfile
+    container_name: orders-service
+    ports:
+      - "5004:8000"
+    environment:
+      - DATABASE_URL=postgresql://marketplace:marketplace_password@postgres-db:5432/marketplace_db
+      - SCHEMA=orders_service
+    depends_on:
+      - postgres-db
+    networks:
+      - app-network
+
   postgres-db:
     image: postgres:16
     container_name: postgres-db

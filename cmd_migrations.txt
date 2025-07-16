@@ -1,8 +1,17 @@
 dotnet ef migrations add InitialCreate --project UsersService
 dotnet ef database update --project UsersService
 
+# Python FastAPI Orders Service migrations
+cd src/Services/OrdersService
+alembic upgrade head
+alembic revision --autogenerate -m "Migration name"
+cd ../../..
 
 docker-compose down
 docker-compose up --build
 
 docker compose up -d --build <ім'я_сервісу>
+
+# Manual migration in running container
+docker exec -it orders-service alembic upgrade head
+docker exec -it orders-service alembic revision --autogenerate -m "New migration"
