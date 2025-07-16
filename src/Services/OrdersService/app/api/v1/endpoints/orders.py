@@ -130,3 +130,39 @@ async def get_customer_orders(
         )
         for order in orders
     ]
+
+
+@router.get("/", response_model=List[OrderResponse])
+async def get_all_orders(
+    db: Session = Depends(DatabaseSession),
+):
+    """Get all orders"""
+    order_service = OrderService(db)
+    orders = order_service.get_all_orders()
+    return [
+        OrderResponse(
+            id=order.id,
+            customer_id=order.customer_id,
+            items=[
+                {
+                    "id": item.id,
+                    "product_id": item.product_id,
+                    "product_name": item.product_name,
+                    "quantity": item.quantity,
+                    "price": item.price,
+                    "total_price": item.total_price,
+                }
+                for item in order.items
+            ],
+            total_amount=order.total_amount,
+            discount_amount=order.discount_amount,
+            final_amount=order.final_amount,
+            status=order.status.name,
+            promo_code=order.promo_code,
+            delivery_address=order.delivery_address,
+            notes=order.notes,
+            created_at=order.created_at,
+            updated_at=order.updated_at,
+        )
+        for order in orders
+    ]
