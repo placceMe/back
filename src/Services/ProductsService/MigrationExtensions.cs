@@ -8,7 +8,7 @@ namespace ProductsService.Extensions
         {
             using var scope = app.ApplicationServices.CreateScope();
             var dbContext = scope.ServiceProvider.GetRequiredService<TContext>();
-            
+
             try
             {
                 Console.WriteLine("Starting database migration...");
@@ -21,12 +21,12 @@ namespace ProductsService.Extensions
                 throw;
             }
         }
-        
+
         public static void ApplyMigrations(this IApplicationBuilder app)
         {
             using var scope = app.ApplicationServices.CreateScope();
             var dbContexts = scope.ServiceProvider.GetServices<DbContext>();
-            
+
             foreach (var dbContext in dbContexts)
             {
                 try
