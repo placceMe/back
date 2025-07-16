@@ -7,8 +7,12 @@ from app.db.models.status import Status
 from app.db.models.promo_code import PromoCode
 from app.db.models.order import Order
 from app.db.models.order_item import OrderItem
+from app.db.create_schema import create_schema
+
 import uvicorn
 import os
+
+create_schema()
 
 app = FastAPI(title="Orders Service", version="1.0.0")
 
