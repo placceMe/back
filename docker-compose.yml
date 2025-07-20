@@ -81,8 +81,10 @@ services:
     environment:
       - DATABASE_URL=postgresql://marketplace:marketplace_password@postgres-db:5432/marketplace_db
       - SCHEMA=orders_service
+      - PRODUCTS_SERVICE_URL=http://products-service:80
     depends_on:
       - postgres-db
+      - products-service
     networks:
       - app-network
 

@@ -43,7 +43,7 @@ class OrderService:
             
             order_items_data.append({
                 'product_id': item.product_id,
-                'product_name': product['name'],
+                'product_name': product['title'],
                 'quantity': item.quantity,
                 'price': product_price,
                 'total_price': item_total

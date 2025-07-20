@@ -12,7 +12,7 @@ class OrderItem(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     order_id = Column(Integer, ForeignKey(f"{settings.db_schema}.orders.id"), nullable=False)
-    product_id = Column(UUID(as_uuid=True), nullable=False)
+    product_id = Column(UUID(as_uuid=True), nullable=False)  # Changed from Integer to UUID
     product_name = Column(String(255), nullable=False)
     quantity = Column(Integer, nullable=False)
     price = Column(Numeric(10, 2), nullable=False)  # Ціна за одиницю

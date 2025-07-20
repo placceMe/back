@@ -13,14 +13,33 @@ from app.db.create_schema import create_schema
 
 import uvicorn
 import os
+import subprocess
+import logging
+
+logger = logging.getLogger(__name__)
 
 # Ensure schema exists before starting the application
 try:
     create_schema()
-    print("Schema creation completed successfully")
+    logger.info("Schema creation completed successfully")
 except Exception as e:
-    print(f"Warning: Could not create schema - {e}. This might be normal if schema already exists.")
-    # Continue anyway - the schema might already exist
+    logger.warning(f"Could not create schema - {e}. This might be normal if schema already exists.")
+
+# Run Alembic migrations
+try:
+    logger.info("Running database migrations...")
+    result = subprocess.run(
+        ["alembic", "upgrade", "head"],
+        cwd="/app",
+        capture_output=True,
+        text=True
+    )
+    if result.returncode == 0:
+        logger.info("Database migrations completed successfully")
+    else:
+        logger.error(f"Migration failed: {result.stderr}")
+except Exception as e:
+    logger.error(f"Error running migrations: {e}")
 
 app = FastAPI(title="Orders Service", version="1.0.0")
 

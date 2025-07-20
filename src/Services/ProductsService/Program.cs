@@ -53,7 +53,10 @@ builder.Services.AddCors(options =>
 });
 
 builder.Services.AddDbContext<ProductsDBContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"), npgsqlOptions =>
+    {
+        npgsqlOptions.MigrationsHistoryTable("__EFMigrationsHistory", "products_service");
+    }));
 
 builder.Services.AddScoped<IProductsService, ProductsService.Services.ProductsService>();
 builder.Services.AddScoped<IProductsRepository, ProductsRepository>();
@@ -76,8 +79,15 @@ builder.Services.AddHealthChecks();
 var app = builder.Build();
 
 // Apply database migrations automatically
-app.ApplyMigrations<ProductsDBContext>();
-
+try
+{
+    app.ApplyMigrations<ProductsDBContext>();
+}
+catch (Exception ex)
+{
+    Log.Error(ex, "Failed to apply database migrations");
+    throw;
+}
 
 app.UseSwagger();
 app.UseSwaggerUI();
