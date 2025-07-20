@@ -3,6 +3,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL; // Add this line
 using ProductsService.Data;
 using ProductsService.Repositories;
 using ProductsService.Services;
+using ProductsService.Extensions;
 using ProductsService.Repositories.Interfaces;
 using ProductsService.Services.Interfaces;
 using ProductsService.Models;
@@ -73,6 +74,10 @@ builder.Services.AddScoped<IFilesServiceClient, FilesServiceClient>();
 builder.Services.AddHealthChecks();
 
 var app = builder.Build();
+
+// Apply database migrations automatically
+app.ApplyMigrations<ProductsDBContext>();
+
 
 app.UseSwagger();
 app.UseSwaggerUI();

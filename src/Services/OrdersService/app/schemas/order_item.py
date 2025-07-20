@@ -1,9 +1,10 @@
 from pydantic import BaseModel
 from typing import Optional
+from uuid import UUID
 
 
 class OrderItemBase(BaseModel):
-    product_id: int
+    product_id: UUID
     quantity: int
     price: float
 
@@ -13,7 +14,7 @@ class OrderItemCreate(OrderItemBase):
 
 
 class OrderItemUpdate(OrderItemBase):
-    product_id: Optional[int] = None
+    product_id: Optional[UUID] = None
     quantity: Optional[int] = None
     price: Optional[float] = None
 

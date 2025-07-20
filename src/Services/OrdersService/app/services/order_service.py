@@ -1,5 +1,6 @@
 from typing import List, Optional
 from decimal import Decimal
+from uuid import UUID
 from sqlalchemy.orm import Session
 from app.db.models.order import Order
 from app.db.models.order_item import OrderItem
@@ -108,7 +109,7 @@ class OrderService:
         """Get order by ID"""
         return self.db.query(Order).filter(Order.id == order_id).first()
     
-    def get_orders_by_customer(self, customer_id: int) -> List[Order]:
+    def get_orders_by_customer(self, customer_id: UUID) -> List[Order]:
         """Get all orders for a customer"""
         return self.db.query(Order).filter(Order.customer_id == customer_id).all()
     

@@ -3,6 +3,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL; // Add this line
 using UsersService.Data;
 using UsersService.Repositories;
 using UsersService.Services;
+using UsersService.Extensions;
 using Serilog;
 using Serilog.Sinks.PostgreSQL;
 
@@ -48,6 +49,8 @@ builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddHealthChecks();
 
 var app = builder.Build();
+
+app.ApplyMigrations<UsersDbContext>();
 
 app.UseSwagger();
 app.UseSwaggerUI();

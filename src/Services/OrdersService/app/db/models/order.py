@@ -1,8 +1,10 @@
 from sqlalchemy import Column, Integer, String, Numeric, ForeignKey, DateTime
+from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
 from app.db.base_class import Base
 from app.core.config import settings
+import uuid
 
 
 class Order(Base):
@@ -10,7 +12,7 @@ class Order(Base):
     __table_args__ = {"schema": settings.db_schema}
 
     id = Column(Integer, primary_key=True, index=True)
-    customer_id = Column(String, nullable=False)
+    customer_id = Column(UUID(as_uuid=True), nullable=False)
     total_amount = Column(Numeric(10, 2), nullable=False)  # Сума без знижки
     discount_amount = Column(Numeric(10, 2), default=0.00)  # Сума знижки
     final_amount = Column(Numeric(10, 2), nullable=False)  # Підсумкова сума

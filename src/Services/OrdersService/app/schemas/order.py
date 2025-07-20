@@ -2,18 +2,19 @@ from pydantic import BaseModel, Field
 from typing import Optional, List
 from datetime import datetime
 from decimal import Decimal
+from uuid import UUID
 from app.schemas.order_item import OrderItem, OrderItemCreate
 from app.schemas.status import Status
 from app.schemas.promo_code import PromoCode
 
 
 class OrderItemCreate(BaseModel):
-    product_id: int = Field(..., gt=0, description="ID товару")
+    product_id: UUID = Field(..., description="ID товару")
     quantity: int = Field(..., gt=0, description="Кількість товару")
 
 
 class OrderBase(BaseModel):
-    user_id: int
+    customer_id: UUID
     notes: Optional[str] = None
 
 
@@ -24,7 +25,7 @@ class OrderCreate(OrderBase):
 
 
 class OrderUpdate(OrderBase):
-    user_id: Optional[int] = None
+    customer_id: Optional[UUID] = None
     status_id: Optional[int] = None
     promo_code_id: Optional[int] = None
     notes: Optional[str] = None
@@ -56,7 +57,7 @@ class OrderInDB(OrderInDBBase):
 
 class OrderItemResponse(BaseModel):
     id: int
-    product_id: int
+    product_id: UUID
     product_name: str
     quantity: int
     price: Decimal
@@ -65,7 +66,7 @@ class OrderItemResponse(BaseModel):
 
 class OrderResponse(BaseModel):
     id: int
-    customer_id: int
+    customer_id: UUID
     items: List[OrderItemResponse]
     total_amount: Decimal
     discount_amount: Decimal
