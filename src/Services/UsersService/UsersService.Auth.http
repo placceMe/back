@@ -1,0 +1,34 @@
+@UsersService_HostAddress = http://localhost:5002
+
+### Register new user
+POST {{UsersService_HostAddress}}/api/auth/register
+Content-Type: application/json
+
+{
+    "name": "Test",
+    "surname": "User",
+    "email": "test@example.com",
+    "password": "password123",
+    "phone": "+380123456789"
+}
+
+### Login user
+POST {{UsersService_HostAddress}}/api/auth/login
+Content-Type: application/json
+
+{
+    "email": "test@example.com",
+    "password": "password123"
+}
+
+### Get current user (requires auth cookie)
+GET {{UsersService_HostAddress}}/api/auth/me
+
+### Validate token
+POST {{UsersService_HostAddress}}/api/auth/validate
+
+### Logout
+POST {{UsersService_HostAddress}}/api/auth/logout
+
+### Health check
+GET {{UsersService_HostAddress}}/health

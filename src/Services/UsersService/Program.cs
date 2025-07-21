@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using Npgsql.EntityFrameworkCore.PostgreSQL; // Add this line
+using Npgsql.EntityFrameworkCore.PostgreSQL;
 using UsersService.Data;
 using UsersService.Repositories;
 using UsersService.Services;
@@ -45,6 +45,7 @@ builder.Services.AddDbContext<UsersDbContext>(options =>
 
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<DatabaseMigrationService>();
 
 builder.Services.AddHealthChecks();
