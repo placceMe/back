@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "P:\\Norsen\\back\\src\\Services\\UsersService\\UsersService.csproj": {}
+    "p:\\Norsen\\back\\src\\Services\\UsersService\\UsersService.csproj": {}
   },
   "projects": {
-    "P:\\Norsen\\back\\src\\Services\\UsersService\\UsersService.csproj": {
+    "p:\\Norsen\\back\\src\\Services\\UsersService\\UsersService.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "P:\\Norsen\\back\\src\\Services\\UsersService\\UsersService.csproj",
+        "projectUniqueName": "p:\\Norsen\\back\\src\\Services\\UsersService\\UsersService.csproj",
         "projectName": "UsersService",
-        "projectPath": "P:\\Norsen\\back\\src\\Services\\UsersService\\UsersService.csproj",
+        "projectPath": "p:\\Norsen\\back\\src\\Services\\UsersService\\UsersService.csproj",
         "packagesPath": "C:\\Users\\aleks\\.nuget\\packages\\",
-        "outputPath": "P:\\Norsen\\back\\src\\Services\\UsersService\\obj\\",
+        "outputPath": "p:\\Norsen\\back\\src\\Services\\UsersService\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\aleks\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -43,6 +43,14 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "dependencies": {
+            "BCrypt.Net-Next": {
+              "target": "Package",
+              "version": "[4.0.3, )"
+            },
+            "Microsoft.AspNetCore.Authentication.JwtBearer": {
+              "target": "Package",
+              "version": "[8.0.8, )"
+            },
             "Microsoft.EntityFrameworkCore.Design": {
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
               "suppressParent": "All",
@@ -80,6 +88,10 @@
             "Swashbuckle.AspNetCore": {
               "target": "Package",
               "version": "[6.5.0, )"
+            },
+            "System.IdentityModel.Tokens.Jwt": {
+              "target": "Package",
+              "version": "[8.0.8, )"
             }
           },
           "imports": [

@@ -6,13 +6,13 @@ Content-Type: application/json
 
 {
     "name": "Test",
-    "surname": "User",
+    "surname": "User", 
     "email": "test@example.com",
     "password": "password123",
     "phone": "+380123456789"
 }
 
-### Login user
+### Login user  
 POST {{UsersService_HostAddress}}/api/auth/login
 Content-Type: application/json
 
@@ -21,14 +21,29 @@ Content-Type: application/json
     "password": "password123"
 }
 
-### Get current user (requires auth cookie)
+### Get current user (requires auth cookie from login)
 GET {{UsersService_HostAddress}}/api/auth/me
 
-### Validate token
+### Validate token (uses cookie automatically)
 POST {{UsersService_HostAddress}}/api/auth/validate
 
-### Logout
+### Logout (clears auth cookie)
 POST {{UsersService_HostAddress}}/api/auth/logout
 
-### Health check
+### Test protected endpoint without auth (should return 401)
+GET {{UsersService_HostAddress}}/api/auth/me
+
+### Health check (always works)
 GET {{UsersService_HostAddress}}/health
+
+### Register admin user (example)
+POST {{UsersService_HostAddress}}/api/auth/register
+Content-Type: application/json
+
+{
+    "name": "Admin",
+    "surname": "User",
+    "email": "admin@example.com", 
+    "password": "admin123",
+    "phone": "+380987654321"
+}

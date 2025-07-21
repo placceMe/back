@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 using UsersService.DTOs;
 using UsersService.Services;
 using UsersService.Repositories;
@@ -81,6 +82,7 @@ public class AuthController : ControllerBase
     }
 
     [HttpPost("logout")]
+    [Authorize]
     public async Task<ActionResult<AuthResponse>> Logout()
     {
         Response.Cookies.Delete("authToken", new CookieOptions
@@ -98,6 +100,7 @@ public class AuthController : ControllerBase
     }
 
     [HttpGet("me")]
+    [Authorize]
     public async Task<ActionResult<UserInfo>> GetCurrentUser()
     {
         if (!Request.Cookies.TryGetValue("authToken", out var token))

@@ -1,4 +1,7 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 using Npgsql.EntityFrameworkCore.PostgreSQL;
 using UsersService.Data;
 using UsersService.Repositories;
@@ -22,6 +25,43 @@ Log.Logger = new LoggerConfiguration()
     .CreateLogger();
 
 builder.Host.UseSerilog();
+
+// JWT Configuration
+var jwtKey = builder.Configuration["Jwt:Key"] ?? "default-secret-key-for-development-only-min-32-chars";
+var jwtIssuer = builder.Configuration["Jwt:Issuer"] ?? "UsersService";
+var jwtAudience = builder.Configuration["Jwt:Audience"] ?? "MarketplaceClient";
+
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+    .AddJwtBearer(options =>
+    {
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey)),
+            ValidateIssuer = true,
+            ValidIssuer = jwtIssuer,
+            ValidateAudience = true,
+            ValidAudience = jwtAudience,
+            ValidateLifetime = true,
+            ClockSkew = TimeSpan.Zero
+        };
+
+        // Configure cookie authentication
+        options.Events = new JwtBearerEvents
+        {
+            OnMessageReceived = context =>
+            {
+                // Read token from cookie instead of Authorization header
+                if (context.Request.Cookies.TryGetValue("authToken", out var token))
+                {
+                    context.Token = token;
+                }
+                return Task.CompletedTask;
+            }
+        };
+    });
+
+builder.Services.AddAuthorization();
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
@@ -81,6 +121,8 @@ app.UseSwaggerUI();
 // Enable CORS
 app.UseCors();
 
+// Auth middleware order is important!
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

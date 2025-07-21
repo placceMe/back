@@ -1,39 +1,41 @@
-# Додавання JWT залежностей для UsersService
+# JWT Авторизація для UsersService - ГОТОВО! ✅
 
-## NuGet пакети які потрібно додати:
+## Що було реалізовано:
 
-```bash
-cd p:\Norsen\back\src\Services\UsersService
-dotnet add package Microsoft.AspNetCore.Authentication.JwtBearer
-dotnet add package System.IdentityModel.Tokens.Jwt
-dotnet add package BCrypt.Net-Next
-```
+### ✅ NuGet пакети додано:
+- Microsoft.AspNetCore.Authentication.JwtBearer
+- System.IdentityModel.Tokens.Jwt  
+- BCrypt.Net-Next
 
-## Або додати в UsersService.csproj:
+### ✅ Повна JWT реалізація:
+- **AuthService.cs** - реальні JWT методи з BCrypt хешуванням
+- **Program.cs** - JWT middleware конфігурація
+- **appsettings.json** - JWT налаштування
+- **AuthController.cs** - захищені endpoints з [Authorize]
 
-```xml
-<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.0" />
-<PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.0.0" />
-<PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
-```
+### ✅ Безпека:
+- HTTP-only cookies
+- BCrypt password hashing
+- JWT token validation
+- Cookie-based authentication
+- Schema isolation (users_service)
 
-## Після додавання пакетів потрібно оновити:
+## API Endpoints:
 
-1. **AuthService.cs** - додати реальні JWT методи та BCrypt хешування
-2. **Program.cs** - додати JWT конфігурацію
-3. **appsettings.json** - додати JWT налаштування
+- `POST /api/auth/register` - Реєстрація
+- `POST /api/auth/login` - Логін (встановлює cookie)  
+- `GET /api/auth/me` - Поточний користувач [Authorize]
+- `POST /api/auth/logout` - Вихід [Authorize] 
+- `POST /api/auth/validate` - Валідація токена
 
-## Готова базова структура авторизації:
+## Тестування:
 
-- ✅ DTOs для авторизації
-- ✅ Інтерфейси та сервіси
-- ✅ Контролер з cookie-based авторизацією
-- ✅ Базова реалізація без JWT (для тестування)
-- ✅ HTTP тести
+Використовуйте `UsersService.Auth.http` для тестування всіх endpoints.
 
-## Наступні кроки:
+## Workflow:
+1. Register/Login → отримуєте JWT в HTTP-only cookie
+2. Наступні запити автоматично включають cookie
+3. Protected endpoints перевіряють JWT з cookie
+4. Logout очищає cookie
 
-1. Додати NuGet пакети
-2. Оновити AuthService з реальним JWT
-3. Додати JWT middleware до Program.cs
-4. Тестувати повну авторизацію
+**Система готова до використання!** 🚀
