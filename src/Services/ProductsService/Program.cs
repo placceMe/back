@@ -3,7 +3,6 @@ using Npgsql.EntityFrameworkCore.PostgreSQL; // Add this line
 using ProductsService.Data;
 using ProductsService.Repositories;
 using ProductsService.Services;
-using ProductsService.Extensions;
 using ProductsService.Repositories.Interfaces;
 using ProductsService.Services.Interfaces;
 using ProductsService.Models;
@@ -71,6 +70,7 @@ builder.Services.AddScoped<ICharacteristicRepository, CharacteristicRepository>(
 builder.Services.AddScoped<IAttachmentRepository, AttachmentRepository>();
 builder.Services.AddScoped<IAttachmentService, AttachmentService>();
 builder.Services.AddScoped<IFilesServiceClient, FilesServiceClient>();
+builder.Services.AddScoped<DatabaseMigrationService>();
 
 
 
@@ -81,12 +81,25 @@ var app = builder.Build();
 // Apply database migrations automatically
 try
 {
-    app.ApplyMigrations<ProductsDBContext>();
+    app.Logger.LogInformation("Початок застосування міграцій для Products Service...");
+
+    using var scope = app.Services.CreateScope();
+    var migrationService = scope.ServiceProvider.GetRequiredService<DatabaseMigrationService>();
+    await migrationService.MigrateDatabaseAsync<ProductsDBContext>();
+
+    app.Logger.LogInformation("Міграції для Products Service успішно застосовані");
 }
 catch (Exception ex)
 {
-    Log.Error(ex, "Failed to apply database migrations");
-    throw;
+    app.Logger.LogError(ex, "Помилка при застосуванні міграцій для Products Service: {Message}", ex.Message);
+
+    // В development можемо продовжити роботу, в production - краще зупинити
+    if (app.Environment.IsProduction())
+    {
+        throw;
+    }
+
+    app.Logger.LogWarning("Продовжуємо роботу в development режимі незважаючи на помилки міграцій");
 }
 
 app.UseSwagger();
