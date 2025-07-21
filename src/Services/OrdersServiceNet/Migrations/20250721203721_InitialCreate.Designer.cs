@@ -12,7 +12,7 @@ using OrdersServiceNet.Data;
 namespace OrdersServiceNet.Migrations
 {
     [DbContext(typeof(OrdersDbContext))]
-    [Migration("20250720204411_InitialCreate")]
+    [Migration("20250721203721_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -36,6 +36,9 @@ namespace OrdersServiceNet.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
                         .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+                    b.Property<string>("DeliveryAddress")
+                        .HasColumnType("text");
 
                     b.Property<string>("Notes")
                         .HasColumnType("text");

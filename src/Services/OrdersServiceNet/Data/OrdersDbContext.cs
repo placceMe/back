@@ -39,4 +39,11 @@ public class OrdersDbContext : DbContext
                   .OnDelete(DeleteBehavior.Cascade);
         });
     }
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+        // Налаштовуємо окрему таблицю міграцій для цього сервісу
+        optionsBuilder.UseNpgsql(b => b.MigrationsHistoryTable("__EFMigrationsHistory", "orders_service"));
+
+        base.OnConfiguring(optionsBuilder);
+    }
 }

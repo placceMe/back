@@ -64,6 +64,7 @@ public class OrderService : IOrderService
             TotalAmount = totalAmount,
             Status = OrderStatus.Pending,
             Notes = request.Notes,
+            DeliveryAddress = request.DeliveryAddress,
             CreatedAt = DateTime.UtcNow,
             UpdatedAt = DateTime.UtcNow,
             OrderItems = orderItems
@@ -139,6 +140,7 @@ public class OrderService : IOrderService
             TotalAmount = order.TotalAmount,
             Status = order.Status,
             Notes = order.Notes,
+            DeliveryAddress = order.DeliveryAddress,
             CreatedAt = order.CreatedAt,
             UpdatedAt = order.UpdatedAt,
             Items = new List<OrderItemResponse>()

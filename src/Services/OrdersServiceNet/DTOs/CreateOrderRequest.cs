@@ -4,6 +4,7 @@ public class CreateOrderRequest
 {
     public Guid UserId { get; set; }
     public string? Notes { get; set; }
+    public string? DeliveryAddress { get; set; }
     public List<OrderItemRequest> Items { get; set; } = new();
 }
 

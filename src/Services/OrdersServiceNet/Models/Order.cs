@@ -7,6 +7,7 @@ public class Order
     public decimal TotalAmount { get; set; }
     public OrderStatus Status { get; set; }
     public string? Notes { get; set; }
+    public string? DeliveryAddress { get; set; }
     public DateTime CreatedAt { get; set; }
     public DateTime UpdatedAt { get; set; }
 
