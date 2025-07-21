@@ -7,39 +7,33 @@ namespace UsersService.Extensions
         public static void ApplyMigrations<TContext>(this IApplicationBuilder app) where TContext : DbContext
         {
             using var scope = app.ApplicationServices.CreateScope();
-            var dbContext = scope.ServiceProvider.GetRequiredService<TContext>();
+            var logger = scope.ServiceProvider.GetRequiredService<ILogger<TContext>>();
+            var context = scope.ServiceProvider.GetRequiredService<TContext>();
 
             try
             {
-                Console.WriteLine("Starting database migration...");
-                dbContext.Database.Migrate();
-                Console.WriteLine("Database migration completed successfully.");
+                logger.LogInformation("Starting database migration...");
+
+                // Ensure schema exists
+                context.Database.ExecuteSqlRaw("CREATE SCHEMA IF NOT EXISTS users_service;");
+
+                // Перевірка наявності pending migrations
+                var pendingMigrations = context.Database.GetPendingMigrations();
+                if (pendingMigrations.Any())
+                {
+                    logger.LogInformation("Found {Count} pending migrations", pendingMigrations.Count());
+                    context.Database.Migrate();
+                    logger.LogInformation("Database migration completed successfully");
+                }
+                else
+                {
+                    logger.LogInformation("No pending migrations found");
+                }
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"Migration failed: {ex.Message}");
+                logger.LogError(ex, "Migration failed: {Message}", ex.Message);
                 throw;
-            }
-        }
-
-        public static void ApplyMigrations(this IApplicationBuilder app)
-        {
-            using var scope = app.ApplicationServices.CreateScope();
-            var dbContexts = scope.ServiceProvider.GetServices<DbContext>();
-
-            foreach (var dbContext in dbContexts)
-            {
-                try
-                {
-                    Console.WriteLine($"Starting database migration for {dbContext.GetType().Name}...");
-                    dbContext.Database.Migrate();
-                    Console.WriteLine($"Database migration completed successfully for {dbContext.GetType().Name}.");
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine($"Migration failed for {dbContext.GetType().Name}: {ex.Message}");
-                    throw;
-                }
             }
         }
     }

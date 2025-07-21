@@ -1,12 +1,11 @@
 {
   "Version": 1,
-  "Hash": "leLCXtbgnLf9G/xB8pkHWnx5GNhuwBzKv5rrf3Ekh2g=",
+  "Hash": "PxKV8+dm6vJrrmAofP6FIcoWUuoQw1aedX9DoE48FuU=",
   "Source": "UsersService",
   "BasePath": "_content/UsersService",
   "Mode": "Default",
   "ManifestType": "Build",
   "ReferencedProjectsConfiguration": [],
   "DiscoveryPatterns": [],
-  "Assets": [],
-  "Endpoints": []
+  "Assets": []
 }

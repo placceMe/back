@@ -26,8 +26,29 @@ except Exception as e:
     logger.warning(f"Could not create schema - {e}. This might be normal if schema already exists.")
 
 # Run Alembic migrations
+# Updated migration code
 try:
     logger.info("Running database migrations...")
+    # First check migration history
+    check_result = subprocess.run(
+        ["alembic", "history"],
+        cwd="/app",
+        capture_output=True,
+        text=True
+    )
+
+    if check_result.returncode != 0:
+        logger.warning(f"Migration history check failed: {check_result.stderr}")
+        # Try to stamp the current head to fix versioning
+        stamp_result = subprocess.run(
+            ["alembic", "stamp", "head"],
+            cwd="/app",
+            capture_output=True,
+            text=True
+        )
+        logger.info(f"Attempted to stamp head: {'Success' if stamp_result.returncode == 0 else 'Failed'}")
+
+    # Now run the upgrade
     result = subprocess.run(
         ["alembic", "upgrade", "head"],
         cwd="/app",

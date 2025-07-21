@@ -13,16 +13,15 @@ using UsersService.Data;
 namespace UsersService.Migrations
 {
     [DbContext(typeof(UsersDbContext))]
-    [Migration("20250617211548_Init")]
-    partial class Init
+    [Migration("20250720212320_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasDefaultSchema("users_service")
-                .HasAnnotation("ProductVersion", "8.0.17")
+                .HasAnnotation("ProductVersion", "8.0.18")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -68,7 +67,7 @@ namespace UsersService.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users", "users_service");
+                    b.ToTable("Users");
                 });
 #pragma warning restore 612, 618
         }

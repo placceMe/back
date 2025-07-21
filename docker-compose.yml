@@ -73,18 +73,25 @@ services:
 
   orders-service:
     build:
-      context: ./src/Services/OrdersService
+      context: ./src/Services/OrdersServiceNet
       dockerfile: Dockerfile
     container_name: orders-service
     ports:
-      - "5004:8000"
+      - "5004:80"
     environment:
-      - DATABASE_URL=postgresql://marketplace:marketplace_password@postgres-db:5432/marketplace_db
-      - SCHEMA=orders_service
-      - PRODUCTS_SERVICE_URL=http://products-service:80
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:80
+      - ConnectionStrings__DefaultConnection=Host=postgres-db;Port=5432;Database=marketplace_db;Username=marketplace;Password=marketplace_password;Search Path=orders_service;
+      - ProductsService__BaseUrl=http://products-service:80/
+      - UsersService__BaseUrl=http://users-service:80/
     depends_on:
-      - postgres-db
-      - products-service
+      postgres-db:
+        condition: service_healthy
+      products-service:
+        condition: service_started
+      users-service:
+        condition: service_started
+    restart: on-failure
     networks:
       - app-network
 

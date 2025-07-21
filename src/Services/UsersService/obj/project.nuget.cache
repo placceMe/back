@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "0BUG0HvIvu8=",
+  "dgSpecHash": "Am0Jq5HCNCc=",
   "success": true,
-  "projectFilePath": "C:\\Users\\aleks\\source\\repos\\MarketPlace\\src\\Services\\UsersService\\UsersService.csproj",
+  "projectFilePath": "P:\\Norsen\\back\\src\\Services\\UsersService\\UsersService.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\aleks\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
     "C:\\Users\\aleks\\.nuget\\packages\\microsoft.bcl.asyncinterfaces\\6.0.0\\microsoft.bcl.asyncinterfaces.6.0.0.nupkg.sha512",
@@ -11,12 +11,12 @@
     "C:\\Users\\aleks\\.nuget\\packages\\microsoft.codeanalysis.csharp\\4.5.0\\microsoft.codeanalysis.csharp.4.5.0.nupkg.sha512",
     "C:\\Users\\aleks\\.nuget\\packages\\microsoft.codeanalysis.csharp.workspaces\\4.5.0\\microsoft.codeanalysis.csharp.workspaces.4.5.0.nupkg.sha512",
     "C:\\Users\\aleks\\.nuget\\packages\\microsoft.codeanalysis.workspaces.common\\4.5.0\\microsoft.codeanalysis.workspaces.common.4.5.0.nupkg.sha512",
-    "C:\\Users\\aleks\\.nuget\\packages\\microsoft.entityframeworkcore\\8.0.17\\microsoft.entityframeworkcore.8.0.17.nupkg.sha512",
-    "C:\\Users\\aleks\\.nuget\\packages\\microsoft.entityframeworkcore.abstractions\\8.0.17\\microsoft.entityframeworkcore.abstractions.8.0.17.nupkg.sha512",
-    "C:\\Users\\aleks\\.nuget\\packages\\microsoft.entityframeworkcore.analyzers\\8.0.17\\microsoft.entityframeworkcore.analyzers.8.0.17.nupkg.sha512",
-    "C:\\Users\\aleks\\.nuget\\packages\\microsoft.entityframeworkcore.design\\8.0.17\\microsoft.entityframeworkcore.design.8.0.17.nupkg.sha512",
+    "C:\\Users\\aleks\\.nuget\\packages\\microsoft.entityframeworkcore\\8.0.18\\microsoft.entityframeworkcore.8.0.18.nupkg.sha512",
+    "C:\\Users\\aleks\\.nuget\\packages\\microsoft.entityframeworkcore.abstractions\\8.0.18\\microsoft.entityframeworkcore.abstractions.8.0.18.nupkg.sha512",
+    "C:\\Users\\aleks\\.nuget\\packages\\microsoft.entityframeworkcore.analyzers\\8.0.18\\microsoft.entityframeworkcore.analyzers.8.0.18.nupkg.sha512",
+    "C:\\Users\\aleks\\.nuget\\packages\\microsoft.entityframeworkcore.design\\8.0.18\\microsoft.entityframeworkcore.design.8.0.18.nupkg.sha512",
     "C:\\Users\\aleks\\.nuget\\packages\\microsoft.entityframeworkcore.inmemory\\8.0.6\\microsoft.entityframeworkcore.inmemory.8.0.6.nupkg.sha512",
-    "C:\\Users\\aleks\\.nuget\\packages\\microsoft.entityframeworkcore.relational\\8.0.17\\microsoft.entityframeworkcore.relational.8.0.17.nupkg.sha512",
+    "C:\\Users\\aleks\\.nuget\\packages\\microsoft.entityframeworkcore.relational\\8.0.18\\microsoft.entityframeworkcore.relational.8.0.18.nupkg.sha512",
     "C:\\Users\\aleks\\.nuget\\packages\\microsoft.extensions.apidescription.server\\6.0.5\\microsoft.extensions.apidescription.server.6.0.5.nupkg.sha512",
     "C:\\Users\\aleks\\.nuget\\packages\\microsoft.extensions.caching.abstractions\\8.0.0\\microsoft.extensions.caching.abstractions.8.0.0.nupkg.sha512",
     "C:\\Users\\aleks\\.nuget\\packages\\microsoft.extensions.caching.memory\\8.0.1\\microsoft.extensions.caching.memory.8.0.1.nupkg.sha512",
@@ -83,12 +83,7 @@
     "C:\\Users\\aleks\\.nuget\\packages\\system.threading\\4.0.11\\system.threading.4.0.11.nupkg.sha512",
     "C:\\Users\\aleks\\.nuget\\packages\\system.threading.channels\\6.0.0\\system.threading.channels.6.0.0.nupkg.sha512",
     "C:\\Users\\aleks\\.nuget\\packages\\system.threading.tasks\\4.0.11\\system.threading.tasks.4.0.11.nupkg.sha512",
-    "C:\\Users\\aleks\\.nuget\\packages\\system.threading.timer\\4.0.1\\system.threading.timer.4.0.1.nupkg.sha512",
-    "C:\\Users\\aleks\\.nuget\\packages\\microsoft.net.sdk.compilers.toolset\\9.0.200\\microsoft.net.sdk.compilers.toolset.9.0.200.nupkg.sha512",
-    "C:\\Users\\aleks\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\8.0.13\\microsoft.windowsdesktop.app.ref.8.0.13.nupkg.sha512",
-    "C:\\Users\\aleks\\.nuget\\packages\\microsoft.netcore.app.ref\\8.0.13\\microsoft.netcore.app.ref.8.0.13.nupkg.sha512",
-    "C:\\Users\\aleks\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\8.0.13\\microsoft.aspnetcore.app.ref.8.0.13.nupkg.sha512",
-    "C:\\Users\\aleks\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\8.0.13\\microsoft.netcore.app.host.win-x64.8.0.13.nupkg.sha512"
+    "C:\\Users\\aleks\\.nuget\\packages\\system.threading.timer\\4.0.1\\system.threading.timer.4.0.1.nupkg.sha512"
   ],
   "logs": []
 }

@@ -1,0 +1,91 @@
+### Variables
+@baseUrl = http://localhost:5004
+@nginxUrl = http://localhost:80
+@orderId = {{createOrder.response.body.$.id}}
+@userId = 11111111-1111-1111-1111-111111111111
+@productId = 22222222-2222-2222-2222-222222222222
+
+### Create Order
+# @name createOrder
+POST {{baseUrl}}/api/orders
+Content-Type: application/json
+
+{
+  "userId": "{{userId}}",
+  "notes": "Test order from .NET service",
+  "items": [
+    {
+      "productId": "{{productId}}",
+      "quantity": 2
+    },
+    {
+      "productId": "33333333-3333-3333-3333-333333333333",
+      "quantity": 1
+    }
+  ]
+}
+
+### Get Order by ID
+GET {{baseUrl}}/api/orders/{{orderId}}
+
+### Get Orders by User ID
+GET {{baseUrl}}/api/orders/user/{{userId}}
+
+### Get All Orders
+GET {{baseUrl}}/api/orders
+
+### Update Order Status
+PUT {{baseUrl}}/api/orders/{{orderId}}/status
+Content-Type: application/json
+
+{
+  "status": 1
+}
+
+### Update Order Status to Shipped
+PUT {{baseUrl}}/api/orders/{{orderId}}/status
+Content-Type: application/json
+
+{
+  "status": 2
+}
+
+### Update Order Status to Delivered
+PUT {{baseUrl}}/api/orders/{{orderId}}/status
+Content-Type: application/json
+
+{
+  "status": 3
+}
+
+### Update Order Status to Cancelled
+PUT {{baseUrl}}/api/orders/{{orderId}}/status
+Content-Type: application/json
+
+{
+  "status": 4
+}
+
+### Delete Order
+DELETE {{baseUrl}}/api/orders/{{orderId}}
+
+### Health Check
+GET {{baseUrl}}/api/orders
+
+### Test via NGINX
+GET {{nginxUrl}}/api/orders
+
+### Create Order via NGINX
+POST {{nginxUrl}}/api/orders
+Content-Type: application/json
+
+{
+  "userId": "{{userId}}",
+  "notes": "Test order via NGINX",
+  "items": [
+    {
+      "productId": "{{productId}}",
+      "quantity": 1
+    }
+  ]
+}

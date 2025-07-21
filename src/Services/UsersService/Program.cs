@@ -50,8 +50,15 @@ builder.Services.AddHealthChecks();
 
 var app = builder.Build();
 
-app.ApplyMigrations<UsersDbContext>();
-
+// try
+// {
+//     app.ApplyMigrations<UsersDbContext>();
+// }
+// catch (Exception ex)
+// {
+//     // Log.Error(ex, "Failed to apply database migrations");
+//     throw;
+// }
 app.UseSwagger();
 app.UseSwaggerUI();
 

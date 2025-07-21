@@ -7,17 +7,13 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace UsersService.Migrations
 {
     /// <inheritdoc />
-    public partial class Init : Migration
+    public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.EnsureSchema(
-                name: "users_service");
-
             migrationBuilder.CreateTable(
                 name: "Users",
-                schema: "users_service",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
@@ -41,8 +37,7 @@ namespace UsersService.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Users",
-                schema: "users_service");
+                name: "Users");
         }
     }
 }
