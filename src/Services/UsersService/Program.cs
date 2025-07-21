@@ -3,7 +3,6 @@ using Npgsql.EntityFrameworkCore.PostgreSQL; // Add this line
 using UsersService.Data;
 using UsersService.Repositories;
 using UsersService.Services;
-using UsersService.Extensions;
 using Serilog;
 using Serilog.Sinks.PostgreSQL;
 
@@ -40,25 +39,41 @@ builder.Services.AddCors(options =>
 });
 
 builder.Services.AddDbContext<UsersDbContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"),
+        npgsqlOptions => npgsqlOptions.MigrationsHistoryTable("__EFMigrationsHistory", "users_service")));
 
 
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<DatabaseMigrationService>();
 
 builder.Services.AddHealthChecks();
 
 var app = builder.Build();
 
-// try
-// {
-//     app.ApplyMigrations<UsersDbContext>();
-// }
-// catch (Exception ex)
-// {
-//     // Log.Error(ex, "Failed to apply database migrations");
-//     throw;
-// }
+try
+{
+    app.Logger.LogInformation("Початок застосування міграцій для Users Service...");
+
+    using var scope = app.Services.CreateScope();
+    var migrationService = scope.ServiceProvider.GetRequiredService<DatabaseMigrationService>();
+    await migrationService.MigrateDatabaseAsync<UsersDbContext>();
+
+    app.Logger.LogInformation("Міграції для Users Service успішно застосовані");
+}
+catch (Exception ex)
+{
+    app.Logger.LogError(ex, "Помилка при застосуванні міграцій для Users Service: {Message}", ex.Message);
+
+    // В development можемо продовжити роботу, в production - краще зупинити
+    if (app.Environment.IsProduction())
+    {
+        throw;
+    }
+
+    app.Logger.LogWarning("Продовжуємо роботу в development режимі незважаючи на помилки міграцій");
+}
+
 app.UseSwagger();
 app.UseSwaggerUI();
 
