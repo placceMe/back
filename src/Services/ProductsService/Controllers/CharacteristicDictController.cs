@@ -9,15 +9,35 @@ namespace ProductsService.Controllers
     public class CharacteristicDictController : ControllerBase
     {
         private readonly ICharacteristicDictService _service;
-        public CharacteristicDictController(ICharacteristicDictService service)
+        private readonly ILogger<CharacteristicDictController> _logger;
+
+        public CharacteristicDictController(ICharacteristicDictService service, ILogger<CharacteristicDictController> logger)
         {
             _service = service;
+            _logger = logger;
         }
         [HttpPost]
         public IActionResult CreateCharacteristicDict([FromBody] CharacteristicDict dict)
         {
-            _service.CreateCharacteristicDict(dict);
-            return Ok();
+            _logger.LogInformation("POST /api/characteristicdict called with Name: {Name}", dict?.Name);
+
+            if (dict == null)
+            {
+                _logger.LogWarning("Received null CharacteristicDict");
+                return BadRequest("CharacteristicDict cannot be null");
+            }
+
+            try
+            {
+                _service.CreateCharacteristicDict(dict);
+                _logger.LogInformation("CharacteristicDict created successfully");
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error creating CharacteristicDict");
+                return StatusCode(500, "Internal server error");
+            }
         }
         [HttpPut("{id}")]
         public IActionResult UpdateCharacteristicDict(Guid id, [FromBody] CharacteristicDict dict)

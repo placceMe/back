@@ -14,6 +14,7 @@ public class ProductDto
     public string State { get; set; } = string.Empty;
     public uint Quantity { get; set; }
     public CategoryDto? Category { get; set; }
+    public List<CharacteristicDto> Characteristics { get; set; } = new List<CharacteristicDto>();
 }
 
 public class CreateProductDto

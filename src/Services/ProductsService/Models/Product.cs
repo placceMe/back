@@ -15,7 +15,7 @@ public class Product
     public string State { get; set; } = ProductState.Moderation;
     public Category? Category { get; set; }
     public uint Quantity { get; set; }
-    // public List<Characteristic> Characteristics { get; set; } = new List<Characteristic>();
+    public List<Characteristic> Characteristics { get; set; } = new List<Characteristic>();
     public List<Attachment> Attachments { get; set; } = new List<Attachment>();
 
 }
