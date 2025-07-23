@@ -1,18 +1,21 @@
 namespace ProductsService.DTOs;
 
-public class CharacteristicDto
+public class CharacteristicDto : CreateCharacteristicDto
 {
     public Guid Id { get; set; }
-    public string Value { get; set; } = string.Empty;
-    public string Name { get; set; } = string.Empty;
     public Guid ProductId { get; set; }
-    public Guid CharacteristicDictId { get; set; }
+    public string Name { get; set; } = string.Empty;
+
 }
 
-public class CreateCharacteristicDto
+public class CreateCharacteristicDto : BaseCharacteristicDto
+{
+    public Guid CharacteristicDictId { get; set; }
+
+}
+
+public class BaseCharacteristicDto
 {
     public string Value { get; set; } = string.Empty;
-    public string Name { get; set; } = string.Empty;
-    public Guid ProductId { get; set; }
-    public Guid CharacteristicDictId { get; set; }
+
 }

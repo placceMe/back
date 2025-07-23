@@ -11,6 +11,7 @@ public class ProductsService : IProductsService
     private readonly ICategoryRepository _categoryRepository;
     private readonly IFilesServiceClient _filesServiceClient;
     private readonly IAttachmentService _attachmentService;
+    private readonly ICharacteristicService _characteristicService;
     private readonly ILogger<ProductsService> _logger;
 
     public ProductsService(
@@ -69,8 +70,25 @@ public class ProductsService : IProductsService
 
             // Створюємо продукт (включаючи embedding)
             CreateProduct(product);
+            // Крок 3: Створити характеристики продукту
+            if (createDto.Characteristics != null && createDto.Characteristics.Any())
+            {
+                var characteristics = createDto.Characteristics.Select(charDto => new Characteristic
+                {
+                    Id = Guid.NewGuid(),
+                    ProductId = product.Id,
+                    Value = charDto.Value,
+                    CharacteristicDictId = charDto.CharacteristicDictId
+                }).ToList();
 
-            // Крок 3: Завантажити головне зображення, якщо є
+                foreach (var characteristic in characteristics)
+                {
+                    await _characteristicService.CreateCharacteristicAsync(characteristic);
+                }
+
+            }
+
+            // Крок 4: Завантажити головне зображення, якщо є
             if (createDto.MainImage != null)
             {
                 var mainImageFileName = await _filesServiceClient.UploadImageAsync(createDto.MainImage, cancellationToken);
@@ -80,7 +98,7 @@ public class ProductsService : IProductsService
                 _repository.UpdateProduct(product.Id, product);
             }
 
-            // Крок 4: Створити додаткові зображення через AttachmentService
+            // Крок 5: Створити додаткові зображення через AttachmentService
             if (createDto.AdditionalImages.Any())
             {
                 var attachmentTasks = createDto.AdditionalImages.Select(async image =>
@@ -95,7 +113,6 @@ public class ProductsService : IProductsService
 
                 await Task.WhenAll(attachmentTasks);
             }
-
             return product;
         }
         catch (Exception ex)

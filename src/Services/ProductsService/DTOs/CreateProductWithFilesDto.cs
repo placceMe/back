@@ -9,6 +9,7 @@ public class CreateProductWithFilesDto
     public uint Weight { get; set; }
     public IFormFile? MainImage { get; set; }
     public List<IFormFile> AdditionalImages { get; set; } = new List<IFormFile>();
+    public List<CreateCharacteristicDto> Characteristics { get; set; } = new List<CreateCharacteristicDto>();
     public Guid CategoryId { get; set; }
     public Guid SellerId { get; set; }
     public uint Quantity { get; set; }

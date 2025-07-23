@@ -29,7 +29,7 @@ namespace ProductsService.Controllers
 
             try
             {
-                _service.CreateCharacteristicDict(dict);
+                _service.CreateCharacteristicDictAsync(dict);
                 _logger.LogInformation("CharacteristicDict created successfully");
                 return Ok();
             }
@@ -40,23 +40,23 @@ namespace ProductsService.Controllers
             }
         }
         [HttpPut("{id}")]
-        public IActionResult UpdateCharacteristicDict(Guid id, [FromBody] CharacteristicDict dict)
+        public async Task<IActionResult> UpdateCharacteristicDict(Guid id, [FromBody] CharacteristicDict dict)
         {
-            var updated = _service.UpdateCharacteristicDict(id, dict);
+            var updated = await _service.UpdateCharacteristicDictAsync(id, dict);
             if (!updated) return NotFound();
             return NoContent();
         }
         [HttpDelete("{id}")]
-        public IActionResult DeleteCharacteristicDict(Guid id)
+        public async Task<IActionResult> DeleteCharacteristicDict(Guid id)
         {
-            var deleted = _service.DeleteCharacteristicDict(id);
+            var deleted = await _service.DeleteCharacteristicDictAsync(id);
             if (!deleted) return NotFound();
             return NoContent();
         }
         [HttpGet("{id}")]
-        public ActionResult<CharacteristicDict> GetCharacteristicDictById(Guid id)
+        public async Task<ActionResult<CharacteristicDict>> GetCharacteristicDictById(Guid id)
         {
-            var dict = _service.GetCharacteristicDictById(id);
+            var dict = await _service.GetCharacteristicDictByIdAsync(id);
             if (dict == null) return NotFound();
             return Ok(dict);
         }

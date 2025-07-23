@@ -16,16 +16,13 @@ public class IdsDto
 [Route("api/[controller]")]
 public class ProductsController : ControllerBase
 {
-    private readonly IProductsRepository _productsRepository;
     private readonly ICategoryRepository _categoryRepository;
     private readonly IProductsService _productsService;
 
     public ProductsController(
-        IProductsRepository productsRepository,
         ICategoryRepository categoryRepository,
         IProductsService productsService)
     {
-        _productsRepository = productsRepository;
         _categoryRepository = categoryRepository;
         _productsService = productsService;
     }
