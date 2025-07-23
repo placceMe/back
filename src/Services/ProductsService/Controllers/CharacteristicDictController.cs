@@ -17,7 +17,7 @@ namespace ProductsService.Controllers
             _logger = logger;
         }
         [HttpPost]
-        public IActionResult CreateCharacteristicDict([FromBody] CharacteristicDict dict)
+        public async Task<IActionResult> CreateCharacteristicDict([FromBody] CharacteristicDict dict)
         {
             _logger.LogInformation("POST /api/characteristicdict called with Name: {Name}", dict?.Name);
 
@@ -29,7 +29,7 @@ namespace ProductsService.Controllers
 
             try
             {
-                _service.CreateCharacteristicDictAsync(dict);
+                await _service.CreateCharacteristicDictAsync(dict);
                 _logger.LogInformation("CharacteristicDict created successfully");
                 return Ok();
             }
@@ -59,6 +59,12 @@ namespace ProductsService.Controllers
             var dict = await _service.GetCharacteristicDictByIdAsync(id);
             if (dict == null) return NotFound();
             return Ok(dict);
+        }
+        [HttpGet("category/{categoryId}")]
+        public async Task<ActionResult<IEnumerable<CharacteristicDict>>> GetCharacteristicDictsByCategoryId(Guid categoryId)
+        {
+            var dicts = await _service.GetCharacteristicDictsByCategoryIdAsync(categoryId);
+            return Ok(dicts);
         }
     }
 }

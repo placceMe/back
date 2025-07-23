@@ -282,6 +282,108 @@ DELETE /api/attachment/{id}
 
 ---
 
+## CharacteristicDict Controller
+
+### 1. Create CharacteristicDict
+```http
+POST /api/characteristicdict
+Content-Type: application/json
+```
+
+**Request Body:**
+```json
+{
+  "id": "uuid",
+  "name": "string",
+  "categoryId": "uuid"
+}
+```
+
+**Response:**
+- **200 OK**: CharacteristicDict created successfully
+- **400 Bad Request**: Invalid request or null CharacteristicDict
+- **500 Internal Server Error**: Server error
+
+### 2. Update CharacteristicDict
+```http
+PUT /api/characteristicdict/{id}
+Content-Type: application/json
+```
+
+**Path Parameters:**
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| id | UUID | Yes | Unique identifier of the CharacteristicDict |
+
+**Request Body:**
+```json
+{
+  "id": "uuid",
+  "name": "string",
+  "categoryId": "uuid"
+}
+```
+
+**Response:**
+- **204 No Content**: CharacteristicDict updated successfully
+- **404 Not Found**: CharacteristicDict not found
+
+### 3. Delete CharacteristicDict
+```http
+DELETE /api/characteristicdict/{id}
+```
+
+**Path Parameters:**
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| id | UUID | Yes | Unique identifier of the CharacteristicDict |
+
+**Response:**
+- **204 No Content**: CharacteristicDict deleted successfully
+- **404 Not Found**: CharacteristicDict not found
+
+### 4. Get CharacteristicDict by ID
+```http
+GET /api/characteristicdict/{id}
+```
+
+**Path Parameters:**
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| id | UUID | Yes | Unique identifier of the CharacteristicDict |
+
+**Response:**
+```json
+{
+  "id": "uuid",
+  "name": "string",
+  "categoryId": "uuid"
+}
+```
+
+### 5. Get CharacteristicDicts by Category
+```http
+GET /api/characteristicdict/category/{categoryId}
+```
+
+**Path Parameters:**
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| categoryId | UUID | Yes | Unique identifier of the category |
+
+**Response:**
+```json
+[
+  {
+    "id": "uuid",
+    "name": "string",
+    "categoryId": "uuid"
+  }
+]
+```
+
+---
+
 ## Status Codes
 
 ### Success Responses:

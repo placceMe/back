@@ -9,4 +9,5 @@ public interface ICharacteristicDictService
     Task<bool> UpdateCharacteristicDictAsync(Guid id, CharacteristicDict dict);
     Task<bool> DeleteCharacteristicDictAsync(Guid id);
     Task<CharacteristicDict?> GetCharacteristicDictByIdAsync(Guid id);
+    Task<IEnumerable<CharacteristicDict>> GetCharacteristicDictsByCategoryIdAsync(Guid categoryId);
 }
