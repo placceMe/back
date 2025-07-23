@@ -4,8 +4,10 @@ namespace ProductsService.Repositories;
 
 public interface ICharacteristicDictRepository
 {
-    void CreateCharacteristicDict(CharacteristicDict dict);
-    bool UpdateCharacteristicDict(Guid id, CharacteristicDict dict);
-    bool DeleteCharacteristicDict(Guid id);
-    CharacteristicDict? GetCharacteristicDictById(Guid id);
+    Task CreateCharacteristicDictAsync(CharacteristicDict dict);
+    Task<bool> UpdateCharacteristicDictAsync(Guid id, CharacteristicDict dict);
+    Task<bool> DeleteCharacteristicDictAsync(Guid id);
+    Task<CharacteristicDict?> GetCharacteristicDictByIdAsync(Guid id);
+    Task<IEnumerable<CharacteristicDict>> GetCharacteristicDictsByCategoryIdAsync(Guid categoryId);
+    Task<IEnumerable<CharacteristicDict>> GetAllCharacteristicDictsAsync();
 }

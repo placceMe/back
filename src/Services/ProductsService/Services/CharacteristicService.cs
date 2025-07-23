@@ -11,8 +11,8 @@ public class CharacteristicService : ICharacteristicService
     {
         _repository = repository;
     }
-    public void CreateCharacteristic(Characteristic characteristic) => _repository.CreateCharacteristic(characteristic);
-    public bool UpdateCharacteristic(Guid id, Characteristic characteristic) => _repository.UpdateCharacteristic(id, characteristic);
-    public bool DeleteCharacteristic(Guid id) => _repository.DeleteCharacteristic(id);
-    public Characteristic? GetCharacteristicById(Guid id) => _repository.GetCharacteristicById(id);
+    public async Task CreateCharacteristicAsync(Characteristic characteristic) => await _repository.CreateCharacteristicAsync(characteristic);
+    public async Task<bool> UpdateCharacteristicAsync(Guid id, Characteristic characteristic) => await _repository.UpdateCharacteristicAsync(id, characteristic);
+    public async Task<bool> DeleteCharacteristicAsync(Guid id) => await _repository.DeleteCharacteristicAsync(id);
+    public async Task<Characteristic?> GetCharacteristicByIdAsync(Guid id) => await _repository.GetCharacteristicByIdAsync(id);
 }

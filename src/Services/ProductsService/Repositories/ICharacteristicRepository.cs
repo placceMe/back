@@ -4,8 +4,9 @@ namespace ProductsService.Repositories;
 
 public interface ICharacteristicRepository
 {
-    void CreateCharacteristic(Characteristic characteristic);
-    bool UpdateCharacteristic(Guid id, Characteristic characteristic);
-    bool DeleteCharacteristic(Guid id);
-    Characteristic? GetCharacteristicById(Guid id);
+    Task CreateCharacteristicAsync(Characteristic characteristic);
+    Task<bool> UpdateCharacteristicAsync(Guid id, Characteristic characteristic);
+    Task<bool> DeleteCharacteristicAsync(Guid id);
+    Task<Characteristic?> GetCharacteristicByIdAsync(Guid id);
+    Task<IEnumerable<Characteristic>> GetCharacteristicsByProductIdAsync(Guid productId);
 }

@@ -11,8 +11,8 @@ public class CharacteristicDictService : ICharacteristicDictService
     {
         _repository = repository;
     }
-    public void CreateCharacteristicDict(CharacteristicDict dict) => _repository.CreateCharacteristicDict(dict);
-    public bool UpdateCharacteristicDict(Guid id, CharacteristicDict dict) => _repository.UpdateCharacteristicDict(id, dict);
-    public bool DeleteCharacteristicDict(Guid id) => _repository.DeleteCharacteristicDict(id);
-    public CharacteristicDict? GetCharacteristicDictById(Guid id) => _repository.GetCharacteristicDictById(id);
+    public async Task CreateCharacteristicDictAsync(CharacteristicDict dict) => await _repository.CreateCharacteristicDictAsync(dict);
+    public async Task<bool> UpdateCharacteristicDictAsync(Guid id, CharacteristicDict dict) => await _repository.UpdateCharacteristicDictAsync(id, dict);
+    public async Task<bool> DeleteCharacteristicDictAsync(Guid id) => await _repository.DeleteCharacteristicDictAsync(id);
+    public async Task<CharacteristicDict?> GetCharacteristicDictByIdAsync(Guid id) => await _repository.GetCharacteristicDictByIdAsync(id);
 }

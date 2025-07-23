@@ -1,5 +1,6 @@
 using ProductsService.Models;
 using ProductsService.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace ProductsService.Repositories;
 
@@ -10,31 +11,40 @@ public class CharacteristicDictRepository : ICharacteristicDictRepository
     {
         _context = context;
     }
-    public void CreateCharacteristicDict(CharacteristicDict dict)
+    public async Task CreateCharacteristicDictAsync(CharacteristicDict dict)
     {
-        _context.Set<CharacteristicDict>().Add(dict);
-        _context.SaveChanges();
+        await _context.Set<CharacteristicDict>().AddAsync(dict);
+        await _context.SaveChangesAsync();
     }
-    public bool UpdateCharacteristicDict(Guid id, CharacteristicDict dict)
+    public async Task<bool> UpdateCharacteristicDictAsync(Guid id, CharacteristicDict dict)
     {
-        var existing = _context.Set<CharacteristicDict>().FirstOrDefault(d => d.Id == id);
+        var existing = await _context.Set<CharacteristicDict>().FirstOrDefaultAsync(d => d.Id == id);
         if (existing == null) return false;
         existing.Name = dict.Name;
         existing.CategoryId = dict.CategoryId;
-        _context.Set<CharacteristicDict>().Update(existing);
-        _context.SaveChanges();
+        await _context.SaveChangesAsync();
         return true;
     }
-    public bool DeleteCharacteristicDict(Guid id)
+    public async Task<bool> DeleteCharacteristicDictAsync(Guid id)
     {
-        var existing = _context.Set<CharacteristicDict>().FirstOrDefault(d => d.Id == id);
+        var existing = await _context.Set<CharacteristicDict>().FirstOrDefaultAsync(d => d.Id == id);
         if (existing == null) return false;
         _context.Set<CharacteristicDict>().Remove(existing);
-        _context.SaveChanges();
+        await _context.SaveChangesAsync();
         return true;
     }
-    public CharacteristicDict? GetCharacteristicDictById(Guid id)
+    public async Task<CharacteristicDict?> GetCharacteristicDictByIdAsync(Guid id)
     {
-        return _context.Set<CharacteristicDict>().FirstOrDefault(d => d.Id == id);
+        return await _context.Set<CharacteristicDict>().FirstOrDefaultAsync(d => d.Id == id);
+    }
+    public async Task<IEnumerable<CharacteristicDict>> GetCharacteristicDictsByCategoryIdAsync(Guid categoryId)
+    {
+        return await _context.Set<CharacteristicDict>()
+            .Where(d => d.CategoryId == categoryId)
+            .ToListAsync();
+    }
+    public async Task<IEnumerable<CharacteristicDict>> GetAllCharacteristicDictsAsync()
+    {
+        return await _context.Set<CharacteristicDict>().ToListAsync();
     }
 }

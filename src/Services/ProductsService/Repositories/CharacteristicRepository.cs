@@ -1,5 +1,6 @@
 using ProductsService.Models;
 using ProductsService.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace ProductsService.Repositories;
 
@@ -10,32 +11,37 @@ public class CharacteristicRepository : ICharacteristicRepository
     {
         _context = context;
     }
-    public void CreateCharacteristic(Characteristic characteristic)
+    public async Task CreateCharacteristicAsync(Characteristic characteristic)
     {
-        _context.Set<Characteristic>().Add(characteristic);
-        _context.SaveChanges();
+        await _context.Set<Characteristic>().AddAsync(characteristic);
+        await _context.SaveChangesAsync();
     }
-    public bool UpdateCharacteristic(Guid id, Characteristic characteristic)
+    public async Task<bool> UpdateCharacteristicAsync(Guid id, Characteristic characteristic)
     {
-        var existing = _context.Set<Characteristic>().FirstOrDefault(c => c.Id == id);
+        var existing = await _context.Set<Characteristic>().FirstOrDefaultAsync(c => c.Id == id);
         if (existing == null) return false;
         existing.Value = characteristic.Value;
         existing.ProductId = characteristic.ProductId;
         existing.CharacteristicDictId = characteristic.CharacteristicDictId;
-        _context.Set<Characteristic>().Update(existing);
-        _context.SaveChanges();
+        await _context.SaveChangesAsync();
         return true;
     }
-    public bool DeleteCharacteristic(Guid id)
+    public async Task<bool> DeleteCharacteristicAsync(Guid id)
     {
-        var existing = _context.Set<Characteristic>().FirstOrDefault(c => c.Id == id);
+        var existing = await _context.Set<Characteristic>().FirstOrDefaultAsync(c => c.Id == id);
         if (existing == null) return false;
         _context.Set<Characteristic>().Remove(existing);
-        _context.SaveChanges();
+        await _context.SaveChangesAsync();
         return true;
     }
-    public Characteristic? GetCharacteristicById(Guid id)
+    public async Task<Characteristic?> GetCharacteristicByIdAsync(Guid id)
     {
-        return _context.Set<Characteristic>().FirstOrDefault(c => c.Id == id);
+        return await _context.Set<Characteristic>().FirstOrDefaultAsync(c => c.Id == id);
+    }
+    public async Task<IEnumerable<Characteristic>> GetCharacteristicsByProductIdAsync(Guid productId)
+    {
+        return await _context.Set<Characteristic>()
+            .Where(c => c.ProductId == productId)
+            .ToListAsync();
     }
 }
