@@ -23,6 +23,19 @@ builder.Services.AddSingleton<IMinioClient>(provider =>
 // Реєстрація сервісів  
 builder.Services.AddScoped<IFilesService, FilesService.Services.FilesService>();
 
+// Add CORS services
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(builder =>
+    {
+        var allowedOrigins = Environment.GetEnvironmentVariable("ALLOWED_ORIGINS")?.Split(',') ?? new[] { "http://localhost:5173" };
+        builder.SetIsOriginAllowed(origin => allowedOrigins.Contains(origin))
+        .AllowCredentials()
+              .AllowAnyMethod()
+              .AllowAnyHeader();
+    });
+});
+
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 //builder.Services.AddSwaggerGen();
@@ -42,6 +55,7 @@ var app = builder.Build();
 //}
 
 app.UseRouting();
+app.UseCors(); // Use CORS
 app.MapControllers();
 
 app.Run();

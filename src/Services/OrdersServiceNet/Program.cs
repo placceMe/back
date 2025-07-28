@@ -49,7 +49,9 @@ builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(policy =>
     {
-        policy.AllowAnyOrigin()
+        var allowedOrigins = Environment.GetEnvironmentVariable("ALLOWED_ORIGINS")?.Split(',') ?? new[] { "http://localhost:5173" };
+        policy.SetIsOriginAllowed(origin => allowedOrigins.Contains(origin))
+              .AllowCredentials()
               .AllowAnyMethod()
               .AllowAnyHeader();
     });
