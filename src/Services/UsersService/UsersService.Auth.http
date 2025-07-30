@@ -1,14 +1,14 @@
-@UsersService_HostAddress = http://localhost:5002
+@UsersService_HostAddress = http://31.42.190.94:8080
 
 ### Register new user
 POST {{UsersService_HostAddress}}/api/auth/register
 Content-Type: application/json
 
 {
-    "name": "Test",
-    "surname": "User", 
-    "email": "test@example.com",
-    "password": "password123",
+    "name": "Oleksandr",
+    "surname": "Kamlykov", 
+    "email": "ale@example.com",
+    "password": "123456",
     "phone": "+380123456789"
 }
 
