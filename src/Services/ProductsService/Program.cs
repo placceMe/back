@@ -41,17 +41,17 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 // Add CORS services
-builder.Services.AddCors(options =>
-{
-    options.AddDefaultPolicy(builder =>
-    {
-        var allowedOrigins = Environment.GetEnvironmentVariable("ALLOWED_ORIGINS")?.Split(',') ?? new[] { "http://localhost:5173" };
-        builder.WithOrigins(allowedOrigins)
-               .AllowCredentials()
-               .AllowAnyMethod()
-               .AllowAnyHeader();
-    });
-});
+// builder.Services.AddCors(options =>
+// {
+//     options.AddDefaultPolicy(builder =>
+//     {
+//         var allowedOrigins = Environment.GetEnvironmentVariable("ALLOWED_ORIGINS")?.Split(',') ?? new[] { "http://localhost:5173" };
+//         builder.WithOrigins(allowedOrigins)
+//                .AllowCredentials()
+//                .AllowAnyMethod()
+//                .AllowAnyHeader();
+//     });
+// });
 
 builder.Services.AddDbContext<ProductsDBContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"), npgsqlOptions =>
@@ -108,7 +108,7 @@ app.UseSwagger();
 app.UseSwaggerUI();
 
 // Enable CORS
-app.UseCors();
+//app.UseCors();
 
 app.UseAuthorization();
 

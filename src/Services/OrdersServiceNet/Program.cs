@@ -45,17 +45,17 @@ builder.Services.AddScoped<IOrderItemRepository, OrderItemRepository>();
 builder.Services.AddScoped<IOrderService, OrderService>();
 
 // CORS
-builder.Services.AddCors(options =>
-{
-    options.AddDefaultPolicy(policy =>
-    {
-        var allowedOrigins = Environment.GetEnvironmentVariable("ALLOWED_ORIGINS")?.Split(',') ?? new[] { "http://localhost:5173" };
-        policy.SetIsOriginAllowed(origin => allowedOrigins.Contains(origin))
-              .AllowCredentials()
-              .AllowAnyMethod()
-              .AllowAnyHeader();
-    });
-});
+// builder.Services.AddCors(options =>
+// {
+//     options.AddDefaultPolicy(policy =>
+//     {
+//         var allowedOrigins = Environment.GetEnvironmentVariable("ALLOWED_ORIGINS")?.Split(',') ?? new[] { "http://localhost:5173" };
+//         policy.SetIsOriginAllowed(origin => allowedOrigins.Contains(origin))
+//               .AllowCredentials()
+//               .AllowAnyMethod()
+//               .AllowAnyHeader();
+//     });
+// });
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
@@ -95,7 +95,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseCors();
+//app.UseCors();
 app.UseRouting();
 app.MapControllers();
 

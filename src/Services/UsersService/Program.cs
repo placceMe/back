@@ -68,17 +68,17 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 // Add CORS services
-builder.Services.AddCors(options =>
-{
-    options.AddDefaultPolicy(builder =>
-    {
-        var allowedOrigins = Environment.GetEnvironmentVariable("ALLOWED_ORIGINS")?.Split(',') ?? new[] { "http://localhost:5173" };
-        builder.SetIsOriginAllowed(origin => allowedOrigins.Contains(origin))
-               .AllowCredentials()
-               .AllowAnyMethod()
-               .AllowAnyHeader();
-    });
-});
+// builder.Services.AddCors(options =>
+// {
+//     options.AddDefaultPolicy(builder =>
+//     {
+//         var allowedOrigins = Environment.GetEnvironmentVariable("ALLOWED_ORIGINS")?.Split(',') ?? new[] { "http://localhost:5173" };
+//         builder.SetIsOriginAllowed(origin => allowedOrigins.Contains(origin))
+//                .AllowCredentials()
+//                .AllowAnyMethod()
+//                .AllowAnyHeader();
+//     });
+// });
 
 builder.Services.AddDbContext<UsersDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"),
@@ -121,7 +121,7 @@ app.UseSwagger();
 app.UseSwaggerUI();
 
 // Enable CORS
-app.UseCors();
+//app.UseCors();
 
 // Auth middleware order is important!
 app.UseAuthentication();
