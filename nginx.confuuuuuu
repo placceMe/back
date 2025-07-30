@@ -6,7 +6,6 @@ http {
     include       /etc/nginx/mime.types;
     default_type  application/octet-stream;
 
-    # Map allowed CORS origins
     map $http_origin $cors_origin {
         default "";
         "http://31.42.190.94" $http_origin;
@@ -26,8 +25,8 @@ http {
         listen 80;
         server_name localhost;
 
-        # Preflight OPTIONS for any route
-        location / {
+        # Глобальний OPTIONS-хендлер
+        location ~ ^/api/ {
             if ($request_method = OPTIONS) {
                 add_header Access-Control-Allow-Origin "$cors_origin" always;
                 add_header Access-Control-Allow-Methods "GET, POST, PUT, DELETE, PATCH, OPTIONS" always;
@@ -40,16 +39,18 @@ http {
             }
         }
 
-        # Users Service
-        location ~ ^/api/(users|auth|profile)(/.*|$) {
+        # USERS
+        location ~ ^/api/(users|auth|profile)(/.*)?$ {
             proxy_hide_header Access-Control-Allow-Origin;
             proxy_hide_header Access-Control-Allow-Credentials;
             proxy_hide_header Access-Control-Allow-Methods;
             proxy_hide_header Access-Control-Allow-Headers;
+
             add_header Access-Control-Allow-Origin "$cors_origin" always;
             add_header Access-Control-Allow-Credentials "true" always;
             add_header Access-Control-Allow-Methods "GET, POST, PUT, DELETE, PATCH, OPTIONS" always;
             add_header Access-Control-Allow-Headers "Accept, Authorization, Cache-Control, Content-Type, DNT, If-Modified-Since, Keep-Alive, Origin, User-Agent, X-Requested-With" always;
+
             proxy_pass http://users-service:80;
             proxy_set_header Host $host;
             proxy_set_header X-Real-IP $remote_addr;
@@ -57,16 +58,18 @@ http {
             proxy_set_header X-Forwarded-Proto $scheme;
         }
 
-        # Products Service
-        location ~ ^/api/(products|product|category|categories)(/.*|$) {
+        # PRODUCTS
+        location ~ ^/api/(products|product|category|categories)(/.*)?$ {
             proxy_hide_header Access-Control-Allow-Origin;
             proxy_hide_header Access-Control-Allow-Credentials;
             proxy_hide_header Access-Control-Allow-Methods;
             proxy_hide_header Access-Control-Allow-Headers;
+
             add_header Access-Control-Allow-Origin "$cors_origin" always;
             add_header Access-Control-Allow-Credentials "true" always;
             add_header Access-Control-Allow-Methods "GET, POST, PUT, DELETE, PATCH, OPTIONS" always;
             add_header Access-Control-Allow-Headers "Accept, Authorization, Cache-Control, Content-Type, DNT, If-Modified-Since, Keep-Alive, Origin, User-Agent, X-Requested-With" always;
+
             proxy_pass http://products-service:80;
             proxy_set_header Host $host;
             proxy_set_header X-Real-IP $remote_addr;
@@ -74,17 +77,20 @@ http {
             proxy_set_header X-Forwarded-Proto $scheme;
         }
 
-        # Files Service
-        location ~ ^/api/(files|file|upload|download)(/.*|$) {
+        # FILES
+        location ~ ^/api/(files|file|upload|download)(/.*)?$ {
             proxy_hide_header Access-Control-Allow-Origin;
             proxy_hide_header Access-Control-Allow-Credentials;
             proxy_hide_header Access-Control-Allow-Methods;
             proxy_hide_header Access-Control-Allow-Headers;
+
             add_header Access-Control-Allow-Origin "$cors_origin" always;
             add_header Access-Control-Allow-Credentials "true" always;
             add_header Access-Control-Allow-Methods "GET, POST, PUT, DELETE, PATCH, OPTIONS" always;
             add_header Access-Control-Allow-Headers "Accept, Authorization, Cache-Control, Content-Type, DNT, If-Modified-Since, Keep-Alive, Origin, User-Agent, X-Requested-With" always;
+
             client_max_body_size 100M;
+
             proxy_pass http://files-service:80;
             proxy_set_header Host $host;
             proxy_set_header X-Real-IP $remote_addr;
@@ -92,16 +98,18 @@ http {
             proxy_set_header X-Forwarded-Proto $scheme;
         }
 
-        # Orders Service
-        location ~ ^/api/(orders|order|cart|checkout)(/.*|$) {
+        # ORDERS
+        location ~ ^/api/(orders|order|cart|checkout)(/.*)?$ {
             proxy_hide_header Access-Control-Allow-Origin;
             proxy_hide_header Access-Control-Allow-Credentials;
             proxy_hide_header Access-Control-Allow-Methods;
             proxy_hide_header Access-Control-Allow-Headers;
+
             add_header Access-Control-Allow-Origin "$cors_origin" always;
             add_header Access-Control-Allow-Credentials "true" always;
             add_header Access-Control-Allow-Methods "GET, POST, PUT, DELETE, PATCH, OPTIONS" always;
             add_header Access-Control-Allow-Headers "Accept, Authorization, Cache-Control, Content-Type, DNT, If-Modified-Since, Keep-Alive, Origin, User-Agent, X-Requested-With" always;
+
             proxy_pass http://orders-service:80;
             proxy_set_header Host $host;
             proxy_set_header X-Real-IP $remote_addr;
@@ -109,7 +117,24 @@ http {
             proxy_set_header X-Forwarded-Proto $scheme;
         }
 
-        # Fallback for not found
+        # Тести
+        location /test-users {
+            proxy_pass http://users-service:80/;
+        }
+
+        location /test-products {
+            proxy_pass http://products-service:80/;
+        }
+
+        location /test-files {
+            proxy_pass http://files-service:80/;
+        }
+
+        location /test-orders {
+            proxy_pass http://orders-service:80/;
+        }
+
+        # fallback
         location / {
             return 404 "Not Found";
         }
