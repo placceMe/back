@@ -19,12 +19,14 @@ public class ProductsService : IProductsService
         ICategoryRepository categoryRepository,
         IFilesServiceClient filesServiceClient,
         IAttachmentService attachmentService,
+        ICharacteristicService characteristicService,
         ILogger<ProductsService> logger)
     {
         _repository = repository;
         _categoryRepository = categoryRepository;
         _filesServiceClient = filesServiceClient;
         _attachmentService = attachmentService;
+        _characteristicService = characteristicService;
         _logger = logger;
     }
 
@@ -99,19 +101,17 @@ public class ProductsService : IProductsService
             }
 
             // Крок 5: Створити додаткові зображення через AttachmentService
-            if (createDto.AdditionalImages.Any())
+            if (createDto.AdditionalImages != null && createDto.AdditionalImages.Any())
             {
-                var attachmentTasks = createDto.AdditionalImages.Select(async image =>
+                foreach (var image in createDto.AdditionalImages)
                 {
                     var attachmentDto = new CreateAttachmentDto
                     {
                         File = image,
                         ProductId = product.Id
                     };
-                    return await _attachmentService.CreateAttachmentAsync(attachmentDto, cancellationToken);
-                });
-
-                await Task.WhenAll(attachmentTasks);
+                    await _attachmentService.CreateAttachmentAsync(attachmentDto, cancellationToken);
+                }
             }
             return product;
         }

@@ -14,7 +14,14 @@ public class ProductDto
     public string State { get; set; } = string.Empty;
     public uint Quantity { get; set; }
     public CategoryDto? Category { get; set; }
+    public List<AttachmentDto> AdditionalImageUrls { get; set; } = new List<AttachmentDto>();
     public List<CharacteristicDto> Characteristics { get; set; } = new List<CharacteristicDto>();
+}
+
+public class AttachmentDto
+{
+    public Guid Id { get; set; }
+    public string Url { get; set; } = string.Empty;
 }
 
 public class CreateProductDto

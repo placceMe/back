@@ -80,6 +80,7 @@ public class ProductsRepository : IProductsRepository
             .Include(p => p.Category)
             .Include(p => p.Characteristics)
             .ThenInclude(c => c.CharacteristicDict)
+            .Include(p => p.Attachments)
             .FirstOrDefault(p => p.Id == id);
     }
 
