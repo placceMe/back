@@ -78,6 +78,7 @@ public class ProductsRepository : IProductsRepository
     {
         return _context.Products
             .Include(p => p.Category)
+            .Include(p => p.Characteristics)
             .FirstOrDefault(p => p.Id == id);
     }
 
