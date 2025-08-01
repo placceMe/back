@@ -19,6 +19,7 @@ public class ProductsDBContext : DbContext
     public DbSet<Characteristic> Characteristics { get; set; }
     public DbSet<CharacteristicDict> CharacteristicDicts { get; set; }
     public DbSet<Attachment> Attachments { get; set; }
+    public DbSet<Feedback> Feedbacks { get; set; }
     // public DbSet<Rating> Ratings { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -59,6 +60,14 @@ public class ProductsDBContext : DbContext
         // Attachment
         modelBuilder.Entity<Attachment>()
             .HasKey(a => a.Id);
+
+        // Feedback
+        modelBuilder.Entity<Feedback>()
+            .HasKey(f => f.Id);
+        modelBuilder.Entity<Feedback>()
+            .HasOne(f => f.Product)
+            .WithMany()
+            .HasForeignKey(f => f.ProductId);
 
         // // Rating
         // modelBuilder.Entity<Rating>()

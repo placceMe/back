@@ -7,4 +7,5 @@ public class CharacteristicDict
     public string Code { get; set; } = string.Empty;
     public string Type { get; set; } = string.Empty;
     public Guid CategoryId { get; set; }
+    public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 }

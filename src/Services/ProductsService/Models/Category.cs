@@ -7,4 +7,5 @@ public class Category
     public string Status { get; set; } = CategoryState.Active;
     public List<Product> Products { get; set; } = new List<Product>();
     public List<CharacteristicDict> Characteristics { get; set; } = new List<CharacteristicDict>();
+    public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 }

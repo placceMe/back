@@ -73,7 +73,8 @@ builder.Services.AddScoped<IAttachmentRepository, AttachmentRepository>();
 builder.Services.AddScoped<IAttachmentService, AttachmentService>();
 builder.Services.AddScoped<IFilesServiceClient, FilesServiceClient>();
 builder.Services.AddScoped<DatabaseMigrationService>();
-
+builder.Services.AddScoped<IFeedbackRepository, FeedbackRepository>();
+builder.Services.AddScoped<IFeedbackService, FeedbackService>();
 
 
 builder.Services.AddHealthChecks();

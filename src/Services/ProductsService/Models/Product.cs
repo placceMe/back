@@ -17,5 +17,6 @@ public class Product
     public uint Quantity { get; set; }
     public List<Characteristic> Characteristics { get; set; } = new List<Characteristic>();
     public List<Attachment> Attachments { get; set; } = new List<Attachment>();
+    public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
 }
