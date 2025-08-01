@@ -6,5 +6,6 @@ public class Characteristic
     public string Value { get; set; } = string.Empty;
     public Guid ProductId { get; set; }
     public Guid CharacteristicDictId { get; set; }
+    public CharacteristicDict? CharacteristicDict { get; set; }
 
 }
