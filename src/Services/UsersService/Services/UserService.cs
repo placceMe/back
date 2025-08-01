@@ -24,4 +24,17 @@ public class UserService : IUserService
     {
         return await _repository.SoftDeleteAsync(id);
     }
+    public async Task<bool> MakeSellerAsync(Guid id)
+    {
+        var user = await _repository.GetByIdAsync(id);
+        if (user == null) return false;
+
+        if (!user.Roles.Contains("Seller"))
+        {
+            user.Roles.Add("Seller");
+            await _repository.UpdateAsync(user);
+        }
+        return true;
+
+    }
 }

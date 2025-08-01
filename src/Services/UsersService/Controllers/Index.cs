@@ -45,4 +45,18 @@ public class UsersController : ControllerBase
         var deleted = await _service.SoftDeleteAsync(id);
         return deleted ? NoContent() : NotFound();
     }
+    public class MakeSellerRequest
+    {
+        public Guid Id { get; set; }
+    }
+
+    [HttpPut("make-seller")]
+    public async Task<ActionResult> MakeSeller([FromBody] MakeSellerRequest request)
+    {
+        var updated = await _service.MakeSellerAsync(request.Id);
+        if (!updated)
+            return NotFound();
+
+        return NoContent();
+    }
 }
