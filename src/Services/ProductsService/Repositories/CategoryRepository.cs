@@ -1,5 +1,6 @@
 using ProductsService.Models;
 using ProductsService.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace ProductsService.Repositories;
 
