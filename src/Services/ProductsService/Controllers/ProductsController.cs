@@ -28,9 +28,9 @@ public class ProductsController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<ProductDto>>> GetProducts()
+    public async Task<ActionResult<IEnumerable<ProductDto>>> GetProducts([FromQuery] PaginationDto paginationDto)
     {
-        var products = await _productsService.GetAllProductsAsync();
+        var products = await _productsService.GetAllProductsAsync(paginationDto.Offset, paginationDto.Limit);
         return Ok(products.ToDto());
     }
 
@@ -54,9 +54,11 @@ public class ProductsController : ControllerBase
         return Ok(product.ToDto());
     }
     [HttpGet("category/{categoryId}")]
-    public async Task<ActionResult<IEnumerable<ProductDto>>> GetProductsByCategoryId(Guid categoryId)
+    public async Task<ActionResult<IEnumerable<ProductDto>>> GetProductsByCategoryId(
+        Guid categoryId,
+        [FromQuery] PaginationDto paginationDto)
     {
-        var products = await _productsService.GetProductsByCategoryIdAsync(categoryId);
+        var products = await _productsService.GetProductsByCategoryIdAsync(categoryId, paginationDto.Offset, paginationDto.Limit);
         return Ok(products.ToDto());
     }
 

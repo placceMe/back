@@ -14,15 +14,16 @@ public class FeedbackController : ControllerBase
     public FeedbackController(IFeedbackService feedbackService, ILogger<FeedbackController> logger)
     {
         _feedbackService = feedbackService;
+
         _logger = logger;
     }
 
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<FeedbackDto>>> GetAllFeedbacks()
+    public async Task<ActionResult<IEnumerable<FeedbackDto>>> GetAllFeedbacks([FromQuery] PaginationDto paginationDto)
     {
         try
         {
-            var feedbacks = await _feedbackService.GetAllFeedbacksAsync();
+            var feedbacks = await _feedbackService.GetAllFeedbacksAsync(paginationDto.Offset, paginationDto.Limit);
             return Ok(feedbacks);
         }
         catch (Exception ex)
@@ -52,11 +53,13 @@ public class FeedbackController : ControllerBase
     }
 
     [HttpGet("product/{productId}")]
-    public async Task<ActionResult<IEnumerable<FeedbackDto>>> GetFeedbacksByProduct(Guid productId)
+    public async Task<ActionResult<IEnumerable<FeedbackDto>>> GetFeedbacksByProduct(
+        Guid productId,
+        [FromQuery] PaginationDto paginationDto)
     {
         try
         {
-            var feedbacks = await _feedbackService.GetFeedbacksByProductIdAsync(productId);
+            var feedbacks = await _feedbackService.GetFeedbacksByProductIdAsync(productId, paginationDto.Offset, paginationDto.Limit);
             return Ok(feedbacks);
         }
         catch (Exception ex)
@@ -67,11 +70,13 @@ public class FeedbackController : ControllerBase
     }
 
     [HttpGet("user/{userId}")]
-    public async Task<ActionResult<IEnumerable<FeedbackDto>>> GetFeedbacksByUser(Guid userId)
+    public async Task<ActionResult<IEnumerable<FeedbackDto>>> GetFeedbacksByUser(
+        Guid userId,
+        [FromQuery] PaginationDto paginationDto)
     {
         try
         {
-            var feedbacks = await _feedbackService.GetFeedbacksByUserIdAsync(userId);
+            var feedbacks = await _feedbackService.GetFeedbacksByUserIdAsync(userId, paginationDto.Offset, paginationDto.Limit);
             return Ok(feedbacks);
         }
         catch (Exception ex)

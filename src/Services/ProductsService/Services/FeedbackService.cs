@@ -1,6 +1,7 @@
 using ProductsService.DTOs;
 using ProductsService.Models;
 using ProductsService.Repositories;
+using ProductsService.Extensions;
 
 namespace ProductsService.Services;
 
@@ -21,6 +22,12 @@ public class FeedbackService : IFeedbackService
         return feedbacks.Select(MapToDto);
     }
 
+    public async Task<IEnumerable<FeedbackDto>> GetAllFeedbacksAsync(int offset, int limit)
+    {
+        var feedbacks = await _feedbackRepository.GetAllFeedbacksAsync(offset, limit);
+        return feedbacks.Select(f => f.ToDto());
+    }
+
     public async Task<FeedbackDto?> GetFeedbackByIdAsync(Guid id)
     {
         var feedback = await _feedbackRepository.GetByIdAsync(id);
@@ -33,10 +40,22 @@ public class FeedbackService : IFeedbackService
         return feedbacks.Select(MapToDto);
     }
 
+    public async Task<IEnumerable<FeedbackDto>> GetFeedbacksByProductIdAsync(Guid productId, int offset, int limit)
+    {
+        var feedbacks = await _feedbackRepository.GetFeedbacksByProductIdAsync(productId, offset, limit);
+        return feedbacks.Select(f => f.ToDto());
+    }
+
     public async Task<IEnumerable<FeedbackDto>> GetFeedbacksByUserIdAsync(Guid userId)
     {
         var feedbacks = await _feedbackRepository.GetByUserIdAsync(userId);
         return feedbacks.Select(MapToDto);
+    }
+
+    public async Task<IEnumerable<FeedbackDto>> GetFeedbacksByUserIdAsync(Guid userId, int offset, int limit)
+    {
+        var feedbacks = await _feedbackRepository.GetFeedbacksByUserIdAsync(userId, offset, limit);
+        return feedbacks.Select(f => f.ToDto());
     }
 
     public async Task<FeedbackDto> CreateFeedbackAsync(CreateFeedbackDto createFeedbackDto)

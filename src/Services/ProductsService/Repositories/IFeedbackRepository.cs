@@ -13,4 +13,10 @@ public interface IFeedbackRepository
     Task<bool> DeleteAsync(Guid id);
     Task<double> GetAverageRatingByProductIdAsync(Guid productId);
     Task<int> GetFeedbackCountByProductIdAsync(Guid productId);
+    Task<IEnumerable<Feedback>> GetAllFeedbacksAsync();
+    Task<IEnumerable<Feedback>> GetAllFeedbacksAsync(int offset, int limit);
+    Task<IEnumerable<Feedback>> GetFeedbacksByProductIdAsync(Guid productId);
+    Task<IEnumerable<Feedback>> GetFeedbacksByProductIdAsync(Guid productId, int offset, int limit);
+    Task<IEnumerable<Feedback>> GetFeedbacksByUserIdAsync(Guid userId);
+    Task<IEnumerable<Feedback>> GetFeedbacksByUserIdAsync(Guid userId, int offset, int limit);
 }

@@ -16,4 +16,10 @@ public interface IProductsRepository
     IEnumerable<Product> GetAllProducts();
     IEnumerable<Product> GetProductsByCategoryId(Guid categoryId);
     IEnumerable<Product> GetProductsBySellerId(Guid sellerId);
+
+    // Async methods for pagination
+    Task<IEnumerable<Product>> GetProductsByCategoryIdAsync(Guid categoryId);
+    Task<IEnumerable<Product>> GetProductsByCategoryIdAsync(Guid categoryId, int offset, int limit);
+    Task<IEnumerable<Product>> GetAllProductsAsync();
+    Task<IEnumerable<Product>> GetAllProductsAsync(int offset, int limit);
 }

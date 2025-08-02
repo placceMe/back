@@ -92,4 +92,62 @@ public class FeedbackRepository : IFeedbackRepository
         return await _context.Feedbacks
             .CountAsync(f => f.ProductId == productId);
     }
+
+    public async Task<IEnumerable<Feedback>> GetAllFeedbacksAsync()
+    {
+        return await _context.Feedbacks
+            .Include(f => f.Product)
+            .OrderByDescending(f => f.CreatedAt)
+            .ToListAsync();
+    }
+
+    public async Task<IEnumerable<Feedback>> GetAllFeedbacksAsync(int offset, int limit)
+    {
+        return await _context.Feedbacks
+            .Include(f => f.Product)
+            .OrderByDescending(f => f.CreatedAt)
+            .Skip(offset)
+            .Take(limit)
+            .ToListAsync();
+    }
+
+    public async Task<IEnumerable<Feedback>> GetFeedbacksByProductIdAsync(Guid productId)
+    {
+        return await _context.Feedbacks
+            .Include(f => f.Product)
+            .Where(f => f.ProductId == productId)
+            .OrderByDescending(f => f.CreatedAt)
+            .ToListAsync();
+    }
+
+    public async Task<IEnumerable<Feedback>> GetFeedbacksByProductIdAsync(Guid productId, int offset, int limit)
+    {
+        return await _context.Feedbacks
+            .Include(f => f.Product)
+            .Where(f => f.ProductId == productId)
+            .OrderByDescending(f => f.CreatedAt)
+            .Skip(offset)
+            .Take(limit)
+            .ToListAsync();
+    }
+
+    public async Task<IEnumerable<Feedback>> GetFeedbacksByUserIdAsync(Guid userId)
+    {
+        return await _context.Feedbacks
+            .Include(f => f.Product)
+            .Where(f => f.UserId == userId)
+            .OrderByDescending(f => f.CreatedAt)
+            .ToListAsync();
+    }
+
+    public async Task<IEnumerable<Feedback>> GetFeedbacksByUserIdAsync(Guid userId, int offset, int limit)
+    {
+        return await _context.Feedbacks
+            .Include(f => f.Product)
+            .Where(f => f.UserId == userId)
+            .OrderByDescending(f => f.CreatedAt)
+            .Skip(offset)
+            .Take(limit)
+            .ToListAsync();
+    }
 }

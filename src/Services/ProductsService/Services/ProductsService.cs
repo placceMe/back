@@ -177,7 +177,12 @@ public class ProductsService : IProductsService
 
     public async Task<IEnumerable<Product>> GetAllProductsAsync()
     {
-        return await Task.FromResult(_repository.GetAllProducts());
+        return await _repository.GetAllProductsAsync();
+    }
+
+    public async Task<IEnumerable<Product>> GetAllProductsAsync(int offset, int limit)
+    {
+        return await _repository.GetAllProductsAsync(offset, limit);
     }
 
     public ProductEmbedding? GetProductEmbedding(Guid productId)
@@ -198,9 +203,11 @@ public class ProductsService : IProductsService
 
     public async Task<IEnumerable<Product>> GetProductsByCategoryIdAsync(Guid categoryId)
     {
-        var products = _repository.GetAllProducts().Where(p => p.CategoryId == categoryId);
-        return await Task.FromResult(products);
+        return await _repository.GetProductsByCategoryIdAsync(categoryId);
     }
 
-    // ...інші методи...
+    public async Task<IEnumerable<Product>> GetProductsByCategoryIdAsync(Guid categoryId, int offset, int limit)
+    {
+        return await _repository.GetProductsByCategoryIdAsync(categoryId, offset, limit);
+    }    // ...інші методи...
 }

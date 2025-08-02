@@ -120,4 +120,38 @@ public class ProductsRepository : IProductsRepository
         // ProductEmbeddings functionality is currently disabled
         // TODO: Implement when ProductEmbeddings DbSet is enabled
     }
+
+    public async Task<IEnumerable<Product>> GetProductsByCategoryIdAsync(Guid categoryId)
+    {
+        return await _context.Products
+            .Include(p => p.Category)
+            .Where(p => p.CategoryId == categoryId)
+            .ToListAsync();
+    }
+
+    public async Task<IEnumerable<Product>> GetProductsByCategoryIdAsync(Guid categoryId, int offset, int limit)
+    {
+        return await _context.Products
+            .Include(p => p.Category)
+            .Where(p => p.CategoryId == categoryId)
+            .Skip(offset)
+            .Take(limit)
+            .ToListAsync();
+    }
+
+    public async Task<IEnumerable<Product>> GetAllProductsAsync()
+    {
+        return await _context.Products
+            .Include(p => p.Category)
+            .ToListAsync();
+    }
+
+    public async Task<IEnumerable<Product>> GetAllProductsAsync(int offset, int limit)
+    {
+        return await _context.Products
+            .Include(p => p.Category)
+            .Skip(offset)
+            .Take(limit)
+            .ToListAsync();
+    }
 }
