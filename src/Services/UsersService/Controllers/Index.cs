@@ -50,7 +50,7 @@ public class UsersController : ControllerBase
         public Guid Id { get; set; }
     }
 
-    [HttpPut("make-seller")]
+    [HttpPut("make-saler")]
     public async Task<ActionResult> MakeSeller([FromBody] MakeSellerRequest request)
     {
         var updated = await _service.MakeSellerAsync(request.Id);

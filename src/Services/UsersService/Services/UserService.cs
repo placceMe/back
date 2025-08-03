@@ -6,8 +6,13 @@ namespace UsersService.Services;
 public class UserService : IUserService
 {
     private readonly IUserRepository _repository;
+    private readonly ILogger<UserService> _logger;
 
-    public UserService(IUserRepository repository) => _repository = repository;
+    public UserService(IUserRepository repository, ILogger<UserService> logger)
+    {
+        _repository = repository;
+        _logger = logger;
+    }
 
     public Task<IEnumerable<User>> GetAllAsync() => _repository.GetAllAsync();
 
@@ -27,6 +32,7 @@ public class UserService : IUserService
     public async Task<bool> MakeSellerAsync(Guid id)
     {
         var user = await _repository.GetByIdAsync(id);
+        _logger.LogInformation("Making user {UserId} a saler", id);
         if (user == null) return false;
 
         if (!user.Roles.Contains(Role.Saler))
