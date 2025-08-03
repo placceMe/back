@@ -29,9 +29,9 @@ public class UserService : IUserService
         var user = await _repository.GetByIdAsync(id);
         if (user == null) return false;
 
-        if (!user.Roles.Contains("Seller"))
+        if (!user.Roles.Contains(Role.Saler))
         {
-            user.Roles.Add("Seller");
+            user.Roles.Add(Role.Saler);
             await _repository.UpdateAsync(user);
         }
         return true;
