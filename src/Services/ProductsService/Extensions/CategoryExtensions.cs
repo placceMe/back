@@ -21,6 +21,7 @@ public static class CategoryExtensions
     }
 }
 
+
 public static class FeedbackExtensions
 {
     public static FeedbackDto ToDto(this Feedback feedback)
@@ -28,6 +29,7 @@ public static class FeedbackExtensions
         return new FeedbackDto
         {
             Id = feedback.Id,
+            Content = feedback.Content,
             ProductId = feedback.ProductId,
             UserId = feedback.UserId,
             Rating = feedback.Rating,
