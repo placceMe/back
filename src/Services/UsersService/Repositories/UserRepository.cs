@@ -25,7 +25,7 @@ public class UserRepository : IUserRepository
 
     public async Task<bool> UpdateAsync(User user)
     {
-        var existing = await _context.Users.FindAsync(user.Id);
+        var existing = await _context.Users.FirstOrDefaultAsync(u => u.Id == user.Id);
         if (existing == null) return false;
         _context.Entry(existing).CurrentValues.SetValues(user);
         await _context.SaveChangesAsync();
@@ -34,7 +34,7 @@ public class UserRepository : IUserRepository
 
     public async Task<bool> SoftDeleteAsync(Guid id)
     {
-        var user = await _context.Users.FindAsync(id);
+        var user = await _context.Users.FirstOrDefaultAsync(u => u.Id == id);
         if (user == null) return false;
         user.State = UserState.Deleted;
         await _context.SaveChangesAsync();
