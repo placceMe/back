@@ -278,3 +278,16 @@ P:\Norsen\back\src\services\UsersService\bin\Debug\net8.0\Microsoft.IdentityMode
 P:\Norsen\back\src\services\UsersService\bin\Debug\net8.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
 P:\Norsen\back\src\services\UsersService\bin\Debug\net8.0\Microsoft.IdentityModel.Tokens.dll
 P:\Norsen\back\src\services\UsersService\bin\Debug\net8.0\System.IdentityModel.Tokens.Jwt.dll
+P:\Norsen\back\src\services\UsersService\bin\Debug\net8.0\Microsoft.AspNetCore.Cryptography.Internal.dll
+P:\Norsen\back\src\services\UsersService\bin\Debug\net8.0\Microsoft.AspNetCore.DataProtection.dll
+P:\Norsen\back\src\services\UsersService\bin\Debug\net8.0\Microsoft.AspNetCore.DataProtection.Abstractions.dll
+P:\Norsen\back\src\services\UsersService\bin\Debug\net8.0\Microsoft.AspNetCore.DataProtection.StackExchangeRedis.dll
+P:\Norsen\back\src\services\UsersService\bin\Debug\net8.0\Microsoft.Bcl.Cryptography.dll
+P:\Norsen\back\src\services\UsersService\bin\Debug\net8.0\Microsoft.Extensions.Caching.Abstractions.dll
+P:\Norsen\back\src\services\UsersService\bin\Debug\net8.0\Microsoft.Extensions.Caching.StackExchangeRedis.dll
+P:\Norsen\back\src\services\UsersService\bin\Debug\net8.0\Pipelines.Sockets.Unofficial.dll
+P:\Norsen\back\src\services\UsersService\bin\Debug\net8.0\StackExchange.Redis.dll
+P:\Norsen\back\src\services\UsersService\bin\Debug\net8.0\System.Formats.Asn1.dll
+P:\Norsen\back\src\services\UsersService\bin\Debug\net8.0\System.Security.Cryptography.Pkcs.dll
+P:\Norsen\back\src\services\UsersService\bin\Debug\net8.0\System.Security.Cryptography.Xml.dll
+P:\Norsen\back\src\services\UsersService\bin\Debug\net8.0\runtimes\win\lib\net8.0\System.Security.Cryptography.Pkcs.dll

@@ -15,13 +15,6 @@ public class RegisterRequest
     public string? Phone { get; set; }
 }
 
-public class AuthResponse
-{
-    public bool Success { get; set; }
-    public string Message { get; set; } = null!;
-    public UserInfo? User { get; set; }
-}
-
 public class UserInfo
 {
     public Guid Id { get; set; }

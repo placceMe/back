@@ -3,7 +3,7 @@
 - [+] average rating product
 - [ ] rating list
 - [ ] dialogs
-- [ ] saler info (description, schedule)
+- [+] saler info (description, schedule)
 - [ ] google auth
 - [ ] delivery addres buyer
 - [ ] забули пароль

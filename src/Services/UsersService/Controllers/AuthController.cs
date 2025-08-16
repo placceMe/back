@@ -1,8 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
-using UsersService.DTOs;
 using UsersService.Services;
+using UsersService.DTOs;
 using UsersService.Repositories;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace UsersService.Controllers;
 
@@ -82,21 +83,68 @@ public class AuthController : ControllerBase
     }
 
     [HttpPost("logout")]
-    [Authorize]
-    public async Task<ActionResult<AuthResponse>> Logout()
+    public async Task<IActionResult> Logout()
     {
-        Response.Cookies.Delete("authToken", new CookieOptions
+        try
         {
-            HttpOnly = true,
-            Secure = Request.IsHttps,
-            SameSite = SameSiteMode.Strict,
-            Path = "/"
-        });
+            var token = HttpContext.Request.Headers["Authorization"].ToString().Replace("Bearer ", "");
+            if (string.IsNullOrEmpty(token))
+            {
+                token = HttpContext.Request.Cookies["authToken"];
+            }
 
-        var result = await _authService.LogoutAsync();
-        _logger.LogInformation("Користувач вийшов з системи");
+            if (string.IsNullOrEmpty(token))
+            {
+                return BadRequest(new { message = "Токен не знайдено" });
+            }
 
-        return Ok(result);
+            var tokenHandler = new JwtSecurityTokenHandler();
+            var jwt = tokenHandler.ReadJwtToken(token);
+            var jti = jwt.Claims.FirstOrDefault(x => x.Type == JwtRegisteredClaimNames.Jti)?.Value;
+            var exp = jwt.Claims.FirstOrDefault(x => x.Type == JwtRegisteredClaimNames.Exp)?.Value;
+
+            if (string.IsNullOrEmpty(jti) || string.IsNullOrEmpty(exp))
+            {
+                return BadRequest(new { message = "Невірний токен" });
+            }
+
+            var expiry = DateTimeOffset.FromUnixTimeSeconds(long.Parse(exp));
+            var result = await _authService.LogoutAsync(jti, expiry);
+
+            if (result.Success)
+            {
+                Response.Cookies.Delete("authToken");
+                return Ok(result);
+            }
+
+            return BadRequest(result);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Помилка при виході з системи");
+            return StatusCode(500, new { message = "Внутрішня помилка сервера" });
+        }
+    }
+
+    [HttpPost("refresh")]
+    public async Task<IActionResult> RefreshToken([FromBody] RefreshTokenRequest request)
+    {
+        try
+        {
+            var result = await _authService.RefreshTokenAsync(request.UserId, request.DeviceId, request.RefreshToken);
+
+            if (result.Success)
+            {
+                return Ok(result);
+            }
+
+            return BadRequest(result);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Помилка при оновленні токена");
+            return StatusCode(500, new { message = "Внутрішня помилка сервера" });
+        }
     }
 
     [HttpGet("me")]

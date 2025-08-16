@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using UsersService.DTOs;
 using UsersService.Models;
 using UsersService.Repositories;
+using System.Security.Cryptography;
 
 namespace UsersService.Services;
 
@@ -14,12 +15,14 @@ public class AuthService : IAuthService
     private readonly IUserRepository _userRepository;
     private readonly IConfiguration _configuration;
     private readonly ILogger<AuthService> _logger;
+    private readonly IRedisAuthStore _redisAuthStore;
 
-    public AuthService(IUserRepository userRepository, IConfiguration configuration, ILogger<AuthService> logger)
+    public AuthService(IUserRepository userRepository, IConfiguration configuration, ILogger<AuthService> logger, IRedisAuthStore redisAuthStore)
     {
         _userRepository = userRepository;
         _configuration = configuration;
         _logger = logger;
+        _redisAuthStore = redisAuthStore;
     }
 
     public async Task<AuthResponse> LoginAsync(LoginRequest request)
@@ -52,11 +55,29 @@ public class AuthService : IAuthService
                 Roles = user.Roles
             };
 
+            // Generate access token and refresh token
+            var deviceId = GenerateDeviceId();
+            var accessToken = GenerateJwtToken(user);
+            var refreshToken = GenerateRefreshToken();
+            var refreshTokenExpiry = DateTime.UtcNow.AddDays(7);
+
+            // Store refresh token in Redis
+            await _redisAuthStore.StoreRefreshTokenAsync(
+                user.Id,
+                deviceId,
+                refreshToken,
+                refreshTokenExpiry,
+                CancellationToken.None
+            );
+
             return new AuthResponse
             {
                 Success = true,
                 Message = "Успішний вхід",
-                User = userInfo
+                User = userInfo,
+                AccessToken = accessToken,
+                RefreshToken = refreshToken,
+                DeviceId = deviceId
             };
         }
         catch (Exception ex)
@@ -114,13 +135,69 @@ public class AuthService : IAuthService
         }
     }
 
-    public Task<AuthResponse> LogoutAsync()
+    public async Task<AuthResponse> LogoutAsync(string jti, DateTimeOffset accessTokenExpiry)
     {
-        return Task.FromResult(new AuthResponse { Success = true, Message = "Успішний вихід" });
+        try
+        {
+            // Add JWT to blacklist in Redis
+            await _redisAuthStore.RevokeJtiAsync(jti, accessTokenExpiry, CancellationToken.None);
+
+            return new AuthResponse { Success = true, Message = "Успішний вихід" };
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Помилка при виході з системи");
+            return new AuthResponse { Success = false, Message = "Помилка сервера" };
+        }
+    }
+
+    public async Task<AuthResponse> RefreshTokenAsync(Guid userId, string deviceId, string oldRefreshToken)
+    {
+        try
+        {
+            var newRefreshToken = GenerateRefreshToken();
+            var newRefreshTokenExpiry = DateTime.UtcNow.AddDays(7);
+
+            var isValid = await _redisAuthStore.ValidateAndRotateRefreshTokenAsync(
+                userId,
+                deviceId,
+                oldRefreshToken,
+                newRefreshToken,
+                newRefreshTokenExpiry,
+                CancellationToken.None
+            );
+
+            if (!isValid)
+            {
+                return new AuthResponse { Success = false, Message = "Невірний refresh token" };
+            }
+
+            var user = await _userRepository.GetByIdAsync(userId);
+            if (user == null || user.State != UserState.Active)
+            {
+                return new AuthResponse { Success = false, Message = "Користувач не знайдений або неактивний" };
+            }
+
+            var newAccessToken = GenerateJwtToken(user);
+
+            return new AuthResponse
+            {
+                Success = true,
+                Message = "Токен оновлено",
+                AccessToken = newAccessToken,
+                RefreshToken = newRefreshToken
+            };
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Помилка при оновленні токена для користувача {UserId}", userId);
+            return new AuthResponse { Success = false, Message = "Помилка сервера" };
+        }
     }
 
     public string GenerateJwtToken(User user)
     {
+        var jti = Guid.NewGuid().ToString();
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"] ?? "default-secret-key-for-development-only-min-32-chars"));
         var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
@@ -128,7 +205,8 @@ public class AuthService : IAuthService
         {
             new(ClaimTypes.NameIdentifier, user.Id.ToString()),
             new(ClaimTypes.Name, user.Name),
-            new(ClaimTypes.Email, user.Email)
+            new(ClaimTypes.Email, user.Email),
+            new(JwtRegisteredClaimNames.Jti, jti)
         };
 
         // Add roles as separate claims
@@ -138,11 +216,24 @@ public class AuthService : IAuthService
             issuer: _configuration["Jwt:Issuer"] ?? "UsersService",
             audience: _configuration["Jwt:Audience"] ?? "MarketplaceClient",
             claims: claims,
-            expires: DateTime.UtcNow.AddHours(24),
+            expires: DateTime.UtcNow.AddHours(1), // Shorter expiry for access tokens
             signingCredentials: credentials
         );
 
         return new JwtSecurityTokenHandler().WriteToken(token);
+    }
+
+    private string GenerateRefreshToken()
+    {
+        var randomBytes = new byte[32];
+        using var rng = RandomNumberGenerator.Create();
+        rng.GetBytes(randomBytes);
+        return Convert.ToBase64String(randomBytes);
+    }
+
+    private string GenerateDeviceId()
+    {
+        return Guid.NewGuid().ToString();
     }
 
     public bool ValidateToken(string token)

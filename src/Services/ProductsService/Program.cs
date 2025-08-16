@@ -87,10 +87,42 @@ try
     app.Logger.LogInformation("Початок застосування міграцій для Products Service...");
 
     using var scope = app.Services.CreateScope();
-    var migrationService = scope.ServiceProvider.GetRequiredService<DatabaseMigrationService>();
-    await migrationService.MigrateDatabaseAsync<ProductsDBContext>();
+    var context = scope.ServiceProvider.GetRequiredService<ProductsDBContext>();
 
-    app.Logger.LogInformation("Міграції для Products Service успішно застосовані");
+    // Ensure database and schema exist
+    await context.Database.EnsureCreatedAsync();
+
+    // Check for pending migrations
+    var pendingMigrations = await context.Database.GetPendingMigrationsAsync();
+    if (pendingMigrations.Any())
+    {
+        app.Logger.LogInformation("Знайдено {Count} міграцій для застосування", pendingMigrations.Count());
+
+        try
+        {
+            await context.Database.MigrateAsync();
+            app.Logger.LogInformation("Міграції для Products Service успішно застосовані");
+        }
+        catch (Npgsql.PostgresException pgEx) when (pgEx.SqlState == "42P07") // relation already exists
+        {
+            app.Logger.LogWarning("Таблиці вже існують, синхронізуємо історію міграцій...");
+
+            // Mark all migrations as applied since tables already exist
+            var allMigrations = context.Database.GetMigrations();
+            foreach (var migration in allMigrations)
+            {
+                await context.Database.ExecuteSqlRawAsync(
+                    "INSERT INTO products_service.\"__EFMigrationsHistory\" (\"MigrationId\", \"ProductVersion\") VALUES ({0}, {1}) ON CONFLICT DO NOTHING",
+                    migration, "8.0.0");
+            }
+
+            app.Logger.LogInformation("Історія міграцій синхронізована");
+        }
+    }
+    else
+    {
+        app.Logger.LogInformation("Немає міграцій для застосування");
+    }
 }
 catch (Exception ex)
 {
