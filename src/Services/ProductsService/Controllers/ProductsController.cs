@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
 using ProductsService.DTOs;
 using ProductsService.Models;
-using ProductsService.Repositories;
+using ProductsService.Repositories.Interfaces;
 using ProductsService.Extensions;
-using ProductsService.Services;
+using ProductsService.Services.Interfaces;
 
 namespace ProductsService.Controllers;
 
@@ -28,10 +28,10 @@ public class ProductsController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<ProductDto>>> GetProducts([FromQuery] PaginationDto paginationDto)
+    public async Task<ActionResult<ProductsDto>> GetProducts([FromQuery] PaginationDto paginationDto)
     {
         var products = await _productsService.GetAllProductsAsync(paginationDto.Offset, paginationDto.Limit);
-        return Ok(products.ToDto());
+        return Ok(products);
     }
 
     [HttpPost("many")]
@@ -54,12 +54,12 @@ public class ProductsController : ControllerBase
         return Ok(product.ToDto());
     }
     [HttpGet("category/{categoryId}")]
-    public async Task<ActionResult<IEnumerable<ProductDto>>> GetProductsByCategoryId(
+    public async Task<ActionResult<ProductsDto>> GetProductsByCategoryId(
         Guid categoryId,
         [FromQuery] PaginationDto paginationDto)
     {
         var products = await _productsService.GetProductsByCategoryIdAsync(categoryId, paginationDto.Offset, paginationDto.Limit);
-        return Ok(products.ToDto());
+        return Ok(products);
     }
 
     // Новий endpoint для створення продукту з файлами
