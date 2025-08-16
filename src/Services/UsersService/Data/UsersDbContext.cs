@@ -17,6 +17,7 @@ public class UsersDbContext : DbContext
     // }
 
     public DbSet<User> Users => Set<User>();
+    public DbSet<SalerInfo> SalerInfos => Set<SalerInfo>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -29,6 +30,28 @@ public class UsersDbContext : DbContext
             entity.Property(e => e.Id).HasDefaultValueSql("gen_random_uuid()");
             entity.Property(e => e.CreatedAt).HasDefaultValueSql("CURRENT_TIMESTAMP");
             entity.HasIndex(e => e.Email).IsUnique();
+        });
+
+        // Configure SalerInfo entity
+        modelBuilder.Entity<SalerInfo>(entity =>
+        {
+            entity.HasKey(e => e.Id);
+            entity.Property(e => e.Id).HasDefaultValueSql("gen_random_uuid()");
+            entity.Property(e => e.CreatedAt).HasDefaultValueSql("CURRENT_TIMESTAMP");
+            entity.Property(e => e.UpdatedAt).HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+            // Configure relationship with User
+            entity.HasOne(s => s.User)
+                  .WithMany()
+                  .HasForeignKey(s => s.UserId)
+                  .OnDelete(DeleteBehavior.Cascade);
+
+            // Configure Contacts as JSON
+            entity.Property(e => e.Contacts)
+                  .HasConversion(
+                      contacts => System.Text.Json.JsonSerializer.Serialize(contacts, (System.Text.Json.JsonSerializerOptions?)null),
+                      json => System.Text.Json.JsonSerializer.Deserialize<List<Contact>>(json, (System.Text.Json.JsonSerializerOptions?)null) ?? new List<Contact>())
+                  .HasColumnType("jsonb");
         });
     }
 

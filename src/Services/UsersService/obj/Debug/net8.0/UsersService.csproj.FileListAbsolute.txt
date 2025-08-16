@@ -268,3 +268,13 @@ P:\Norsen\back\src\Services\UsersService\obj\Debug\net8.0\refint\UsersService.dl
 P:\Norsen\back\src\Services\UsersService\obj\Debug\net8.0\UsersService.pdb
 P:\Norsen\back\src\Services\UsersService\obj\Debug\net8.0\UsersService.genruntimeconfig.cache
 P:\Norsen\back\src\Services\UsersService\obj\Debug\net8.0\ref\UsersService.dll
+P:\Norsen\back\src\services\UsersService\bin\Debug\net8.0\BCrypt.Net-Next.dll
+P:\Norsen\back\src\services\UsersService\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll
+P:\Norsen\back\src\services\UsersService\bin\Debug\net8.0\Microsoft.Bcl.TimeProvider.dll
+P:\Norsen\back\src\services\UsersService\bin\Debug\net8.0\Microsoft.IdentityModel.Abstractions.dll
+P:\Norsen\back\src\services\UsersService\bin\Debug\net8.0\Microsoft.IdentityModel.JsonWebTokens.dll
+P:\Norsen\back\src\services\UsersService\bin\Debug\net8.0\Microsoft.IdentityModel.Logging.dll
+P:\Norsen\back\src\services\UsersService\bin\Debug\net8.0\Microsoft.IdentityModel.Protocols.dll
+P:\Norsen\back\src\services\UsersService\bin\Debug\net8.0\Microsoft.IdentityModel.Protocols.OpenIdConnect.dll
+P:\Norsen\back\src\services\UsersService\bin\Debug\net8.0\Microsoft.IdentityModel.Tokens.dll
+P:\Norsen\back\src\services\UsersService\bin\Debug\net8.0\System.IdentityModel.Tokens.Jwt.dll
