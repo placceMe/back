@@ -158,15 +158,16 @@ public class ProductsRepository : IProductsRepository
             .ToListAsync();
     }
 
-    public Task<PaginationInfo> GetPaginationInfoAsync(int offset, int limit, Guid? categoryId)
+    public async Task<PaginationInfo> GetPaginationInfoAsync(int offset, int limit, Guid? categoryId)
     {
-        var query = _context.Products.AsQueryable();
+        IQueryable<Product> query = _context.Products;
 
-        if (categoryId.HasValue)
+        if (categoryId != null)
         {
-            query = query.Where(p => p.CategoryId == categoryId.Value);
+            query = query.Where(p => p.CategoryId == categoryId);
         }
-        var totalItems = query.Count();
+
+        int totalItems = await query.CountAsync();
 
         var paginationInfo = new PaginationInfo
         {
@@ -174,7 +175,7 @@ public class ProductsRepository : IProductsRepository
             PageSize = limit,
             CurrentPage = (int)Math.Ceiling((double)offset / limit) + 1
         };
-        return Task.FromResult(paginationInfo);
+        return paginationInfo;
     }
 
     public async Task<IEnumerable<Product>> SearchProductsByTitleAsync(string query)

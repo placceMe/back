@@ -1,5 +1,5 @@
 - [+] pagination info
-- [ ] search products
+- [+] search products
 - [ ] average rating product
 - [ ] rating list
 - [ ] dialogs

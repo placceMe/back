@@ -183,7 +183,7 @@ public class ProductsService : IProductsService
         var info = await _repository.GetPaginationInfoAsync(offset, limit, null);
         var productsDto = new ProductsDto
         {
-            Products = (List<ProductDto>)(products.ToDto() ?? new List<ProductDto>()),
+            Products = products.ToDto()?.ToList() ?? new List<ProductDto>(),
             Pagination = info
         };
         return productsDto;
@@ -213,7 +213,7 @@ public class ProductsService : IProductsService
         var info = await _repository.GetPaginationInfoAsync(offset, limit, categoryId);
         var productsDto = new ProductsDto
         {
-            Products = (List<ProductDto>)(products.ToDto() ?? new List<ProductDto>()),
+            Products = products.ToDto()?.ToList() ?? new List<ProductDto>(),
             Pagination = info
         };
 

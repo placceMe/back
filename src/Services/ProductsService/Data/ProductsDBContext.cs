@@ -9,8 +9,6 @@ public class ProductsDBContext : DbContext
 
     public ProductsDBContext(DbContextOptions<ProductsDBContext> options) : base(options)
     {
-        Database.ExecuteSqlRaw("CREATE SCHEMA IF NOT EXISTS products_service;");
-
     }
 
     public DbSet<Product> Products { get; set; }
@@ -24,6 +22,9 @@ public class ProductsDBContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        // Set default schema for all entities
+        modelBuilder.HasDefaultSchema("products_service");
+
         modelBuilder.Entity<Product>()
              .HasKey(p => p.Id);
         modelBuilder.Entity<Product>()
