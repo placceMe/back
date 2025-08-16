@@ -1,6 +1,6 @@
 using ProductsService.DTOs;
 
-namespace ProductsService.Services;
+namespace ProductsService.Services.Interfaces;
 
 public interface IFeedbackService
 {

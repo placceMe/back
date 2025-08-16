@@ -1,6 +1,6 @@
 using ProductsService.Models;
 
-namespace ProductsService.Repositories;
+namespace ProductsService.Repositories.Interfaces;
 
 public interface ICategoryRepository
 {

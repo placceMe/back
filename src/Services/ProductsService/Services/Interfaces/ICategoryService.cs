@@ -1,7 +1,7 @@
 using ProductsService.Models;
 
 
-namespace ProductsService.Services;
+namespace ProductsService.Services.Interfaces;
 
 public interface ICategoryService
 {

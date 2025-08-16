@@ -1,12 +1,12 @@
 using ProductsService.Models;
 
-namespace ProductsService.Repositories;
 
-public interface ICharacteristicRepository
+namespace ProductsService.Services.Interfaces;
+
+public interface ICharacteristicService
 {
     Task CreateCharacteristicAsync(Characteristic characteristic);
     Task<bool> UpdateCharacteristicAsync(Guid id, Characteristic characteristic);
     Task<bool> DeleteCharacteristicAsync(Guid id);
     Task<Characteristic?> GetCharacteristicByIdAsync(Guid id);
-    Task<IEnumerable<Characteristic>> GetCharacteristicsByProductIdAsync(Guid productId);
 }

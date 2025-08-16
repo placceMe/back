@@ -1,7 +1,8 @@
 using ProductsService.DTOs;
 using ProductsService.Models;
-using ProductsService.Repositories;
 using ProductsService.Extensions;
+using ProductsService.Repositories.Interfaces;
+using ProductsService.Services.Interfaces;
 
 namespace ProductsService.Services;
 
