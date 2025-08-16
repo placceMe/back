@@ -61,12 +61,17 @@ public class FeedbackService : IFeedbackService
 
     public async Task<FeedbackDto> CreateFeedbackAsync(CreateFeedbackDto createFeedbackDto)
     {
-
+        var ratingAverage = (createFeedbackDto.RatingService + createFeedbackDto.RatingSpeed +
+                           createFeedbackDto.RatingDescription + createFeedbackDto.RatingAvailable) / 4;
 
         var feedback = new Feedback
         {
             Content = createFeedbackDto.Content,
-            Rating = createFeedbackDto.Rating,
+            RatingService = createFeedbackDto.RatingService,
+            RatingSpeed = createFeedbackDto.RatingSpeed,
+            RatingDescription = createFeedbackDto.RatingDescription,
+            RatingAvailable = createFeedbackDto.RatingAvailable,
+            RatingAverage = ratingAverage,
             ProductId = createFeedbackDto.ProductId,
             UserId = createFeedbackDto.UserId
         };
@@ -84,7 +89,12 @@ public class FeedbackService : IFeedbackService
         }
 
         existingFeedback.Content = updateFeedbackDto.Content;
-        existingFeedback.Rating = updateFeedbackDto.Rating;
+        existingFeedback.RatingService = updateFeedbackDto.RatingService;
+        existingFeedback.RatingSpeed = updateFeedbackDto.RatingSpeed;
+        existingFeedback.RatingDescription = updateFeedbackDto.RatingDescription;
+        existingFeedback.RatingAvailable = updateFeedbackDto.RatingAvailable;
+        existingFeedback.RatingAverage = (updateFeedbackDto.RatingService + updateFeedbackDto.RatingSpeed +
+                                         updateFeedbackDto.RatingDescription + updateFeedbackDto.RatingAvailable) / 4;
 
         var updatedFeedback = await _feedbackRepository.UpdateAsync(existingFeedback);
         return MapToDto(updatedFeedback);
@@ -117,11 +127,15 @@ public class FeedbackService : IFeedbackService
         {
             Id = feedback.Id,
             Content = feedback.Content,
-            Rating = feedback.Rating,
+            RatingService = feedback.RatingService,
+            RatingSpeed = feedback.RatingSpeed,
+            RatingDescription = feedback.RatingDescription,
+            RatingAvailable = feedback.RatingAvailable,
+            RatingAverage = feedback.RatingAverage,
             ProductId = feedback.ProductId,
             ProductName = feedback.Product?.Title,
             UserId = feedback.UserId,
-            CreatedAt = DateTime.UtcNow // Note: Add CreatedAt to Feedback model later
+            CreatedAt = feedback.CreatedAt
         };
     }
 }

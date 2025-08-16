@@ -86,7 +86,7 @@ public class FeedbackRepository : IFeedbackRepository
         if (!feedbacks.Any())
             return 0;
 
-        return feedbacks.Average(f => f.Rating);
+        return feedbacks.Average(f => f.RatingAverage);
     }
 
     public async Task<int> GetFeedbackCountByProductIdAsync(Guid productId)

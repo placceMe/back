@@ -1,6 +1,6 @@
 - [+] pagination info
 - [+] search products
-- [ ] average rating product
+- [+] average rating product
 - [ ] rating list
 - [ ] dialogs
 - [ ] saler info (description, schedule)

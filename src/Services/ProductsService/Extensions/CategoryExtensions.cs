@@ -22,23 +22,3 @@ public static class CategoryExtensions
 }
 
 
-public static class FeedbackExtensions
-{
-    public static FeedbackDto ToDto(this Feedback feedback)
-    {
-        return new FeedbackDto
-        {
-            Id = feedback.Id,
-            Content = feedback.Content,
-            ProductId = feedback.ProductId,
-            UserId = feedback.UserId,
-            Rating = feedback.Rating,
-            CreatedAt = feedback.CreatedAt
-        };
-    }
-
-    public static IEnumerable<FeedbackDto> ToDto(this IEnumerable<Feedback> feedbacks)
-    {
-        return feedbacks.Select(f => f.ToDto());
-    }
-}

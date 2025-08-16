@@ -5,7 +5,7 @@ using ProductsService.Services.Interfaces;
 namespace ProductsService.Controllers;
 
 [ApiController]
-[Route("api/[controller]")]
+[Route("api/products/[controller]")]
 public class FeedbackController : ControllerBase
 {
     private readonly IFeedbackService _feedbackService;
@@ -19,154 +19,85 @@ public class FeedbackController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<FeedbackDto>>> GetAllFeedbacks([FromQuery] PaginationDto paginationDto)
+    public async Task<ActionResult<IEnumerable<FeedbackDto>>> GetAllFeedbacks(
+        [FromQuery] int offset = 0,
+        [FromQuery] int limit = 50)
     {
-        try
-        {
-            var feedbacks = await _feedbackService.GetAllFeedbacksAsync(paginationDto.Offset, paginationDto.Limit);
-            return Ok(feedbacks);
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Error getting all feedbacks");
-            return StatusCode(500, "Internal server error");
-        }
+        var feedbacks = await _feedbackService.GetAllFeedbacksAsync(offset, limit);
+        return Ok(feedbacks);
     }
 
     [HttpGet("{id}")]
-    public async Task<ActionResult<FeedbackDto>> GetFeedback(Guid id)
+    public async Task<ActionResult<FeedbackDto>> GetFeedbackById(Guid id)
     {
-        try
-        {
-            var feedback = await _feedbackService.GetFeedbackByIdAsync(id);
-            if (feedback == null)
-            {
-                return NotFound();
-            }
-            return Ok(feedback);
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Error getting feedback {FeedbackId}", id);
-            return StatusCode(500, "Internal server error");
-        }
+        var feedback = await _feedbackService.GetFeedbackByIdAsync(id);
+        if (feedback == null)
+            return NotFound();
+
+        return Ok(feedback);
     }
 
     [HttpGet("product/{productId}")]
-    public async Task<ActionResult<IEnumerable<FeedbackDto>>> GetFeedbacksByProduct(
+    public async Task<ActionResult<IEnumerable<FeedbackDto>>> GetFeedbacksByProductId(
         Guid productId,
-        [FromQuery] PaginationDto paginationDto)
+        [FromQuery] int offset = 0,
+        [FromQuery] int limit = 50)
     {
-        try
-        {
-            var feedbacks = await _feedbackService.GetFeedbacksByProductIdAsync(productId, paginationDto.Offset, paginationDto.Limit);
-            return Ok(feedbacks);
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Error getting feedbacks for product {ProductId}", productId);
-            return StatusCode(500, "Internal server error");
-        }
+        var feedbacks = await _feedbackService.GetFeedbacksByProductIdAsync(productId, offset, limit);
+        return Ok(feedbacks);
     }
 
     [HttpGet("user/{userId}")]
-    public async Task<ActionResult<IEnumerable<FeedbackDto>>> GetFeedbacksByUser(
+    public async Task<ActionResult<IEnumerable<FeedbackDto>>> GetFeedbacksByUserId(
         Guid userId,
-        [FromQuery] PaginationDto paginationDto)
+        [FromQuery] int offset = 0,
+        [FromQuery] int limit = 50)
     {
-        try
-        {
-            var feedbacks = await _feedbackService.GetFeedbacksByUserIdAsync(userId, paginationDto.Offset, paginationDto.Limit);
-            return Ok(feedbacks);
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Error getting feedbacks for user {UserId}", userId);
-            return StatusCode(500, "Internal server error");
-        }
+        var feedbacks = await _feedbackService.GetFeedbacksByUserIdAsync(userId, offset, limit);
+        return Ok(feedbacks);
     }
 
     [HttpGet("product/{productId}/summary")]
-    public async Task<ActionResult<FeedbackSummaryDto>> GetFeedbackSummary(Guid productId)
+    public async Task<ActionResult<FeedbackSummaryDto>> GetFeedbackSummaryByProductId(Guid productId)
     {
-        try
-        {
-            var summary = await _feedbackService.GetFeedbackSummaryByProductIdAsync(productId);
-            return Ok(summary);
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Error getting feedback summary for product {ProductId}", productId);
-            return StatusCode(500, "Internal server error");
-        }
+        var summary = await _feedbackService.GetFeedbackSummaryByProductIdAsync(productId);
+        return Ok(summary);
     }
 
     [HttpPost]
     public async Task<ActionResult<FeedbackDto>> CreateFeedback([FromBody] CreateFeedbackDto createFeedbackDto)
     {
-        try
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+        if (!ModelState.IsValid)
+            return BadRequest(ModelState);
 
-            var feedback = await _feedbackService.CreateFeedbackAsync(createFeedbackDto);
-            return CreatedAtAction(nameof(GetFeedback), new { id = feedback.Id }, feedback);
-        }
-        catch (ArgumentException ex)
-        {
-            _logger.LogWarning(ex, "Invalid argument when creating feedback");
-            return BadRequest(ex.Message);
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Error creating feedback");
-            return StatusCode(500, "Internal server error");
-        }
+        var feedback = await _feedbackService.CreateFeedbackAsync(createFeedbackDto);
+        return CreatedAtAction(nameof(GetFeedbackById), new { id = feedback.Id }, feedback);
     }
 
     [HttpPut("{id}")]
     public async Task<ActionResult<FeedbackDto>> UpdateFeedback(Guid id, [FromBody] UpdateFeedbackDto updateFeedbackDto)
     {
+        if (!ModelState.IsValid)
+            return BadRequest(ModelState);
+
         try
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
             var feedback = await _feedbackService.UpdateFeedbackAsync(id, updateFeedbackDto);
             return Ok(feedback);
         }
-        catch (ArgumentException ex)
+        catch (ArgumentException)
         {
-            _logger.LogWarning(ex, "Invalid argument when updating feedback {FeedbackId}", id);
-            return NotFound(ex.Message);
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Error updating feedback {FeedbackId}", id);
-            return StatusCode(500, "Internal server error");
+            return NotFound();
         }
     }
 
     [HttpDelete("{id}")]
     public async Task<ActionResult> DeleteFeedback(Guid id)
     {
-        try
-        {
-            var result = await _feedbackService.DeleteFeedbackAsync(id);
-            if (!result)
-            {
-                return NotFound();
-            }
-            return NoContent();
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Error deleting feedback {FeedbackId}", id);
-            return StatusCode(500, "Internal server error");
-        }
+        var deleted = await _feedbackService.DeleteFeedbackAsync(id);
+        if (!deleted)
+            return NotFound();
+
+        return NoContent();
     }
 }
