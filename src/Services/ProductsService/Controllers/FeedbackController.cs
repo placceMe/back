@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using ProductsService.DTOs;
-using ProductsService.Services;
+using ProductsService.Services.Interfaces;
 
 namespace ProductsService.Controllers;
 

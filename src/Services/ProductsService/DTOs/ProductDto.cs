@@ -54,3 +54,13 @@ public class UpdateProductDto
     public Guid CategoryId { get; set; }
     public uint Quantity { get; set; }
 }
+
+public class SearchProductsDto
+{
+    public string Title { get; set; } = string.Empty;
+    public string Description { get; set; } = string.Empty;
+    public uint Price { get; set; }
+    public string Color { get; set; } = string.Empty;
+    public string MainImageUrl { get; set; } = string.Empty;
+
+}

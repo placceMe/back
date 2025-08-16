@@ -176,11 +176,6 @@ public class ProductsService : IProductsService
         return await Task.FromResult(_repository.GetProductById(id));
     }
 
-    public async Task<IEnumerable<Product>> GetAllProductsAsync()
-    {
-        return await _repository.GetAllProductsAsync();
-    }
-
     public async Task<ProductsDto> GetAllProductsAsync(int offset, int limit)
     {
         var products = await _repository.GetAllProductsAsync(offset, limit);
@@ -224,5 +219,18 @@ public class ProductsService : IProductsService
 
 
         return productsDto;
-    }    // ...інші методи...
+    }
+
+    public async Task<IEnumerable<SearchProductsDto>> SearchProductsByTitleAsync(string query)
+    {
+        var products = await _repository.SearchProductsByTitleAsync(query);
+        return products.Select(p => new SearchProductsDto
+        {
+            Title = p.Title,
+            Description = p.Description,
+            Price = p.Price,
+            Color = p.Color,
+            MainImageUrl = p.MainImageUrl
+        });
+    }
 }

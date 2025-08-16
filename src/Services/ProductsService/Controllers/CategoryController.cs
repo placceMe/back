@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using ProductsService.Extensions;
 using ProductsService.Models;
-using ProductsService.Services;
+using ProductsService.Services.Interfaces;
 
 namespace ProductsService.Controllers
 {

@@ -1,10 +1,10 @@
-- pagination info
-- search products
-- average rating product
-- rating list
-- dialogs
-- saler info (description, schedule)
-- google auth
-- delivery addres buyer
-- забули пароль
-- перевірка на покупку товара
+- [+] pagination info
+- [ ] search products
+- [ ] average rating product
+- [ ] rating list
+- [ ] dialogs
+- [ ] saler info (description, schedule)
+- [ ] google auth
+- [ ] delivery addres buyer
+- [ ] забули пароль
+- [ ] перевірка на покупку товара

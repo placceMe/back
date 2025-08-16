@@ -176,4 +176,12 @@ public class ProductsRepository : IProductsRepository
         };
         return Task.FromResult(paginationInfo);
     }
+
+    public async Task<IEnumerable<Product>> SearchProductsByTitleAsync(string query)
+    {
+        return await _context.Products
+            .Include(p => p.Category)
+            .Where(p => p.Title.ToLower().Contains(query.ToLower()))
+            .ToListAsync();
+    }
 }

@@ -17,4 +17,5 @@ public interface IProductsService
     Task<ProductsDto> GetAllProductsAsync(int offset, int limit);
     Task<IEnumerable<Product>> GetProductsByIdsAsync(IEnumerable<Guid> ids);
     Task<ProductsDto> GetProductsByCategoryIdAsync(Guid categoryId, int offset, int limit);
+    Task<IEnumerable<SearchProductsDto>> SearchProductsByTitleAsync(string query);
 }

@@ -34,6 +34,18 @@ public class ProductsController : ControllerBase
         return Ok(products);
     }
 
+    [HttpGet("search")]
+    public async Task<ActionResult<IEnumerable<SearchProductsDto>>> SearchProducts([FromQuery] string query)
+    {
+        if (string.IsNullOrWhiteSpace(query))
+        {
+            return BadRequest("Search query cannot be empty");
+        }
+
+        var products = await _productsService.SearchProductsByTitleAsync(query);
+        return Ok(products);
+    }
+
     [HttpPost("many")]
     public async Task<ActionResult<IEnumerable<ProductDto>>> GetProductsMany([FromBody] IdsDto dto)
     {

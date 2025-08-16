@@ -24,5 +24,6 @@ public interface IProductsRepository
     Task<IEnumerable<Product>> GetAllProductsAsync();
     Task<IEnumerable<Product>> GetAllProductsAsync(int offset, int limit);
     Task<PaginationInfo> GetPaginationInfoAsync(int offset, int limit, Guid? categoryId);
+    Task<IEnumerable<Product>> SearchProductsByTitleAsync(string query);
 
 }
