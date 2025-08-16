@@ -2,6 +2,7 @@ using ProductsService.Models;
 using ProductsService.Data;
 using Microsoft.EntityFrameworkCore;
 using ProductsService.Repositories.Interfaces;
+using ProductsService.DTOs;
 
 
 namespace ProductsService.Repositories;
@@ -155,5 +156,24 @@ public class ProductsRepository : IProductsRepository
             .Skip(offset)
             .Take(limit)
             .ToListAsync();
+    }
+
+    public Task<PaginationInfo> GetPaginationInfoAsync(int offset, int limit, Guid? categoryId)
+    {
+        var query = _context.Products.AsQueryable();
+
+        if (categoryId.HasValue)
+        {
+            query = query.Where(p => p.CategoryId == categoryId.Value);
+        }
+        var totalItems = query.Count();
+
+        var paginationInfo = new PaginationInfo
+        {
+            TotalItems = totalItems,
+            PageSize = limit,
+            CurrentPage = (int)Math.Ceiling((double)offset / limit) + 1
+        };
+        return Task.FromResult(paginationInfo);
     }
 }

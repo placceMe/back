@@ -2,6 +2,7 @@ using ProductsService.Models;
 using ProductsService.DTOs;
 using ProductsService.Repositories.Interfaces;
 using ProductsService.Services.Interfaces;
+using ProductsService.Extensions;
 
 namespace ProductsService.Services;
 
@@ -180,9 +181,17 @@ public class ProductsService : IProductsService
         return await _repository.GetAllProductsAsync();
     }
 
-    public async Task<IEnumerable<Product>> GetAllProductsAsync(int offset, int limit)
+    public async Task<ProductsDto> GetAllProductsAsync(int offset, int limit)
     {
-        return await _repository.GetAllProductsAsync(offset, limit);
+        var products = await _repository.GetAllProductsAsync(offset, limit);
+
+        var info = await _repository.GetPaginationInfoAsync(offset, limit, null);
+        var productsDto = new ProductsDto
+        {
+            Products = (List<ProductDto>)(products.ToDto() ?? new List<ProductDto>()),
+            Pagination = info
+        };
+        return productsDto;
     }
 
     public ProductEmbedding? GetProductEmbedding(Guid productId)
@@ -201,13 +210,19 @@ public class ProductsService : IProductsService
         return Task.FromResult(products);
     }
 
-    public async Task<IEnumerable<Product>> GetProductsByCategoryIdAsync(Guid categoryId)
+    public async Task<ProductsDto> GetProductsByCategoryIdAsync(Guid categoryId, int offset, int limit)
     {
-        return await _repository.GetProductsByCategoryIdAsync(categoryId);
-    }
 
-    public async Task<IEnumerable<Product>> GetProductsByCategoryIdAsync(Guid categoryId, int offset, int limit)
-    {
-        return await _repository.GetProductsByCategoryIdAsync(categoryId, offset, limit);
+        var products = await _repository.GetProductsByCategoryIdAsync(categoryId, offset, limit);
+
+        var info = await _repository.GetPaginationInfoAsync(offset, limit, categoryId);
+        var productsDto = new ProductsDto
+        {
+            Products = (List<ProductDto>)(products.ToDto() ?? new List<ProductDto>()),
+            Pagination = info
+        };
+
+
+        return productsDto;
     }    // ...інші методи...
 }

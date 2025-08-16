@@ -14,9 +14,7 @@ public interface IProductsService
     bool DeleteProduct(Guid id);
     Product? GetProductById(Guid id);
     Task<Product?> GetProductByIdAsync(Guid id);
-    Task<IEnumerable<Product>> GetAllProductsAsync();
-    Task<IEnumerable<Product>> GetAllProductsAsync(int offset, int limit);
+    Task<ProductsDto> GetAllProductsAsync(int offset, int limit);
     Task<IEnumerable<Product>> GetProductsByIdsAsync(IEnumerable<Guid> ids);
-    Task<IEnumerable<Product>> GetProductsByCategoryIdAsync(Guid categoryId);
-    Task<IEnumerable<Product>> GetProductsByCategoryIdAsync(Guid categoryId, int offset, int limit);
+    Task<ProductsDto> GetProductsByCategoryIdAsync(Guid categoryId, int offset, int limit);
 }

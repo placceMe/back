@@ -1,3 +1,4 @@
+using ProductsService.DTOs;
 using ProductsService.Models;
 
 namespace ProductsService.Repositories.Interfaces;
@@ -22,4 +23,6 @@ public interface IProductsRepository
     Task<IEnumerable<Product>> GetProductsByCategoryIdAsync(Guid categoryId, int offset, int limit);
     Task<IEnumerable<Product>> GetAllProductsAsync();
     Task<IEnumerable<Product>> GetAllProductsAsync(int offset, int limit);
+    Task<PaginationDto> GetPaginationInfoAsync(int offset, int limit, Guid? categoryId);
+
 }

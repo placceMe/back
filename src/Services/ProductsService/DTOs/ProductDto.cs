@@ -18,6 +18,12 @@ public class ProductDto
     public List<CharacteristicDto> Characteristics { get; set; } = new List<CharacteristicDto>();
 }
 
+public class ProductsDto
+{
+    public List<ProductDto> Products { get; set; } = new List<ProductDto>();
+    public PaginationInfo Pagination { get; set; } = new PaginationInfo();
+}
+
 public class AttachmentDto
 {
     public Guid Id { get; set; }
