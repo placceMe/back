@@ -230,7 +230,8 @@ public class ProductsService : IProductsService
             Description = p.Description,
             Price = p.Price,
             Color = p.Color,
-            MainImageUrl = p.MainImageUrl
+            MainImageUrl = p.MainImageUrl,
+            Id = p.Id
         });
     }
 }

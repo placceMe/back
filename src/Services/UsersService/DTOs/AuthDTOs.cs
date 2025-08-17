@@ -23,3 +23,9 @@ public class UserInfo
     public string Email { get; set; } = null!;
     public List<string> Roles { get; set; } = new();
 }
+
+public class ChangePasswordRequest
+{
+    public string CurrentPassword { get; set; } = string.Empty;
+    public string NewPassword { get; set; } = string.Empty;
+}

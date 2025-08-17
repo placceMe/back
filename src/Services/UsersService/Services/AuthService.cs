@@ -283,4 +283,59 @@ public class AuthService : IAuthService
             return null;
         }
     }
+
+    public async Task<AuthResponse> ChangePasswordAsync(Guid userId, string currentPassword, string newPassword)
+    {
+        try
+        {
+            var user = await _userRepository.GetByIdAsync(userId);
+            if (user == null)
+            {
+                return new AuthResponse
+                {
+                    Success = false,
+                    Message = "Користувач не знайдений"
+                };
+            }
+
+            // Перевіряємо поточний пароль
+            if (!BCrypt.Net.BCrypt.Verify(currentPassword, user.Password))
+            {
+                return new AuthResponse
+                {
+                    Success = false,
+                    Message = "Невірний поточний пароль"
+                };
+            }
+
+            // Валідація нового пароля
+            if (string.IsNullOrWhiteSpace(newPassword) || newPassword.Length < 6)
+            {
+                return new AuthResponse
+                {
+                    Success = false,
+                    Message = "Новий пароль має містити принаймні 6 символів"
+                };
+            }
+
+            // Хешуємо новий пароль і оновлюємо користувача
+            user.Password = BCrypt.Net.BCrypt.HashPassword(newPassword);
+            await _userRepository.UpdateAsync(user);
+
+            return new AuthResponse
+            {
+                Success = true,
+                Message = "Пароль успішно змінено"
+            };
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Помилка при зміні пароля для користувача {UserId}", userId);
+            return new AuthResponse
+            {
+                Success = false,
+                Message = "Помилка при зміні пароля"
+            };
+        }
+    }
 }

@@ -62,5 +62,6 @@ public class SearchProductsDto
     public uint Price { get; set; }
     public string Color { get; set; } = string.Empty;
     public string MainImageUrl { get; set; } = string.Empty;
+    public Guid Id { get; set; }
 
 }

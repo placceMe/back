@@ -185,4 +185,38 @@ public class AuthController : ControllerBase
         var isValid = _authService.ValidateToken(token);
         return Ok(new { Valid = isValid });
     }
+
+    [HttpPost("change-password")]
+    [Authorize]
+    public async Task<ActionResult<AuthResponse>> ChangePassword([FromBody] ChangePasswordRequest request)
+    {
+        try
+        {
+            if (!Request.Cookies.TryGetValue("authToken", out var token))
+            {
+                return Unauthorized(new { Message = "Токен не знайдено" });
+            }
+
+            var currentUser = await _authService.GetCurrentUserAsync(token);
+            if (currentUser == null)
+            {
+                return Unauthorized(new { Message = "Невалідний токен" });
+            }
+
+            var result = await _authService.ChangePasswordAsync(currentUser.Id, request.CurrentPassword, request.NewPassword);
+
+            if (result.Success)
+            {
+                _logger.LogInformation("Користувач {Email} успішно змінив пароль", currentUser.Email);
+                return Ok(result);
+            }
+
+            return BadRequest(result);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Помилка при зміні пароля");
+            return StatusCode(500, new { message = "Внутрішня помилка сервера" });
+        }
+    }
 }
