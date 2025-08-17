@@ -158,6 +158,29 @@ services:
       timeout: 5s
       retries: 3
 
+  mailhog:
+    image: mailhog/mailhog:latest
+    ports:
+      - "8025:8025"   # UI
+      - "1025:1025"   # SMTP
+    restart: unless-stopped
+
+  notifications-service:
+    build: ./src/Services/NotificationsService
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      Email__Provider: Smtp
+      Email__FromName: "Marketplace Dev"
+      Email__FromAddress: "no-reply@local.test"
+      Email__Smtp__Host: mailhog
+      Email__Smtp__Port: 1025
+      Email__Smtp__UseSsl: "false"
+    ports:
+      - "5007:8080"
+    depends_on:
+      - mailhog
+    restart: unless-stopped
+
 volumes:
   minio_data:
   postgres_data:
