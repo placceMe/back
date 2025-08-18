@@ -181,6 +181,30 @@ services:
       - mailhog
     restart: unless-stopped
 
+  chat-service:
+    build: ./src/Services/ChatService
+    container_name: chat-service
+    ports:
+      - "5005:80"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      - ASPNETCORE_URLS=http://+:80
+      - ConnectionStrings__DefaultConnection=Host=postgres-db;Port=5432;Database=marketplace_db;Username=marketplace;Password=marketplace_password;Search Path=chat_service;
+      - UsersService__BaseUrl=http://users-service:80/
+      - ProductsService__BaseUrl=http://products-service:80/
+      - Jwt__Key=default-key-for-development
+      - ALLOWED_ORIGINS=http://localhost:5173
+    depends_on:
+      postgres-db:
+        condition: service_healthy
+      users-service:
+        condition: service_started
+      products-service:
+        condition: service_started
+    restart: on-failure
+    networks:
+      - app-network
+
 volumes:
   minio_data:
   postgres_data:
