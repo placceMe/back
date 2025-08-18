@@ -13,4 +13,6 @@ public interface IAuthService
     string GenerateJwtToken(User user);
     bool ValidateToken(string token);
     Task<AuthResponse> ChangePasswordAsync(Guid userId, string currentPassword, string newPassword);
+    Task<AuthResponse> ForgotPasswordAsync(string email);
+    Task<AuthResponse> ResetPasswordAsync(string token, string newPassword);
 }

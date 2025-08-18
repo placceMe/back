@@ -7,6 +7,7 @@ using UsersService.DTOs;
 using UsersService.Models;
 using UsersService.Repositories;
 using System.Security.Cryptography;
+using System.Text.Json;
 
 namespace UsersService.Services;
 
@@ -336,6 +337,157 @@ public class AuthService : IAuthService
                 Success = false,
                 Message = "Помилка при зміні пароля"
             };
+        }
+    }
+
+    public async Task<AuthResponse> ForgotPasswordAsync(string email)
+    {
+        try
+        {
+            var user = await _userRepository.GetByEmailAsync(email);
+            if (user == null || user.State != UserState.Active)
+            {
+                // Повертаємо успіх навіть якщо користувач не знайдений (безпека)
+                return new AuthResponse
+                {
+                    Success = true,
+                    Message = "Якщо користувач з таким email існує, на нього буде відправлено лист з інструкціями"
+                };
+            }
+
+            // Генеруємо токен скидання
+            var resetToken = GenerateSecureToken();
+            var expiry = TimeSpan.FromHours(1); // Токен дійсний 1 годину
+
+            // Зберігаємо токен в Redis
+            await _redisAuthStore.StorePasswordResetTokenAsync(resetToken, user.Id, expiry);
+
+            // Відправляємо email через NotificationsService
+            await SendPasswordResetEmailAsync(user.Email, user.Name, resetToken);
+
+            return new AuthResponse
+            {
+                Success = true,
+                Message = "Якщо користувач з таким email існує, на нього буде відправлено лист з інструкціями"
+            };
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Помилка при скиданні паролю для email {Email}", email);
+            return new AuthResponse
+            {
+                Success = false,
+                Message = "Помилка сервера"
+            };
+        }
+    }
+
+    public async Task<AuthResponse> ResetPasswordAsync(string token, string newPassword)
+    {
+        try
+        {
+            // Валідуємо токен і отримуємо userId з Redis
+            var userId = await _redisAuthStore.ValidatePasswordResetTokenAsync(token);
+
+            if (userId == null)
+            {
+                return new AuthResponse
+                {
+                    Success = false,
+                    Message = "Невірний або прострочений токен"
+                };
+            }
+
+            var user = await _userRepository.GetByIdAsync(userId.Value);
+            if (user == null || user.State != UserState.Active)
+            {
+                return new AuthResponse
+                {
+                    Success = false,
+                    Message = "Користувач не знайдений"
+                };
+            }
+
+            // Валідація нового пароля
+            if (string.IsNullOrWhiteSpace(newPassword) || newPassword.Length < 6)
+            {
+                return new AuthResponse
+                {
+                    Success = false,
+                    Message = "Пароль має містити принаймні 6 символів"
+                };
+            }
+
+            // Оновлюємо пароль
+            user.Password = BCrypt.Net.BCrypt.HashPassword(newPassword);
+            await _userRepository.UpdateAsync(user);
+
+            // Видаляємо використаний токен з Redis
+            await _redisAuthStore.RevokePasswordResetTokenAsync(token);
+
+            // Відкликаємо всі refresh токени для цього користувача
+            await _redisAuthStore.RevokeAllUserTokensAsync(user.Id);
+
+            return new AuthResponse
+            {
+                Success = true,
+                Message = "Пароль успішно змінено"
+            };
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Помилка при зміні паролю з токеном {Token}", token);
+            return new AuthResponse
+            {
+                Success = false,
+                Message = "Помилка сервера"
+            };
+        }
+    }
+
+    private string GenerateSecureToken()
+    {
+        var randomBytes = new byte[32];
+        using var rng = RandomNumberGenerator.Create();
+        rng.GetBytes(randomBytes);
+        return Convert.ToBase64String(randomBytes).Replace("+", "-").Replace("/", "_").Replace("=", "");
+    }
+
+    private async Task SendPasswordResetEmailAsync(string email, string userName, string resetToken)
+    {
+        try
+        {
+            var notificationsServiceUrl = _configuration["NotificationsService:BaseUrl"];
+            if (string.IsNullOrEmpty(notificationsServiceUrl))
+            {
+                _logger.LogWarning("NotificationsService URL не налаштований");
+                return;
+            }
+
+            var frontendUrl = _configuration["Frontend:BaseUrl"] ?? "http://localhost:3000";
+            var resetUrl = $"{frontendUrl}/reset-password?token={resetToken}";
+
+            using var httpClient = new HttpClient();
+            var request = new
+            {
+                To = email,
+                UserDisplayName = userName,
+                ResetUrl = resetUrl
+            };
+
+            var json = JsonSerializer.Serialize(request);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+            var response = await httpClient.PostAsync($"{notificationsServiceUrl}/api/email/password-reset", content);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                _logger.LogError("Помилка відправки email: {StatusCode}", response.StatusCode);
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Помилка при відправці email для скидання паролю");
         }
     }
 }
