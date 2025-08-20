@@ -21,6 +21,9 @@ public class UsersDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        // Set default schema for all entities
+        modelBuilder.HasDefaultSchema("users_service");
+
         base.OnModelCreating(modelBuilder);
 
         // Configure User entity
@@ -57,8 +60,13 @@ public class UsersDbContext : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        // Налаштовуємо окрему таблицю міграцій для цього сервісу
-        optionsBuilder.UseNpgsql(b => b.MigrationsHistoryTable("__EFMigrationsHistory", "users_service"));
+        // Only configure if not already configured (for design-time scenarios)
+        if (!optionsBuilder.IsConfigured)
+        {
+            // Default connection string for design-time
+            optionsBuilder.UseNpgsql("Host=localhost;Database=marketplace_db;Username=postgres;Password=postgres;Search Path=users_service;",
+                b => b.MigrationsHistoryTable("__EFMigrationsHistory", "users_service"));
+        }
 
         base.OnConfiguring(optionsBuilder);
     }
