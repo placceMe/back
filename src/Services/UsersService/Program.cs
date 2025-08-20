@@ -5,6 +5,7 @@ using System.Text;
 using UsersService.Data;
 using UsersService.Repositories;
 using UsersService.Services;
+using UsersService.Extensions;
 using Serilog;
 using Serilog.Sinks.PostgreSQL;
 
@@ -125,9 +126,7 @@ var app = builder.Build();
 try
 {
     app.Logger.LogInformation("Початок застосування міграцій для Users Service...");
-    using var scope = app.Services.CreateScope();
-    var migrationService = scope.ServiceProvider.GetRequiredService<DatabaseMigrationService>();
-    await migrationService.MigrateDatabaseAsync<UsersDbContext>();
+    app.ApplyMigrations<UsersDbContext>();
     app.Logger.LogInformation("Міграції для Users Service успішно застосовані");
 }
 catch (Exception ex)
@@ -204,14 +203,14 @@ public sealed class RedisAuthStore : IRedisAuthStore
         return true;
     }
 
-    public async Task InvalidateAllRefreshTokensAsync(Guid userId, CancellationToken ct)
+    public Task InvalidateAllRefreshTokensAsync(Guid userId, CancellationToken ct)
     {
-        var db = _mux.GetDatabase();
         // У реалі: зберігати список deviceId у окремому ключі і пройтися по ньому
         // для простоти інвалідовуємо шаблоном через серверний Lua (або зовнішньо).
         // Тут лишаємо як коментар-нагадування.
         // Рекомендація: при видачі refresh додавати deviceId у set: "rtidx:{userId}"
         // і потім видаляти усі "rt:{userId}:{deviceId}".
+        return Task.CompletedTask;
     }
 
     public async Task RevokeJtiAsync(string jti, DateTimeOffset accessExp, CancellationToken ct)

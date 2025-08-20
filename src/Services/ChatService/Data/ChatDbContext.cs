@@ -10,8 +10,19 @@ public class ChatDbContext : DbContext
     public DbSet<Chat> Chats { get; set; }
     public DbSet<ChatMessage> ChatMessages { get; set; }
 
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+        if (!optionsBuilder.IsConfigured)
+        {
+            // Fallback configuration if needed
+        }
+    }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        // Встановлюємо default схему
+        modelBuilder.HasDefaultSchema("chat_service");
+
         modelBuilder.Entity<Chat>(entity =>
         {
             entity.HasKey(e => e.Id);

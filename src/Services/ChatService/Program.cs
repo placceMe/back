@@ -24,7 +24,8 @@ builder.Services.AddSwaggerGen();
 
 // Database
 builder.Services.AddDbContext<ChatDbContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"),
+        npgsqlOptions => npgsqlOptions.MigrationsHistoryTable("__EFMigrationsHistory", "chat_service")));
 
 // SignalR
 builder.Services.AddSignalR();
@@ -72,20 +73,20 @@ builder.Services.AddCors(options =>
     });
 });
 
-// HttpClients для комунікації з іншими сервісами
-builder.Services.AddHttpClient<IUsersServiceClient, UsersServiceClient>(client =>
+// HttpClients для комунікації з іншими сервісами - following project pattern
+builder.Services.AddHttpClient<IUsersServiceClient, UsersServiceClient>((serviceProvider, client) =>
 {
     client.BaseAddress = new Uri(builder.Configuration["UsersService:BaseUrl"] ?? "http://users-service:80/");
 });
 
-builder.Services.AddHttpClient<IProductsServiceClient, ProductsServiceClient>(client =>
+builder.Services.AddHttpClient<IProductsServiceClient, ProductsServiceClient>((serviceProvider, client) =>
 {
     client.BaseAddress = new Uri(builder.Configuration["ProductsService:BaseUrl"] ?? "http://products-service:80/");
 });
 
-// Services
+// Services - following project conventions
 builder.Services.AddScoped<IChatRepository, ChatRepository>();
-builder.Services.AddScoped<IChatService, ChatService.Services.ChatService>();
+builder.Services.AddScoped<IChatService, ChatServiceImplementation>();
 
 var app = builder.Build();
 

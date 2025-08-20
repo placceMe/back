@@ -27,6 +27,7 @@ services:
       - "8080:80"
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    restart: on-failure
     # depends_on:
     #   - users-service
     #   - products-service
@@ -167,6 +168,7 @@ services:
 
   notifications-service:
     build: ./src/Services/NotificationsService
+    container_name: notifications-service
     environment:
       ASPNETCORE_ENVIRONMENT: Development
       Email__Provider: Smtp
@@ -176,10 +178,12 @@ services:
       Email__Smtp__Port: 1025
       Email__Smtp__UseSsl: "false"
     ports:
-      - "5007:8080"
+      - "5007:80"
     depends_on:
       - mailhog
     restart: unless-stopped
+    networks:
+      - app-network
 
   chat-service:
     build: ./src/Services/ChatService

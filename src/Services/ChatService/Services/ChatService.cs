@@ -3,13 +3,15 @@ using ChatService.Repositories;
 
 namespace ChatService.Services;
 
-public class ChatService : IChatService
+public class ChatServiceImplementation : IChatService
 {
     private readonly IChatRepository _chatRepository;
+    private readonly ILogger<ChatServiceImplementation> _logger;
 
-    public ChatService(IChatRepository chatRepository)
+    public ChatServiceImplementation(IChatRepository chatRepository, ILogger<ChatServiceImplementation> logger)
     {
         _chatRepository = chatRepository;
+        _logger = logger;
     }
 
     public async Task<Chat> CreateOrGetChatAsync(Guid sellerId, Guid buyerId, Guid productId)
@@ -28,7 +30,11 @@ public class ChatService : IChatService
             LastMessageAt = DateTime.UtcNow
         };
 
-        return await _chatRepository.CreateChatAsync(chat);
+        var createdChat = await _chatRepository.CreateChatAsync(chat);
+        _logger.LogInformation("Created new chat {ChatId} between seller {SellerId} and buyer {BuyerId} for product {ProductId}",
+            chat.Id, sellerId, buyerId, productId);
+
+        return createdChat;
     }
 
     public async Task<Chat?> GetChatByIdAsync(Guid chatId)
@@ -56,12 +62,16 @@ public class ChatService : IChatService
         var createdMessage = await _chatRepository.AddMessageAsync(message);
         await _chatRepository.UpdateChatLastMessageTimeAsync(chatId);
 
+        _logger.LogInformation("Message {MessageId} sent in chat {ChatId} by user {SenderId}",
+            message.Id, chatId, senderId);
+
         return createdMessage;
     }
 
     public async Task MarkMessagesAsReadAsync(Guid chatId, Guid userId)
     {
         await _chatRepository.MarkMessagesAsReadAsync(chatId, userId);
+        _logger.LogInformation("Messages marked as read in chat {ChatId} by user {UserId}", chatId, userId);
     }
 
     public async Task<List<ChatMessage>> GetChatMessagesAsync(Guid chatId, int page = 1, int pageSize = 50)
