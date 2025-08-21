@@ -118,6 +118,7 @@ builder.Services.AddScoped<ISalerInfoService, SalerInfoService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<DatabaseMigrationService>();
 
+
 builder.Services.AddHealthChecks();
 
 var app = builder.Build();
@@ -149,86 +150,3 @@ app.MapHealthChecks("/health");
 Log.Information("Test log for PostgreSQL sink");
 
 app.Run();
-
-// ----------------- Redis-based auth helpers -----------------
-public interface IRedisAuthStore
-{
-    // refresh-токени
-    Task StoreRefreshTokenAsync(Guid userId, string deviceId, string refreshToken, DateTimeOffset expiresAt, CancellationToken ct);
-    Task<bool> ValidateAndRotateRefreshTokenAsync(Guid userId, string deviceId, string oldRefreshToken, string newRefreshToken, DateTimeOffset newExpiresAt, CancellationToken ct);
-    Task InvalidateAllRefreshTokensAsync(Guid userId, CancellationToken ct);
-
-    // denylist для access jti
-    Task RevokeJtiAsync(string jti, DateTimeOffset accessExp, CancellationToken ct);
-    Task<bool> IsJtiRevokedAsync(string jti, CancellationToken ct);
-}
-
-public sealed class RedisAuthStore : IRedisAuthStore
-{
-    private readonly IConnectionMultiplexer _mux;
-    public RedisAuthStore(IConnectionMultiplexer mux) => _mux = mux;
-
-    // Ключі:
-    // rt:{userId}:{deviceId} -> hash { "hash": <sha256>, "exp": <unix> }, TTL до exp
-    // deny:jti:{jti} -> "1" з TTL до exp
-
-    public async Task StoreRefreshTokenAsync(Guid userId, string deviceId, string refreshToken, DateTimeOffset expiresAt, CancellationToken ct)
-    {
-        var db = _mux.GetDatabase();
-        var key = $"rt:{userId}:{deviceId}";
-        var hash = Sha256(refreshToken);
-
-        var entries = new HashEntry[]
-        {
-            new("hash", hash),
-            new("exp", expiresAt.ToUnixTimeSeconds())
-        };
-        await db.HashSetAsync(key, entries);
-        await db.KeyExpireAsync(key, expiresAt.UtcDateTime);
-    }
-
-    public async Task<bool> ValidateAndRotateRefreshTokenAsync(Guid userId, string deviceId, string oldRefreshToken, string newRefreshToken, DateTimeOffset newExpiresAt, CancellationToken ct)
-    {
-        var db = _mux.GetDatabase();
-        var key = $"rt:{userId}:{deviceId}";
-
-        var stored = await db.HashGetAsync(key, "hash");
-        if (stored.IsNullOrEmpty) return false;
-
-        var ok = stored.ToString() == Sha256(oldRefreshToken);
-        if (!ok) return false;
-
-        // rotate → зберігаємо новий
-        await StoreRefreshTokenAsync(userId, deviceId, newRefreshToken, newExpiresAt, ct);
-        return true;
-    }
-
-    public Task InvalidateAllRefreshTokensAsync(Guid userId, CancellationToken ct)
-    {
-        // У реалі: зберігати список deviceId у окремому ключі і пройтися по ньому
-        // для простоти інвалідовуємо шаблоном через серверний Lua (або зовнішньо).
-        // Тут лишаємо як коментар-нагадування.
-        // Рекомендація: при видачі refresh додавати deviceId у set: "rtidx:{userId}"
-        // і потім видаляти усі "rt:{userId}:{deviceId}".
-        return Task.CompletedTask;
-    }
-
-    public async Task RevokeJtiAsync(string jti, DateTimeOffset accessExp, CancellationToken ct)
-    {
-        var db = _mux.GetDatabase();
-        var key = $"deny:jti:{jti}";
-        await db.StringSetAsync(key, "1", expiry: accessExp - DateTimeOffset.UtcNow);
-    }
-
-    public async Task<bool> IsJtiRevokedAsync(string jti, CancellationToken ct)
-    {
-        var db = _mux.GetDatabase();
-        return await db.KeyExistsAsync($"deny:jti:{jti}");
-    }
-
-    private static string Sha256(string s)
-    {
-        var bytes = SHA256.HashData(Encoding.UTF8.GetBytes(s));
-        return Convert.ToHexString(bytes);
-    }
-}

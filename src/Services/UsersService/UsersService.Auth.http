@@ -1,5 +1,5 @@
-@UsersService_HostAddress = http://31.42.190.94:8080
-
+//@UsersService_HostAddress = http://31.42.190.94:8080
+@UsersService_HostAddress = http://localhost:8080
 ### Register new user
 POST {{UsersService_HostAddress}}/api/auth/register
 Content-Type: application/json
@@ -17,8 +17,8 @@ POST {{UsersService_HostAddress}}/api/auth/login
 Content-Type: application/json
 
 {
-    "email": "test@example.com",
-    "password": "password123"
+    "email": "ale@example.com",
+    "password": "123456"
 }
 
 ### Get current user (requires auth cookie from login)

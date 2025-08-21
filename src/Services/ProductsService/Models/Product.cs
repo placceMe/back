@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations.Schema;
+
 namespace ProductsService.Models;
 
 public class Product

@@ -30,20 +30,30 @@ public class AuthService : IAuthService
     {
         try
         {
+            _logger.LogInformation("Спроба входу: {Email}", request.Email);
             var user = await _userRepository.GetByEmailAsync(request.Email);
-            if (user == null || user.State == UserState.Deleted)
+            if (user == null)
             {
+                _logger.LogWarning("Користувача не знайдено: {Email}", request.Email);
                 return new AuthResponse { Success = false, Message = "Невірний email або пароль" };
             }
-
+            _logger.LogInformation("Стан користувача {Email}: {State}", request.Email, user.State);
+            if (user.State == UserState.Deleted)
+            {
+                _logger.LogWarning("Користувач видалений: {Email}", request.Email);
+                return new AuthResponse { Success = false, Message = "Невірний email або пароль" };
+            }
             if (user.State == UserState.Blocked)
             {
+                _logger.LogWarning("Користувач заблокований: {Email}", request.Email);
                 return new AuthResponse { Success = false, Message = "Акаунт заблокований" };
             }
-
             // Verify password using BCrypt
-            if (!BCrypt.Net.BCrypt.Verify(request.Password, user.Password))
+            var passwordValid = BCrypt.Net.BCrypt.Verify(request.Password, user.Password);
+            _logger.LogInformation("Результат перевірки пароля для {Email}: {Result}", request.Email, passwordValid);
+            if (!passwordValid)
             {
+                _logger.LogWarning("Невірний пароль для {Email}", request.Email);
                 return new AuthResponse { Success = false, Message = "Невірний email або пароль" };
             }
 

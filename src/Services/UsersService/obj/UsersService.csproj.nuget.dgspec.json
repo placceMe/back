@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "P:\\Norsen\\back\\src\\services\\UsersService\\UsersService.csproj": {}
+    "/Users/oleksandr/Projects/back/src/Services/UsersService/UsersService.csproj": {}
   },
   "projects": {
-    "P:\\Norsen\\back\\src\\services\\UsersService\\UsersService.csproj": {
+    "/Users/oleksandr/Projects/back/src/Services/UsersService/UsersService.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "P:\\Norsen\\back\\src\\services\\UsersService\\UsersService.csproj",
+        "projectUniqueName": "/Users/oleksandr/Projects/back/src/Services/UsersService/UsersService.csproj",
         "projectName": "UsersService",
-        "projectPath": "P:\\Norsen\\back\\src\\services\\UsersService\\UsersService.csproj",
-        "packagesPath": "C:\\Users\\aleks\\.nuget\\packages\\",
-        "outputPath": "P:\\Norsen\\back\\src\\services\\UsersService\\obj\\",
+        "projectPath": "/Users/oleksandr/Projects/back/src/Services/UsersService/UsersService.csproj",
+        "packagesPath": "/Users/oleksandr/.nuget/packages/",
+        "outputPath": "/Users/oleksandr/Projects/back/src/Services/UsersService/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\aleks\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "/Users/oleksandr/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net8.0"
@@ -37,7 +37,8 @@
           "enableAudit": "true",
           "auditLevel": "low",
           "auditMode": "direct"
-        }
+        },
+        "SdkAnalysisLevel": "9.0.100"
       },
       "frameworks": {
         "net8.0": {
@@ -117,6 +118,20 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.AspNetCore.App.Ref",
+              "version": "[8.0.12, 8.0.12]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Host.osx-arm64",
+              "version": "[8.0.12, 8.0.12]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Ref",
+              "version": "[8.0.12, 8.0.12]"
+            }
+          ],
           "frameworkReferences": {
             "Microsoft.AspNetCore.App": {
               "privateAssets": "none"
@@ -125,7 +140,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.412/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/9.0.102/PortableRuntimeIdentifierGraph.json"
         }
       }
     }
