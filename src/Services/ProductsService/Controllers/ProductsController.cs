@@ -74,6 +74,15 @@ public class ProductsController : ControllerBase
         return Ok(products);
     }
 
+    [HttpGet("seller/{sellerId}")]
+    public async Task<ActionResult<ProductsDto>> GetProductsBySellerId(
+        Guid sellerId,
+        [FromQuery] PaginationDto paginationDto)
+    {
+        var products = await _productsService.GetProductsBySellerIdAsync(sellerId, paginationDto.Offset, paginationDto.Limit);
+        return Ok(products);
+    }
+
     // Новий endpoint для створення продукту з файлами
     [HttpPost("with-files")]
     public async Task<ActionResult<ProductDto>> CreateProductWithFiles(

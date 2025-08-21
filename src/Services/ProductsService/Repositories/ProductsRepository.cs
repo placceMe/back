@@ -185,4 +185,19 @@ public class ProductsRepository : IProductsRepository
             .Where(p => p.Title.ToLower().Contains(query.ToLower()))
             .ToListAsync();
     }
+
+    public async Task<IEnumerable<Product>> GetProductsBySellerIdAsync(Guid sellerId, int offset, int limit)
+    {
+        return await _context.Products
+            .Where(p => p.SellerId == sellerId)
+            .OrderBy(p => p.Title)
+            .Skip(offset)
+            .Take(limit)
+            .ToListAsync();
+    }
+
+    public async Task<int> GetProductsCountBySellerIdAsync(Guid sellerId)
+    {
+        return await _context.Products.CountAsync(p => p.SellerId == sellerId);
+    }
 }

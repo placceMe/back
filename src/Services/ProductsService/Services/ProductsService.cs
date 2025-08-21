@@ -234,4 +234,14 @@ public class ProductsService : IProductsService
             Id = p.Id
         });
     }
+
+    public async Task<ProductsDto> GetProductsBySellerIdAsync(Guid sellerId, int offset, int limit)
+    {
+        var products = await _repository.GetProductsBySellerIdAsync(sellerId, offset, limit);
+        return new ProductsDto
+        {
+            Products = products.Select(p => p.ToDto()).ToList(),
+            TotalCount = await _repository.GetProductsCountBySellerIdAsync(sellerId)
+        };
+    }
 }
