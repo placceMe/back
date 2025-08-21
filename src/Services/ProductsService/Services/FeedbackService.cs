@@ -3,6 +3,7 @@ using ProductsService.Models;
 using ProductsService.Extensions;
 using ProductsService.Repositories.Interfaces;
 using ProductsService.Services.Interfaces;
+using ProductsService.Services; // For UsersServiceClient
 
 namespace ProductsService.Services;
 
@@ -10,53 +11,91 @@ public class FeedbackService : IFeedbackService
 {
     private readonly IFeedbackRepository _feedbackRepository;
     private readonly IProductsRepository _productRepository;
+    private readonly UsersServiceClient _usersServiceClient;
 
-    public FeedbackService(IFeedbackRepository feedbackRepository, IProductsRepository productRepository)
+    public FeedbackService(IFeedbackRepository feedbackRepository, IProductsRepository productRepository, UsersServiceClient usersServiceClient)
     {
         _feedbackRepository = feedbackRepository;
         _productRepository = productRepository;
+        _usersServiceClient = usersServiceClient;
     }
 
     public async Task<IEnumerable<FeedbackDto>> GetAllFeedbacksAsync()
     {
         var feedbacks = await _feedbackRepository.GetAllAsync();
-        return feedbacks.Select(MapToDto);
+        var dtos = new List<FeedbackDto>();
+        foreach (var feedback in feedbacks)
+        {
+            var dto = await MapToDtoAsync(feedback);
+            dtos.Add(dto);
+        }
+        return dtos;
     }
 
     public async Task<IEnumerable<FeedbackDto>> GetAllFeedbacksAsync(int offset, int limit)
     {
         var feedbacks = await _feedbackRepository.GetAllFeedbacksAsync(offset, limit);
-        return feedbacks.Select(f => f.ToDto());
+        var dtos = new List<FeedbackDto>();
+        foreach (var feedback in feedbacks)
+        {
+            var dto = await MapToDtoAsync(feedback);
+            dtos.Add(dto);
+        }
+        return dtos;
     }
 
     public async Task<FeedbackDto?> GetFeedbackByIdAsync(Guid id)
     {
         var feedback = await _feedbackRepository.GetByIdAsync(id);
-        return feedback != null ? MapToDto(feedback) : null;
+        return feedback != null ? await MapToDtoAsync(feedback) : null;
     }
 
     public async Task<IEnumerable<FeedbackDto>> GetFeedbacksByProductIdAsync(Guid productId)
     {
         var feedbacks = await _feedbackRepository.GetByProductIdAsync(productId);
-        return feedbacks.Select(MapToDto);
+        var dtos = new List<FeedbackDto>();
+        foreach (var feedback in feedbacks)
+        {
+            var dto = await MapToDtoAsync(feedback);
+            dtos.Add(dto);
+        }
+        return dtos;
     }
 
     public async Task<IEnumerable<FeedbackDto>> GetFeedbacksByProductIdAsync(Guid productId, int offset, int limit)
     {
         var feedbacks = await _feedbackRepository.GetFeedbacksByProductIdAsync(productId, offset, limit);
-        return feedbacks.Select(f => f.ToDto());
+        var dtos = new List<FeedbackDto>();
+        foreach (var feedback in feedbacks)
+        {
+            var dto = await MapToDtoAsync(feedback);
+            dtos.Add(dto);
+        }
+        return dtos;
     }
 
     public async Task<IEnumerable<FeedbackDto>> GetFeedbacksByUserIdAsync(Guid userId)
     {
         var feedbacks = await _feedbackRepository.GetByUserIdAsync(userId);
-        return feedbacks.Select(MapToDto);
+        var dtos = new List<FeedbackDto>();
+        foreach (var feedback in feedbacks)
+        {
+            var dto = await MapToDtoAsync(feedback);
+            dtos.Add(dto);
+        }
+        return dtos;
     }
 
     public async Task<IEnumerable<FeedbackDto>> GetFeedbacksByUserIdAsync(Guid userId, int offset, int limit)
     {
         var feedbacks = await _feedbackRepository.GetFeedbacksByUserIdAsync(userId, offset, limit);
-        return feedbacks.Select(f => f.ToDto());
+        var dtos = new List<FeedbackDto>();
+        foreach (var feedback in feedbacks)
+        {
+            var dto = await MapToDtoAsync(feedback);
+            dtos.Add(dto);
+        }
+        return dtos;
     }
 
     public async Task<FeedbackDto> CreateFeedbackAsync(CreateFeedbackDto createFeedbackDto)
@@ -77,7 +116,7 @@ public class FeedbackService : IFeedbackService
         };
 
         var createdFeedback = await _feedbackRepository.CreateAsync(feedback);
-        return MapToDto(createdFeedback);
+        return await MapToDtoAsync(createdFeedback);
     }
 
     public async Task<FeedbackDto> UpdateFeedbackAsync(Guid id, UpdateFeedbackDto updateFeedbackDto)
@@ -97,7 +136,7 @@ public class FeedbackService : IFeedbackService
                                          updateFeedbackDto.RatingDescription + updateFeedbackDto.RatingAvailable) / 4;
 
         var updatedFeedback = await _feedbackRepository.UpdateAsync(existingFeedback);
-        return MapToDto(updatedFeedback);
+        return await MapToDtoAsync(updatedFeedback);
     }
 
     public async Task<bool> DeleteFeedbackAsync(Guid id)
@@ -111,18 +150,34 @@ public class FeedbackService : IFeedbackService
         var totalFeedbacks = await _feedbackRepository.GetFeedbackCountByProductIdAsync(productId);
         var recentFeedbacks = await _feedbackRepository.GetByProductIdAsync(productId);
 
+        var recentFeedbackDtos = new List<FeedbackDto>();
+        foreach (var feedback in recentFeedbacks.Take(5))
+        {
+            var dto = await MapToDtoAsync(feedback);
+            recentFeedbackDtos.Add(dto);
+        }
+
         return new FeedbackSummaryDto
         {
             ProductId = productId,
             AverageRating = averageRating,
             TotalFeedbacks = totalFeedbacks,
-            RecentFeedbacks = recentFeedbacks.Take(5).Select(MapToDto).ToList()
+            RecentFeedbacks = recentFeedbackDtos
         };
     }
 
-
-    private static FeedbackDto MapToDto(Feedback feedback)
+    private async Task<FeedbackDto> MapToDtoAsync(Feedback feedback)
     {
+        var userDto = await _usersServiceClient.GetUserByIdAsync(feedback.UserId.ToString());
+        FeedbackUserDto? feedbackUserDto = userDto != null
+            ? new FeedbackUserDto
+            {
+                Id = userDto.Id,
+                Name = userDto.Name,
+                Surname = userDto.Surname
+            }
+            : null;
+
         return new FeedbackDto
         {
             Id = feedback.Id,
@@ -135,7 +190,8 @@ public class FeedbackService : IFeedbackService
             ProductId = feedback.ProductId,
             ProductName = feedback.Product?.Title,
             UserId = feedback.UserId,
-            CreatedAt = feedback.CreatedAt
+            CreatedAt = feedback.CreatedAt,
+            User = feedbackUserDto
         };
     }
 }
