@@ -245,4 +245,21 @@ public class ProductsService : IProductsService
             Pagination = info
         };
     }
+
+    public async Task<bool> ChangeProductStateAsync(Guid id, string state)
+    {
+        var product = await _repository.GetProductByIdAsync(id);
+        if (product == null)
+        {
+            return false;
+        }
+        product.State = state;
+        await _repository.UpdateProductAsync(product);
+        return true;
+    }
+
+    public async Task<IEnumerable<Product>> GetProductsByStateAsync(string state)
+    {
+        return await _repository.GetProductsByStateAsync(state);
+    }
 }

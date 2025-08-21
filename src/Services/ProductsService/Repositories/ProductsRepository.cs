@@ -87,6 +87,17 @@ public class ProductsRepository : IProductsRepository
             .FirstOrDefault(p => p.Id == id);
     }
 
+    public async Task<Product?> GetProductByIdAsync(Guid id)
+    {
+        return await _context.Products.FindAsync(id);
+    }
+
+    public async Task UpdateProductAsync(Product product)
+    {
+        _context.Products.Update(product);
+        await _context.SaveChangesAsync();
+    }
+
     public IEnumerable<Product> GetAllProducts()
     {
         return _context.Products
@@ -199,5 +210,12 @@ public class ProductsRepository : IProductsRepository
     public async Task<int> GetProductsCountBySellerIdAsync(Guid sellerId)
     {
         return await _context.Products.CountAsync(p => p.SellerId == sellerId);
+    }
+
+    public async Task<IEnumerable<Product>> GetProductsByStateAsync(string state)
+    {
+        return await _context.Products
+            .Where(p => p.State == state)
+            .ToListAsync();
     }
 }

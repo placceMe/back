@@ -12,6 +12,11 @@ public class IdsDto
     public IEnumerable<Guid> Ids { get; set; }
 }
 
+public class ChangeProductStateDto
+{
+    public string State { get; set; }
+}
+
 [ApiController]
 [Route("api/[controller]")]
 public class ProductsController : ControllerBase
@@ -166,6 +171,17 @@ public class ProductsController : ControllerBase
         return NoContent();
     }
 
+    [HttpPut("{id}/state")]
+    public async Task<IActionResult> ChangeProductState(Guid id, [FromBody] ChangeProductStateDto dto)
+    {
+        var success = await _productsService.ChangeProductStateAsync(id, dto.State);
+        if (!success)
+        {
+            return NotFound();
+        }
+        return NoContent();
+    }
+
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteProduct(Guid id, CancellationToken cancellationToken)
     {
@@ -177,5 +193,12 @@ public class ProductsController : ControllerBase
         }
 
         return NoContent();
+    }
+
+    [HttpGet("state/{state}")]
+    public async Task<ActionResult<IEnumerable<ProductDto>>> GetProductsByState(string state)
+    {
+        var products = await _productsService.GetProductsByStateAsync(state);
+        return Ok(products.ToDto());
     }
 }
