@@ -15,6 +15,14 @@ public class FeedbackDto
     public string? ProductName { get; set; }
     public Guid UserId { get; set; }
     public DateTime CreatedAt { get; set; }
+    public FeedbackUserDto User { get; set; } = new();
+}
+
+public class FeedbackUserDto
+{
+    public Guid Id { get; set; }
+    public string FirstName { get; set; } = string.Empty;
+    public string LastName { get; set; } = string.Empty;
 }
 
 public class CreateFeedbackDto

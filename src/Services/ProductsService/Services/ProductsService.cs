@@ -238,10 +238,11 @@ public class ProductsService : IProductsService
     public async Task<ProductsDto> GetProductsBySellerIdAsync(Guid sellerId, int offset, int limit)
     {
         var products = await _repository.GetProductsBySellerIdAsync(sellerId, offset, limit);
+        var info = await _repository.GetPaginationInfoAsync(offset, limit, null);
         return new ProductsDto
         {
             Products = products.Select(p => p.ToDto()).ToList(),
-            TotalCount = await _repository.GetProductsCountBySellerIdAsync(sellerId)
+            Pagination = info
         };
     }
 }
