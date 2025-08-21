@@ -36,6 +36,15 @@ builder.Services.AddHttpClient<FilesServiceClient>((serviceProvider, client) =>
     client.Timeout = TimeSpan.FromMinutes(5);
 });
 
+builder.Services.AddHttpClient<UsersServiceClient>((serviceProvider, client) =>
+{
+    var configuration = serviceProvider.GetRequiredService<IConfiguration>();
+    var usersServiceUrl = configuration["UsersService:BaseUrl"] ?? "http://users-service:80/";
+    Log.Information($"Configuring UsersServiceClient with BaseUrl: {usersServiceUrl}");
+    client.BaseAddress = new Uri(usersServiceUrl);
+    client.Timeout = TimeSpan.FromMinutes(5);
+});
+
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
