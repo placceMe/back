@@ -1,3 +1,4 @@
+using UsersService.Data;
 using UsersService.Models;
 using UsersService.Repositories;
 
@@ -42,5 +43,15 @@ public class UserService : IUserService
         }
         return true;
 
+    }
+    public async Task<bool> UpdateRolesAsync(Guid userId, List<string> roles)
+    {
+        var user = await _repository.GetByIdAsync(userId);
+        if (user == null)
+            return false;
+
+        user.Roles = roles;
+        await _repository.UpdateAsync(user);
+        return true;
     }
 }

@@ -59,4 +59,20 @@ public class UsersController : ControllerBase
 
         return NoContent();
     }
+    [HttpPut("update-roles")]
+    public async Task<ActionResult> UpdateRoles([FromBody] UpdateRolesRequest request)
+    {
+        var updated = await _service.UpdateRolesAsync(request.UserId, request.Roles);
+        if (!updated)
+            return NotFound();
+
+        return NoContent();
+    }
+
+}
+
+public class UpdateRolesRequest
+{
+    public Guid UserId { get; set; }
+    public List<string> Roles { get; set; } = new();
 }

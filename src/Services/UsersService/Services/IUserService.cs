@@ -10,4 +10,5 @@ public interface IUserService
     Task<bool> UpdateAsync(User user);
     Task<bool> SoftDeleteAsync(Guid id);
     Task<bool> MakeSellerAsync(Guid id);
+    Task<bool> UpdateRolesAsync(Guid userId, List<string> roles);
 }
