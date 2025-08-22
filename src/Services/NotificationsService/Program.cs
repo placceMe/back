@@ -34,4 +34,11 @@ app.MapPost("/api/email/password-reset", async ([FromBody] PasswordResetMessage 
     return Results.Accepted();
 });
 
+app.MapPost("/api/email/confirm-registration", async ([FromBody] ConfirmRegistrationMessage msg, IEmailSender sender, CancellationToken ct) =>
+{
+    var (subject, html, text) = EmailTemplates.ConfirmRegistration(msg.UserDisplayName, msg.ConfirmationUrl);
+    await sender.SendAsync(msg.To, subject, html, text, ct);
+    return Results.Accepted();
+});
+
 app.Run();

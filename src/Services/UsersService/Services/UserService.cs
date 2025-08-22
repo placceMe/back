@@ -83,7 +83,7 @@ public class UserService : IUserService
         }
         if (result)
         {
-            await _notificationServiceClient.SendRegistrationNotificationAsync(user.Email, user.Name);
+            await _notificationServiceClient.SendRegistrationNotificationAsync(user.Email, user.Name, user.ActivationCode);
             _logger.LogInformation("Sent registration notification for user {UserId}", user.Id);
         }
         return result;

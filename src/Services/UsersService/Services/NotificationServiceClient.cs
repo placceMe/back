@@ -7,6 +7,7 @@ public interface INotificationServiceClient
 {
     Task SendEmailAsync(string to, string subject, string htmlBody, string? textBody = null, CancellationToken cancellationToken = default);
     Task SendPasswordResetEmailAsync(string to, string userDisplayName, string resetUrl, CancellationToken cancellationToken = default);
+    Task SendRegistrationNotificationAsync(string to, string userDisplayName, string activationUrl, CancellationToken cancellationToken = default);
 }
 
 public class NotificationServiceClient : INotificationServiceClient
@@ -67,7 +68,7 @@ public class NotificationServiceClient : INotificationServiceClient
             var json = JsonSerializer.Serialize(request);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-            var response = await _httpClient.PostAsync("/api/email/registration", content, cancellationToken);
+            var response = await _httpClient.PostAsync("/api/email/confirm-registration", content, cancellationToken);
 
             if (!response.IsSuccessStatusCode)
             {
@@ -118,6 +119,46 @@ public class NotificationServiceClient : INotificationServiceClient
             throw;
         }
     }
+
+    public async Task SendConfirmRegistrationEmailAsync(string to, string userDisplayName, string confirmationUrl, CancellationToken cancellationToken = default)
+    {
+        try
+        {
+            var request = new ConfirmRegistrationMessage
+            {
+                To = to,
+                UserDisplayName = userDisplayName,
+                ConfirmationUrl = confirmationUrl
+            };
+
+            var json = JsonSerializer.Serialize(request);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+            var response = await _httpClient.PostAsync("/api/email/confirm-registration", content, cancellationToken);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                _logger.LogError("Failed to send confirmation registration email. Status: {StatusCode}, Response: {Response}",
+                    response.StatusCode, await response.Content.ReadAsStringAsync(cancellationToken));
+            }
+            else
+            {
+                _logger.LogInformation("Confirmation registration email sent successfully to {To}", to);
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error sending confirmation registration email to {To}", to);
+            throw;
+        }
+    }
+}
+
+internal class ConfirmRegistrationMessage
+{
+    public string To { get; set; }
+    public string UserDisplayName { get; set; }
+    public string ConfirmationUrl { get; set; }
 }
 
 internal class PasswordResetMessage

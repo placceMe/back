@@ -4,11 +4,11 @@ namespace NotificationsService.Email;
 
 public static class EmailTemplates
 {
-  public static (string subject, string html, string text) PasswordReset(string userDisplayName, string resetUrl)
-  {
-    var subject = "Скидання паролю - Marketplace";
+    public static (string subject, string html, string text) PasswordReset(string userDisplayName, string resetUrl)
+    {
+        var subject = "Скидання паролю - Marketplace";
 
-    var html = $@"
+        var html = $@"
 <!DOCTYPE html>
 <html>
 <head>
@@ -54,7 +54,7 @@ public static class EmailTemplates
 </body>
 </html>";
 
-    var text = $@"Привіт, {userDisplayName}!
+        var text = $@"Привіт, {userDisplayName}!
 
 Ви запросили скидання паролю для вашого акаунту в Marketplace.
 
@@ -65,6 +65,70 @@ public static class EmailTemplates
 
 Якщо ви не запрошували скидання паролю, просто ігноруйте цей лист.";
 
-    return (subject, html, text);
-  }
+        return (subject, html, text);
+    }
+
+    public static (string subject, string html, string text) ConfirmRegistration(string userDisplayName, string confirmationUrl)
+    {
+        var subject = "Підтвердження реєстрації - Marketplace";
+
+        var html = $@"
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <title>Підтвердження реєстрації</title>
+</head>
+<body style='font-family: Arial, sans-serif; line-height: 1.6; color: #333;'>
+    <div style='max-width: 600px; margin: 0 auto; padding: 20px;'>
+        <h2 style='color: #2c3e50;'>Вітаємо, {userDisplayName}!</h2>
+        
+        <p>Дякуємо за реєстрацію в Marketplace!</p>
+        
+        <p>Щоб завершити процес реєстрації та активувати ваш акаунт, будь ласка, підтвердіть вашу електронну адресу:</p>
+        
+        <div style='text-align: center; margin: 30px 0;'>
+            <a href='{confirmationUrl}' 
+               style='background-color: #27ae60; 
+                      color: white; 
+                      padding: 12px 30px; 
+                      text-decoration: none; 
+                      border-radius: 5px; 
+                      display: inline-block;
+                      font-weight: bold;'>
+                Підтвердити реєстрацію
+            </a>
+        </div>
+        
+        <p style='color: #7f8c8d; font-size: 14px;'>
+            Це посилання дійсне протягом 24 годин з моменту відправки.
+        </p>
+        
+        <p style='color: #7f8c8d; font-size: 14px;'>
+            Якщо ви не реєструвалися в Marketplace, просто ігноруйте цей лист.
+        </p>
+        
+        <hr style='border: none; border-top: 1px solid #eee; margin: 30px 0;'>
+        
+        <p style='color: #95a5a6; font-size: 12px;'>
+            Якщо кнопка не працює, скопіюйте та вставте це посилання у ваш браузер:<br>
+            <a href='{confirmationUrl}' style='color: #27ae60; word-break: break-all;'>{confirmationUrl}</a>
+        </p>
+    </div>
+</body>
+</html>";
+
+        var text = $@"Вітаємо, {userDisplayName}!
+
+Дякуємо за реєстрацію в Marketplace!
+
+Щоб завершити процес реєстрації та активувати ваш акаунт, перейдіть за посиланням:
+{confirmationUrl}
+
+Це посилання дійсне протягом 24 годин з моменту відправки.
+
+Якщо ви не реєструвалися в Marketplace, просто ігноруйте цей лист.";
+
+        return (subject, html, text);
+    }
 }
