@@ -118,6 +118,14 @@ builder.Services.AddScoped<ISalerInfoService, SalerInfoService>();
 builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<DatabaseMigrationService>();
 
+// HttpClient for NotificationsService
+builder.Services.AddHttpClient<INotificationServiceClient, NotificationServiceClient>((serviceProvider, client) =>
+{
+    var configuration = serviceProvider.GetRequiredService<IConfiguration>();
+    var baseUrl = configuration["NotificationsService:BaseUrl"] ?? "http://notifications-service";
+    client.BaseAddress = new Uri(baseUrl);
+});
+
 
 builder.Services.AddHealthChecks();
 

@@ -8,11 +8,13 @@ public class UserService : IUserService
 {
     private readonly IUserRepository _repository;
     private readonly ILogger<UserService> _logger;
+    private readonly INotificationServiceClient _notificationServiceClient;
 
-    public UserService(IUserRepository repository, ILogger<UserService> logger)
+    public UserService(IUserRepository repository, ILogger<UserService> logger, INotificationServiceClient notificationServiceClient)
     {
         _repository = repository;
         _logger = logger;
+        _notificationServiceClient = notificationServiceClient;
     }
 
     public Task<IEnumerable<User>> GetAllAsync() => _repository.GetAllAsync();
@@ -72,8 +74,19 @@ public class UserService : IUserService
 
         user.ActivationCodeExpiresAt = DateTime.UtcNow.AddHours(24); // Код действителен 24 часа
 
-        await _repository.AddRegistrationUserAsync(user);
-        return true;
+        var result = await _repository.AddRegistrationUserAsync(user);
+
+
+        if (!result)
+        {
+            _logger.LogWarning("Failed to register user {UserId}", user.Id);
+        }
+        if (result)
+        {
+            await _notificationServiceClient.SendRegistrationNotificationAsync(user.Email, user.Name);
+            _logger.LogInformation("Sent registration notification for user {UserId}", user.Id);
+        }
+        return result;
     }
 
     public async Task<bool> ConfirmUserAsync(Guid userId, string token)
