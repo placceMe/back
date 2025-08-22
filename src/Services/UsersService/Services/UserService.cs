@@ -54,4 +54,15 @@ public class UserService : IUserService
         await _repository.UpdateAsync(user);
         return true;
     }
+    public async Task<bool> ChangeStateAsync(Guid userId, string newState)
+    {
+        var user = await _repository.GetByIdAsync(userId);
+        if (user == null)
+            return false;
+
+        user.State = newState;
+        await _repository.UpdateAsync(user);
+        _logger.LogInformation("Changed state of user {UserId} to {NewState}", userId, newState);
+        return true;
+    }
 }

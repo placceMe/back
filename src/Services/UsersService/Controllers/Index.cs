@@ -68,6 +68,15 @@ public class UsersController : ControllerBase
 
         return NoContent();
     }
+    [HttpPut("{id}/state")]
+    public async Task<ActionResult> ChangeState(Guid id, [FromBody] string newState)
+    {
+        var updated = await _service.ChangeStateAsync(id, newState);
+        if (!updated)
+            return NotFound();
+
+        return NoContent();
+    }
 
 }
 
