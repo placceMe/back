@@ -48,9 +48,9 @@ public class UserRepository : IUserRepository
         return true;
     }
 
-    public async Task<RegistrationUser?> GetRegistrationUserByEmailAsync(string email)
+    public async Task<RegistrationUser?> GetRegistrationUserByIdAsync(Guid id)
     {
-        return await _context.RegistrationUsers.FirstOrDefaultAsync(u => u.Email == email);
+        return await _context.RegistrationUsers.FirstOrDefaultAsync(u => u.Id == id);
     }
 
     public async Task<bool> DeleteRegistrationUserAsync(Guid id)

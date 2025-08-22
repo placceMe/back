@@ -65,4 +65,47 @@ public class UserService : IUserService
         _logger.LogInformation("Changed state of user {UserId} to {NewState}", userId, newState);
         return true;
     }
+
+    public async Task<bool> RegisterUserAsync(RegistrationUser user)
+    {
+        if (user == null) return false;
+
+        user.ActivationCodeExpiresAt = DateTime.UtcNow.AddHours(24); // Код действителен 24 часа
+
+        await _repository.AddRegistrationUserAsync(user);
+        return true;
+    }
+
+    public async Task<bool> ConfirmUserAsync(Guid userId, string token)
+    {
+        var user = await _repository.GetRegistrationUserByIdAsync(userId);
+        if (user == null) return false;
+
+        if (user.ActivationCode != token || user.ActivationCodeExpiresAt < DateTime.UtcNow)
+        {
+            _logger.LogWarning("Failed to confirm user {UserId}: invalid or expired token", userId);
+            return false;
+        }
+
+        var newUser = new User
+        {
+            Id = user.Id,
+            Name = user.Name,
+            Surname = user.Surname,
+            Email = user.Email,
+            Password = user.Password,
+            Phone = user.Phone,
+            AvatarUrl = user.AvatarUrl,
+            Roles = new List<string> { Role.User },
+            State = UserState.Active,
+            CreatedAt = DateTime.UtcNow
+        };
+
+        await _repository.AddAsync(newUser);
+        await _repository.DeleteRegistrationUserAsync(userId);
+        _logger.LogInformation("User {UserId} confirmed and added to main users", userId);
+        return true;
+
+
+    }
 }

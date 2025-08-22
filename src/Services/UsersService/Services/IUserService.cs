@@ -12,4 +12,6 @@ public interface IUserService
     Task<bool> MakeSellerAsync(Guid id);
     Task<bool> UpdateRolesAsync(Guid userId, List<string> roles);
     Task<bool> ChangeStateAsync(Guid userId, string newState);
+    Task<bool> RegisterUserAsync(RegistrationUser user);
+    Task<bool> ConfirmUserAsync(Guid userId);
 }
