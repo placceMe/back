@@ -40,4 +40,25 @@ public class UserRepository : IUserRepository
         await _context.SaveChangesAsync();
         return true;
     }
+
+    public async Task<bool> AddRegistrationUserAsync(RegistrationUser user)
+    {
+        await _context.RegistrationUsers.AddAsync(user);
+        await _context.SaveChangesAsync();
+        return true;
+    }
+
+    public async Task<RegistrationUser?> GetRegistrationUserByEmailAsync(string email)
+    {
+        return await _context.RegistrationUsers.FirstOrDefaultAsync(u => u.Email == email);
+    }
+
+    public async Task<bool> DeleteRegistrationUserAsync(Guid id)
+    {
+        var user = await _context.RegistrationUsers.FindAsync(id);
+        if (user == null) return false;
+        _context.RegistrationUsers.Remove(user);
+        await _context.SaveChangesAsync();
+        return true;
+    }
 }

@@ -10,4 +10,7 @@ public interface IUserRepository
     Task AddAsync(User user);
     Task<bool> UpdateAsync(User user);
     Task<bool> SoftDeleteAsync(Guid id);
+    Task<bool> AddRegistrationUserAsync(RegistrationUser user);
+    Task<RegistrationUser?> GetRegistrationUserByEmailAsync(string email);
+    Task<bool> DeleteRegistrationUserAsync(Guid id);
 }

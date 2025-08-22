@@ -13,3 +13,10 @@ public class User
     public string? AvatarUrl { get; set; }
     public List<string> Roles { get; set; } = new List<string> { };
 }
+
+public class RegistrationUser : User
+{
+    public string ActivationCode { get; set; } = null!;
+    public DateTime ActivationCodeExpiresAt { get; set; }
+
+}
