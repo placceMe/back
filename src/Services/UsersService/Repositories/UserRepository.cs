@@ -17,10 +17,12 @@ public class UserRepository : IUserRepository
     public async Task<User?> GetByEmailAsync(string email) =>
         await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
 
-    public async Task AddAsync(User user)
+    public async Task<User?> AddAsync(User user)
     {
         await _context.Users.AddAsync(user);
         await _context.SaveChangesAsync();
+
+        return user;
     }
 
     public async Task<bool> UpdateAsync(User user)
@@ -60,5 +62,17 @@ public class UserRepository : IUserRepository
         _context.RegistrationUsers.Remove(user);
         await _context.SaveChangesAsync();
         return true;
+    }
+    public async Task<Guid?> GetRegistrationUserByEmailAsync(string email)
+    {
+
+        var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == email && u.State == UserState.Pending);
+        if (user == null) return null;
+        return user.Id;
+
+    }
+    public async Task<RegistrationUser?> GetRegistrationUserByTokenAsync(Guid token)
+    {
+        return await _context.RegistrationUsers.FirstOrDefaultAsync(u => u.ActivationCode == token);
     }
 }

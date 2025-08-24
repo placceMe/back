@@ -1,9 +1,11 @@
 using UsersService.Models;
+using UsersService.DTOs;
 
 namespace UsersService.Services;
 
 public interface IUserService
 {
+    // User management methods
     Task<IEnumerable<User>> GetAllAsync();
     Task<User?> GetByIdAsync(Guid id);
     Task CreateAsync(User user);
@@ -12,6 +14,17 @@ public interface IUserService
     Task<bool> MakeSellerAsync(Guid id);
     Task<bool> UpdateRolesAsync(Guid userId, List<string> roles);
     Task<bool> ChangeStateAsync(Guid userId, string newState);
-    Task<bool> RegisterUserAsync(RegistrationUser user);
-    Task<bool> ConfirmUserAsync(Guid userId, string token);
+    Task<bool> ConfirmUserAsync(Guid token);
+
+    // Authentication methods
+    Task<AuthResponse> LoginAsync(LoginRequest request);
+    Task<AuthResponse> RegisterAsync(RegisterRequest request);
+    Task<AuthResponse> LogoutAsync(string jti, DateTimeOffset accessTokenExpiry);
+    Task<AuthResponse> RefreshTokenAsync(Guid userId, string deviceId, string oldRefreshToken);
+    Task<User?> GetCurrentUserAsync(string token);
+    string GenerateJwtToken(User user);
+    bool ValidateToken(string token);
+    Task<AuthResponse> ChangePasswordAsync(Guid userId, string currentPassword, string newPassword);
+    Task<AuthResponse> ForgotPasswordAsync(string email);
+    Task<AuthResponse> ResetPasswordAsync(string token, string newPassword);
 }

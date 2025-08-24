@@ -24,13 +24,6 @@ public class UsersController : ControllerBase
         return user is null ? NotFound() : Ok(user);
     }
 
-    [HttpPost]
-    public async Task<ActionResult> Create(User user)
-    {
-        await _service.CreateAsync(user);
-        return CreatedAtAction(nameof(Get), new { id = user.Id }, user);
-    }
-
     [HttpPut("{id:guid}")]
     public async Task<ActionResult> Update(Guid id, User user)
     {

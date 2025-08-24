@@ -115,14 +115,13 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ISalerInfoRepository, SalerInfoRepository>();
 builder.Services.AddScoped<ISalerInfoService, SalerInfoService>();
-builder.Services.AddScoped<IAuthService, AuthService>();
 builder.Services.AddScoped<DatabaseMigrationService>();
 
 // HttpClient for NotificationsService
 builder.Services.AddHttpClient<INotificationServiceClient, NotificationServiceClient>((serviceProvider, client) =>
 {
     var configuration = serviceProvider.GetRequiredService<IConfiguration>();
-    var baseUrl = configuration["NotificationsService:BaseUrl"] ?? "http://notifications-service";
+    var baseUrl = configuration["NotificationsService:BaseUrl"] ?? "http://notifications-service:80/";
     client.BaseAddress = new Uri(baseUrl);
 });
 

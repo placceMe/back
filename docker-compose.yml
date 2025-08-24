@@ -11,11 +11,14 @@ services:
       - ConnectionStrings__DefaultConnection=Host=postgres-db;Port=5432;Database=marketplace_db;Username=marketplace;Password=marketplace_password;Search Path=users_service;
       - ConnectionStrings__Redis=redis:6379
       - ALLOWED_ORIGINS=http://localhost:5173
+      - NotificationsService__BaseUrl=http://notifications-service:80/
     depends_on:
       postgres-db:
         condition: service_healthy
       redis:
         condition: service_healthy
+      notifications-service:
+        condition: service_started
     restart: on-failure
     networks:
       - app-network
@@ -170,10 +173,11 @@ services:
     build: ./src/Services/NotificationsService
     container_name: notifications-service
     environment:
-      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_ENVIRONMENT: Production
+      ASPNETCORE_URLS: http://+:80
       Email__Provider: Smtp
-      Email__FromName: "Marketplace Dev"
-      Email__FromAddress: "no-reply@local.test"
+      Email__FromName: "Marketplace"
+      Email__FromAddress: "no-reply@marketplace.local"
       Email__Smtp__Host: mailhog
       Email__Smtp__Port: 1025
       Email__Smtp__UseSsl: "false"
@@ -184,6 +188,11 @@ services:
     restart: unless-stopped
     networks:
       - app-network
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:80/health || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
 
   chat-service:
     build: ./src/Services/ChatService

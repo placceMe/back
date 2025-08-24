@@ -22,6 +22,9 @@ public class UsersDbContext : DbContext
 
         base.OnModelCreating(modelBuilder);
 
+        modelBuilder.Entity<User>().ToTable("Users");
+        modelBuilder.Entity<RegistrationUser>().ToTable("RegistrationUsers");
+
         // Configure User entity
         modelBuilder.Entity<User>(entity =>
         {

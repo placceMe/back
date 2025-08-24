@@ -58,11 +58,11 @@ public class NotificationServiceClient : INotificationServiceClient
     {
         try
         {
-            var request = new
+            var request = new ConfirmRegistrationMessage
             {
                 To = to,
                 UserDisplayName = userDisplayName,
-                ActivationUrl = activationUrl
+                ConfirmationUrl = activationUrl
             };
 
             var json = JsonSerializer.Serialize(request);

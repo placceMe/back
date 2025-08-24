@@ -14,9 +14,10 @@ public class User
     public List<string> Roles { get; set; } = new List<string> { };
 }
 
-public class RegistrationUser : User
+public class RegistrationUser
 {
-    public string ActivationCode { get; set; } = null!;
-    public DateTime ActivationCodeExpiresAt { get; set; }
+    public Guid Id { get; set; } = Guid.Empty;
+    public Guid ActivationCode { get; set; } = Guid.NewGuid();
+    public DateTime ActivationCodeExpiresAt { get; set; } = DateTime.UtcNow.AddHours(24);
 
 }

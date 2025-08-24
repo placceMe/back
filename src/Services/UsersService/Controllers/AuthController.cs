@@ -11,13 +11,13 @@ namespace UsersService.Controllers;
 [Route("api/[controller]")]
 public class AuthController : ControllerBase
 {
-    private readonly IAuthService _authService;
+    private readonly IUserService _usersService;
     private readonly IUserRepository _userRepository;
     private readonly ILogger<AuthController> _logger;
 
-    public AuthController(IAuthService authService, IUserRepository userRepository, ILogger<AuthController> logger)
+    public AuthController(IUserService usersService, IUserRepository userRepository, ILogger<AuthController> logger)
     {
-        _authService = authService;
+        _usersService = usersService;
         _userRepository = userRepository;
         _logger = logger;
     }
@@ -25,14 +25,25 @@ public class AuthController : ControllerBase
     [HttpPost("login")]
     public async Task<ActionResult<AuthResponse>> Login([FromBody] LoginRequest request)
     {
-        var result = await _authService.LoginAsync(request);
+        var result = await _usersService.LoginAsync(request);
 
         if (result.Success && result.User != null)
         {
             var userEntity = await _userRepository.GetByEmailAsync(request.Email);
             if (userEntity != null)
             {
-                var token = _authService.GenerateJwtToken(userEntity);
+                // Перевіряємо статус користувача
+                if (userEntity.State != "Active")
+                {
+                    _logger.LogWarning("Спроба авторизації користувача з неактивним статусом: {Email}, статус: {State}", request.Email, userEntity.State);
+                    return BadRequest(new AuthResponse
+                    {
+                        Success = false,
+                        Message = userEntity.State == "Pending" ? "Будь ласка, активуйте свій обліковий запис через електронну пошту" : "Обліковий запис заблоковано"
+                    });
+                }
+
+                var token = _usersService.GenerateJwtToken(userEntity);
                 var cookieOptions = new CookieOptions
                 {
                     HttpOnly = true,
@@ -53,25 +64,29 @@ public class AuthController : ControllerBase
     [HttpPost("register")]
     public async Task<ActionResult<AuthResponse>> Register([FromBody] RegisterRequest request)
     {
-        var result = await _authService.RegisterAsync(request);
+        var result = await _usersService.RegisterAsync(request);
 
         if (result.Success && result.User != null)
         {
             var userEntity = await _userRepository.GetByEmailAsync(request.Email);
             if (userEntity != null)
             {
-                var token = _authService.GenerateJwtToken(userEntity);
-                var cookieOptions = new CookieOptions
+                // Користувачі зі статусом Pending не отримують токен автоматично
+                if (userEntity.State == "Active")
                 {
-                    HttpOnly = true,
-                    Secure = Request.IsHttps,
-                    SameSite = SameSiteMode.Strict,
-                    Expires = DateTime.UtcNow.AddHours(24),
-                    Path = "/"
-                };
-                Response.Cookies.Append("authToken", token, cookieOptions);
-                _logger.LogInformation("Новий користувач зареєстрований: {Email}", request.Email);
-                result.Token = token;
+                    var token = _usersService.GenerateJwtToken(userEntity);
+                    var cookieOptions = new CookieOptions
+                    {
+                        HttpOnly = true,
+                        Secure = Request.IsHttps,
+                        SameSite = SameSiteMode.Strict,
+                        Expires = DateTime.UtcNow.AddHours(24),
+                        Path = "/"
+                    };
+                    Response.Cookies.Append("authToken", token, cookieOptions);
+                    result.Token = token;
+                }
+                _logger.LogInformation("Новий користувач зареєстрований: {Email}, статус: {State}", request.Email, userEntity.State);
             }
         }
 
@@ -106,7 +121,7 @@ public class AuthController : ControllerBase
                 return BadRequest(new { message = "Невірний токен" });
             }
             var expiry = DateTimeOffset.FromUnixTimeSeconds(long.Parse(expUnix));
-            var result = await _authService.LogoutAsync(jti, expiry);
+            var result = await _usersService.LogoutAsync(jti, expiry);
             if (result.Success)
             {
                 Response.Cookies.Delete("authToken");
@@ -126,7 +141,7 @@ public class AuthController : ControllerBase
     {
         try
         {
-            var result = await _authService.RefreshTokenAsync(request.UserId, request.DeviceId, request.RefreshToken);
+            var result = await _usersService.RefreshTokenAsync(request.UserId, request.DeviceId, request.RefreshToken);
 
             if (result.Success)
             {
@@ -159,7 +174,7 @@ public class AuthController : ControllerBase
         {
             return Unauthorized(new { Message = "Токен не знайдено" });
         }
-        var user = await _authService.GetCurrentUserAsync(token);
+        var user = await _usersService.GetCurrentUserAsync(token);
         if (user == null)
         {
             return Unauthorized(new { Message = "Невалідний токен" });
@@ -191,7 +206,7 @@ public class AuthController : ControllerBase
         {
             return Ok(new { Valid = false, Message = "Токен не знайдено" });
         }
-        var isValid = _authService.ValidateToken(token);
+        var isValid = _usersService.ValidateToken(token);
         return Ok(new { Valid = isValid });
     }
 
@@ -214,12 +229,12 @@ public class AuthController : ControllerBase
             {
                 return Unauthorized(new { Message = "Токен не знайдено" });
             }
-            var currentUser = await _authService.GetCurrentUserAsync(token);
+            var currentUser = await _usersService.GetCurrentUserAsync(token);
             if (currentUser == null)
             {
                 return Unauthorized(new { Message = "Невалідний токен" });
             }
-            var result = await _authService.ChangePasswordAsync(currentUser.Id, request.CurrentPassword, request.NewPassword);
+            var result = await _usersService.ChangePasswordAsync(currentUser.Id, request.CurrentPassword, request.NewPassword);
             if (result.Success)
             {
                 _logger.LogInformation("Користувач {Email} успішно змінив пароль", currentUser.Email);
@@ -242,7 +257,7 @@ public class AuthController : ControllerBase
             return BadRequest(ModelState);
         }
 
-        var result = await _authService.ForgotPasswordAsync(request.Email);
+        var result = await _usersService.ForgotPasswordAsync(request.Email);
 
         if (result.Success)
         {
@@ -260,7 +275,7 @@ public class AuthController : ControllerBase
             return BadRequest(ModelState);
         }
 
-        var result = await _authService.ResetPasswordAsync(request.Token, request.NewPassword);
+        var result = await _usersService.ResetPasswordAsync(request.Token, request.NewPassword);
 
         if (result.Success)
         {
@@ -268,5 +283,32 @@ public class AuthController : ControllerBase
         }
 
         return BadRequest(result);
+    }
+
+    [HttpGet("confirm-registration")]
+    public async Task<IActionResult> ConfirmRegistration([FromQuery] Guid token)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+
+        try
+        {
+            var result = await _usersService.ConfirmUserAsync(token);
+
+            if (result)
+            {
+                _logger.LogInformation("Користувач підтвердив реєстрацію за токеном: {Token}", token);
+                return Ok(new { Success = true, Message = "Реєстрація підтверджена успішно" });
+            }
+
+            return BadRequest(new { Success = false, Message = "Невірний або прострочений токен підтвердження" });
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Помилка при підтвердженні реєстрації");
+            return StatusCode(500, new { message = "Внутрішня помилка сервера" });
+        }
     }
 }
