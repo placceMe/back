@@ -98,6 +98,21 @@ public class FeedbackService : IFeedbackService
         return dtos;
     }
 
+    public async Task<IEnumerable<FeedbackDto>> GetFeedbacksBySellerIdAsync(Guid sellerId, int offset, int limit)
+    {
+        var feedbacks = await _feedbackRepository.GetFeedbacksBySellerIdAsync(sellerId, offset, limit);
+        return feedbacks.Select(f => new FeedbackDto
+        {
+            Id = f.Id,
+            ProductId = f.ProductId,
+            UserId = f.UserId,
+            Rating = f.Rating,
+            Comment = f.Comment,
+            CreatedAt = f.CreatedAt,
+            UpdatedAt = f.UpdatedAt
+        });
+    }
+
     public async Task<FeedbackDto> CreateFeedbackAsync(CreateFeedbackDto createFeedbackDto)
     {
         var ratingAverage = (createFeedbackDto.RatingService + createFeedbackDto.RatingSpeed +

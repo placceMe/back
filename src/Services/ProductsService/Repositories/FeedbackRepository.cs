@@ -152,4 +152,14 @@ public class FeedbackRepository : IFeedbackRepository
             .Take(limit)
             .ToListAsync();
     }
+
+    public async Task<IEnumerable<Feedback>> GetFeedbacksBySellerIdAsync(Guid sellerId, int offset, int limit)
+    {
+        return await _context.Feedbacks
+            .Include(f => f.Product)
+            .Where(f => f.Product != null && f.Product.SellerId == sellerId)
+            .Skip(offset)
+            .Take(limit)
+            .ToListAsync();
+    }
 }

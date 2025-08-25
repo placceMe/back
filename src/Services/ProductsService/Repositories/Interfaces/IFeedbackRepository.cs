@@ -19,4 +19,5 @@ public interface IFeedbackRepository
     Task<IEnumerable<Feedback>> GetFeedbacksByProductIdAsync(Guid productId, int offset, int limit);
     Task<IEnumerable<Feedback>> GetFeedbacksByUserIdAsync(Guid userId);
     Task<IEnumerable<Feedback>> GetFeedbacksByUserIdAsync(Guid userId, int offset, int limit);
+    Task<IEnumerable<Feedback>> GetFeedbacksBySellerIdAsync(Guid sellerId, int offset, int limit);
 }

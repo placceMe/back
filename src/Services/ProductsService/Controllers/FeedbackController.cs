@@ -57,6 +57,16 @@ public class FeedbackController : ControllerBase
         return Ok(feedbacks);
     }
 
+    [HttpGet("saler/{sellerId}")]
+    public async Task<ActionResult<IEnumerable<FeedbackDto>>> GetFeedbacksBySellerId(
+        Guid sellerId,
+        [FromQuery] int offset = 0,
+        [FromQuery] int limit = 50)
+    {
+        var feedbacks = await _feedbackService.GetFeedbacksBySellerIdAsync(sellerId, offset, limit);
+        return Ok(feedbacks);
+    }
+
     [HttpGet("product/{productId}/summary")]
     public async Task<ActionResult<FeedbackSummaryDto>> GetFeedbackSummaryByProductId(Guid productId)
     {
