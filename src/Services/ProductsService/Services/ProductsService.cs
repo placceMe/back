@@ -262,4 +262,33 @@ public class ProductsService : IProductsService
     {
         return await _repository.GetProductsByStateAsync(state);
     }
+
+    public async Task<bool> UpdateProductAsync(Guid id, Product product, IEnumerable<CreateProductCharacteristicDto>? characteristics = null)
+    {
+        var existingProduct = await _repository.GetProductByIdAsync(id);
+        if (existingProduct == null)
+        {
+            return false;
+        }
+
+        // Update basic product properties
+        existingProduct.Title = product.Title;
+        existingProduct.Description = product.Description;
+        existingProduct.Price = product.Price;
+        existingProduct.Color = product.Color;
+        existingProduct.Weight = product.Weight;
+        existingProduct.MainImageUrl = product.MainImageUrl;
+        existingProduct.CategoryId = product.CategoryId;
+        existingProduct.Quantity = product.Quantity;
+
+        // Handle characteristics update if provided
+        if (characteristics != null && characteristics.Any())
+        {
+            // TODO: Implement characteristics update logic
+            // This would involve updating the product's characteristics
+            // through the characteristic service once the methods are available
+        }
+        await _repository.UpdateProductAsync(existingProduct);
+        return true;
+    }
 }

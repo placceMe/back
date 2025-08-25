@@ -53,6 +53,7 @@ public class UpdateProductDto
     public string MainImageUrl { get; set; } = string.Empty;
     public Guid CategoryId { get; set; }
     public uint Quantity { get; set; }
+    public List<UpdateCharacteristicDto> Characteristics { get; set; } = new List<UpdateCharacteristicDto>();
 }
 
 public class SearchProductsDto
@@ -64,4 +65,16 @@ public class SearchProductsDto
     public string MainImageUrl { get; set; } = string.Empty;
     public Guid Id { get; set; }
 
+}
+
+public class CreateProductCharacteristicDto
+{
+    public Guid ProductId { get; set; }
+    public string Name { get; set; } = string.Empty;
+    public string Value { get; set; } = string.Empty;
+}
+public class UpdateCharacteristicDto
+{
+    public Guid Id { get; set; }
+    public string Value { get; set; } = string.Empty;
 }

@@ -139,7 +139,7 @@ public class ProductsController : ControllerBase
     }
 
     [HttpPut("{id}")]
-    public IActionResult UpdateProduct(Guid id, UpdateProductDto updateProductDto)
+    public async Task<IActionResult> UpdateProduct(Guid id, UpdateProductDto updateProductDto)
     {
         // Verify that the category exists
         var category = _categoryRepository.GetCategoryById(updateProductDto.CategoryId);
@@ -161,7 +161,7 @@ public class ProductsController : ControllerBase
             Quantity = updateProductDto.Quantity
         };
 
-        var success = _productsService.UpdateProduct(id, product);
+        var success = await _productsService.UpdateProductAsync(id, product, updateProductDto.Characteristics);
 
         if (!success)
         {

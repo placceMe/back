@@ -1,5 +1,6 @@
 using ProductsService.Models;
 using ProductsService.Data;
+using ProductsService.DTOs;
 using Microsoft.EntityFrameworkCore;
 using ProductsService.Repositories.Interfaces;
 
@@ -18,13 +19,11 @@ public class CharacteristicRepository : ICharacteristicRepository
         await _context.Set<Characteristic>().AddAsync(characteristic);
         await _context.SaveChangesAsync();
     }
-    public async Task<bool> UpdateCharacteristicAsync(Guid id, Characteristic characteristic)
+    public async Task<bool> UpdateCharacteristicAsync(UpdateCharacteristicDto characteristic)
     {
-        var existing = await _context.Set<Characteristic>().FirstOrDefaultAsync(c => c.Id == id);
+        var existing = await _context.Set<Characteristic>().FirstOrDefaultAsync(c => c.Id == characteristic.Id);
         if (existing == null) return false;
         existing.Value = characteristic.Value;
-        existing.ProductId = characteristic.ProductId;
-        existing.CharacteristicDictId = characteristic.CharacteristicDictId;
         await _context.SaveChangesAsync();
         return true;
     }
