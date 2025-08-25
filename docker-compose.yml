@@ -168,6 +168,8 @@ services:
       - "8025:8025"   # UI
       - "1025:1025"   # SMTP
     restart: unless-stopped
+    networks:
+      - app-network
 
   notifications-service:
     build: ./src/Services/NotificationsService
