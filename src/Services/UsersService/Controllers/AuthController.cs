@@ -290,7 +290,7 @@ public class AuthController : ControllerBase
     {
         if (!ModelState.IsValid)
         {
-            return BadRequest(ModelState);
+            return Content(GetErrorHtml("Невірний запит"), "text/html");
         }
 
         try
@@ -300,15 +300,173 @@ public class AuthController : ControllerBase
             if (result)
             {
                 _logger.LogInformation("Користувач підтвердив реєстрацію за токеном: {Token}", token);
-                return Ok(new { Success = true, Message = "Реєстрація підтверджена успішно" });
+                return Content(GetSuccessHtml(), "text/html");
             }
 
-            return BadRequest(new { Success = false, Message = "Невірний або прострочений токен підтвердження" });
+            return Content(GetErrorHtml("Невірний або прострочений токен підтвердження"), "text/html");
         }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Помилка при підтвердженні реєстрації");
-            return StatusCode(500, new { message = "Внутрішня помилка сервера" });
+            return Content(GetErrorHtml("Внутрішня помилка сервера"), "text/html");
         }
+    }
+
+    private string GetSuccessHtml()
+    {
+        return @"
+<!DOCTYPE html>
+<html lang='uk'>
+<head>
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <title>Реєстрація підтверджена</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .container {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            padding: 40px;
+            text-align: center;
+            max-width: 500px;
+            width: 90%;
+        }
+        .success-icon {
+            width: 80px;
+            height: 80px;
+            background: #4CAF50;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 30px;
+            color: white;
+            font-size: 40px;
+        }
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 28px;
+        }
+        p {
+            color: #666;
+            line-height: 1.6;
+            font-size: 16px;
+            margin-bottom: 30px;
+        }
+        .btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 25px;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            font-weight: 500;
+            transition: transform 0.2s;
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+    <div class='container'>
+        <div class='success-icon'>✓</div>
+        <h1>Реєстрація підтверджена!</h1>
+        <p>Ваш обліковий запис успішно активовано. Тепер ви можете увійти в систему та користуватися всіма функціями платформи.</p>
+    </div>
+</body>
+</html>";
+    }
+
+    private string GetErrorHtml(string message)
+    {
+        return $@"
+<!DOCTYPE html>
+<html lang='uk'>
+<head>
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <title>Помилка підтвердження</title>
+    <style>
+        body {{
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }}
+        .container {{
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            padding: 40px;
+            text-align: center;
+            max-width: 500px;
+            width: 90%;
+        }}
+        .error-icon {{
+            width: 80px;
+            height: 80px;
+            background: #f44336;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 30px;
+            color: white;
+            font-size: 40px;
+        }}
+        h1 {{
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 28px;
+        }}
+        p {{
+            color: #666;
+            line-height: 1.6;
+            font-size: 16px;
+            margin-bottom: 30px;
+        }}
+        .btn {{
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 25px;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            font-weight: 500;
+            transition: transform 0.2s;
+        }}
+        .btn:hover {{
+            transform: translateY(-2px);
+        }}
+    </style>
+</head>
+<body>
+    <div class='container'>
+        <div class='error-icon'>✗</div>
+        <h1>Помилка підтвердження</h1>
+        <p>{message}</p>
+    </div>
+</body>
+</html>";
     }
 }

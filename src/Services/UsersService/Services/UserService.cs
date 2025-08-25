@@ -228,7 +228,7 @@ public class UserService : IUserService
             {
 
                 var baseUrl = _configuration["ASPNETCORE_BASE_URL"] ?? "http://localhost:5002";
-                var registerUrl = $"{baseUrl}/api/auth/confirm?token={registrationUser.ActivationCode}";
+                var registerUrl = $"{baseUrl}/api/auth/confirm-registration?token={registrationUser.ActivationCode}";
 
                 await _notificationServiceClient.SendRegistrationNotificationAsync(user.Email, user.Name, registerUrl);
                 _logger.LogInformation("Sent registration notification for user {UserId}", user.Id);

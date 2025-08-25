@@ -1,4 +1,5 @@
 using MailKit.Net.Smtp;
+using MailKit.Security;
 using Microsoft.Extensions.Options;
 using MimeKit;
 
@@ -33,10 +34,11 @@ public class SmtpEmailSender : IEmailSender
 
             using var client = new SmtpClient();
 
-            _logger.LogInformation("Connecting to SMTP server: {Host}:{Port}", _options.Host, _options.Port);
-            await client.ConnectAsync(_options.Host, _options.Port, _options.EnableSsl, ct);
+            _logger.LogInformation("Connecting to SMTP server: {Host}:{Port} (SSL: {EnableSsl})", _options.Host, _options.Port, _options.EnableSsl);
 
-            if (!string.IsNullOrEmpty(_options.Username))
+            // Для MailHog використовуємо None, для реальних SMTP серверів - Auto або StartTls
+            var sslOptions = _options.EnableSsl ? MailKit.Security.SecureSocketOptions.Auto : MailKit.Security.SecureSocketOptions.None;
+            await client.ConnectAsync(_options.Host, _options.Port, sslOptions, ct); if (!string.IsNullOrEmpty(_options.Username))
             {
                 await client.AuthenticateAsync(_options.Username, _options.Password, ct);
             }
