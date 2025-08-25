@@ -13,7 +13,7 @@ namespace ProductsService.Migrations
 {
     [DbContext(typeof(ProductsDBContext))]
     [Migration("20250816101210_change feedback")]
-    partial class changefeedback
+    partial class Changefeedback
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

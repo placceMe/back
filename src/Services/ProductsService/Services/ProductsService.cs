@@ -263,7 +263,7 @@ public class ProductsService : IProductsService
         return await _repository.GetProductsByStateAsync(state);
     }
 
-    public async Task<bool> UpdateProductAsync(Guid id, Product product, IEnumerable<CreateProductCharacteristicDto>? characteristics = null)
+    public async Task<bool> UpdateProductAsync(Guid id, Product product, IEnumerable<UpdateCharacteristicDto>? characteristics = null)
     {
         var existingProduct = await _repository.GetProductByIdAsync(id);
         if (existingProduct == null)

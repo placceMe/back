@@ -5,7 +5,7 @@
 namespace ProductsService.Migrations
 {
     /// <inheritdoc />
-    public partial class changefeedback : Migration
+    public partial class Changefeedback : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

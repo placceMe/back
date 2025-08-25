@@ -9,7 +9,7 @@ public interface IProductsService
     void AddOrUpdateProductEmbedding(ProductEmbedding embedding);
     void CreateProduct(Product product);
     Task<Product> CreateProductWithFilesAsync(CreateProductWithFilesDto createDto, CancellationToken cancellationToken = default);
-    Task<bool> UpdateProductAsync(Guid id, Product product, IEnumerable<CreateProductCharacteristicDto>? characteristics = null);
+    Task<bool> UpdateProductAsync(Guid id, Product product, IEnumerable<UpdateCharacteristicDto>? characteristics = null);
     Task<bool> DeleteProductAsync(Guid id, CancellationToken cancellationToken = default);
     bool DeleteProduct(Guid id);
     Product? GetProductById(Guid id);

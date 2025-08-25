@@ -482,6 +482,7 @@ public class UserService : IUserService
             // Генеруємо токен скидання
             var resetToken = GenerateSecureToken();
             var expiry = TimeSpan.FromHours(1); // Токен дійсний 1 годину
+            var resetUrl = "";
 
             // Зберігаємо токен в Redis
             await _redisAuthStore.StorePasswordResetTokenAsync(resetToken, user.Id, expiry);
@@ -588,7 +589,7 @@ public class UserService : IUserService
                 return;
             }
 
-            var frontendUrl = _configuration["Frontend:BaseUrl"] ?? "http://localhost:3000";
+            var frontendUrl = _configuration["Frontend:BaseUrl"];
             var resetUrl = $"{frontendUrl}/reset-password?token={resetToken}";
 
             using var httpClient = new HttpClient();
@@ -602,7 +603,7 @@ public class UserService : IUserService
             var json = JsonSerializer.Serialize(request);
             var content = new StringContent(json, Encoding.UTF8, "application/json");
 
-            var response = await httpClient.PostAsync($"{notificationsServiceUrl}/api/email/password-reset", content);
+            var response = await httpClient.PostAsync($"{notificationsServiceUrl}api/email/password-reset", content);
 
             if (!response.IsSuccessStatusCode)
             {

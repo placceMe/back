@@ -206,7 +206,10 @@ public class FeedbackService : IFeedbackService
             ProductName = feedback.Product?.Title,
             UserId = feedback.UserId,
             CreatedAt = feedback.CreatedAt,
-            User = feedbackUserDto
+            User = feedbackUserDto ?? new FeedbackUserDto(),
+            Rating = feedback.Rating,
+            Comment = feedback.Comment,
+            UpdatedAt = feedback.UpdatedAt
         };
     }
 }

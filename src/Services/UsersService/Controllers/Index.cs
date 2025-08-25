@@ -12,12 +12,27 @@ public class UsersController : ControllerBase
     private readonly IUserService _service;
     private readonly ISalerInfoService _salerInfoService;
     private readonly ILogger<UsersController> _logger;
+    private readonly IConfiguration _configuration;
 
-    public UsersController(IUserService service, ISalerInfoService salerInfoService, ILogger<UsersController> logger)
+    public UsersController(IUserService service, ISalerInfoService salerInfoService, ILogger<UsersController> logger, IConfiguration configuration)
     {
         _service = service;
         _salerInfoService = salerInfoService;
         _logger = logger;
+        _configuration = configuration;
+    }
+
+    [HttpGet("config-test")]
+    public async Task<ActionResult<object>> ConfigTest()
+    {
+        return Ok(new
+        {
+            FrontendBaseUrl = _configuration["Frontend:BaseUrl"],
+            Environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT"),
+            FrontendEnvVar = Environment.GetEnvironmentVariable("Frontend__BaseUrl"),
+            AllowedOrigins = Environment.GetEnvironmentVariable("ALLOWED_ORIGINS"),
+            AllConfiguration = _configuration.AsEnumerable().Where(x => x.Key.Contains("Frontend"))
+        });
     }
 
     [HttpGet]
@@ -78,6 +93,7 @@ public class UsersController : ControllerBase
 
         return NoContent();
     }
+
 
 }
 

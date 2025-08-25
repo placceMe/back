@@ -1,3 +1,4 @@
+using ProductsService.DTOs;
 using ProductsService.Models;
 using ProductsService.Repositories.Interfaces;
 using ProductsService.Services.Interfaces;
@@ -12,7 +13,7 @@ public class CharacteristicService : ICharacteristicService
         _repository = repository;
     }
     public async Task CreateCharacteristicAsync(Characteristic characteristic) => await _repository.CreateCharacteristicAsync(characteristic);
-    public async Task<bool> UpdateCharacteristicAsync(Guid id, Characteristic characteristic) => await _repository.UpdateCharacteristicAsync(id, characteristic);
+    public async Task<bool> UpdateCharacteristicAsync(UpdateCharacteristicDto characteristic) => await _repository.UpdateCharacteristicAsync(characteristic);
     public async Task<bool> DeleteCharacteristicAsync(Guid id) => await _repository.DeleteCharacteristicAsync(id);
     public async Task<Characteristic?> GetCharacteristicByIdAsync(Guid id) => await _repository.GetCharacteristicByIdAsync(id);
 }

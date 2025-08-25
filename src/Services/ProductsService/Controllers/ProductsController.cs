@@ -9,12 +9,12 @@ namespace ProductsService.Controllers;
 
 public class IdsDto
 {
-    public IEnumerable<Guid> Ids { get; set; }
+    public required IEnumerable<Guid> Ids { get; set; }
 }
 
 public class ChangeProductStateDto
 {
-    public string State { get; set; }
+    public required string State { get; set; }
 }
 
 [ApiController]
