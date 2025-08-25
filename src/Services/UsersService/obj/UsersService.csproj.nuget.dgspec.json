@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "P:\\Norsen\\back\\src\\services\\UsersService\\UsersService.csproj": {}
+    "P:\\Norsen\\back\\src\\Services\\UsersService\\UsersService.csproj": {}
   },
   "projects": {
-    "P:\\Norsen\\back\\src\\services\\UsersService\\UsersService.csproj": {
+    "P:\\Norsen\\back\\src\\Services\\UsersService\\UsersService.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "P:\\Norsen\\back\\src\\services\\UsersService\\UsersService.csproj",
+        "projectUniqueName": "P:\\Norsen\\back\\src\\Services\\UsersService\\UsersService.csproj",
         "projectName": "UsersService",
-        "projectPath": "P:\\Norsen\\back\\src\\services\\UsersService\\UsersService.csproj",
+        "projectPath": "P:\\Norsen\\back\\src\\Services\\UsersService\\UsersService.csproj",
         "packagesPath": "C:\\Users\\aleks\\.nuget\\packages\\",
-        "outputPath": "P:\\Norsen\\back\\src\\services\\UsersService\\obj\\",
+        "outputPath": "P:\\Norsen\\back\\src\\Services\\UsersService\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\aleks\\AppData\\Roaming\\NuGet\\NuGet.Config"

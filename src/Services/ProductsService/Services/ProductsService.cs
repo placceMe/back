@@ -253,42 +253,42 @@ public class ProductsService : IProductsService
         {
             return false;
         }
+
         product.State = state;
         await _repository.UpdateProductAsync(product);
         return true;
     }
 
-    public async Task<IEnumerable<Product>> GetProductsByStateAsync(string state)
+    public async Task<bool> ChangeProductQuantityAsync(Guid id, string operation, int quantity)
     {
-        return await _repository.GetProductsByStateAsync(state);
-    }
+        if (quantity < 0)
+        {
+            return false; // Invalid quantity
+        }
 
-    public async Task<bool> UpdateProductAsync(Guid id, Product product, IEnumerable<UpdateCharacteristicDto>? characteristics = null)
-    {
-        var existingProduct = await _repository.GetProductByIdAsync(id);
-        if (existingProduct == null)
+        var product = await _repository.GetProductByIdAsync(id);
+        if (product == null)
         {
             return false;
         }
 
-        // Update basic product properties
-        existingProduct.Title = product.Title;
-        existingProduct.Description = product.Description;
-        existingProduct.Price = product.Price;
-        existingProduct.Color = product.Color;
-        existingProduct.Weight = product.Weight;
-        existingProduct.MainImageUrl = product.MainImageUrl;
-        existingProduct.CategoryId = product.CategoryId;
-        existingProduct.Quantity = product.Quantity;
-
-        // Handle characteristics update if provided
-        if (characteristics != null && characteristics.Any())
+        switch (operation)
         {
-            // TODO: Implement characteristics update logic
-            // This would involve updating the product's characteristics
-            // through the characteristic service once the methods are available
+            case "add":
+                product.Quantity += (uint)quantity;
+                break;
+            case "minus":
+                var newQuantity = (int)product.Quantity - quantity;
+                product.Quantity = (uint)Math.Max(0, newQuantity); // Prevent negative quantity
+                break;
+            case "set":
+                product.Quantity = (uint)quantity;
+                break;
+            default:
+                return false;
         }
-        await _repository.UpdateProductAsync(existingProduct);
+
+        await _repository.UpdateProductAsync(product);
         return true;
     }
 }

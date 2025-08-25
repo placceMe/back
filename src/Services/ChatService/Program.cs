@@ -43,18 +43,32 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"] ?? "default-key-for-development"))
         };
 
-        // Для SignalR підтримки токенів через query string
+        // Для SignalR підтримки токенів через server-side cookies
         options.Events = new JwtBearerEvents
         {
             OnMessageReceived = context =>
             {
-                var accessToken = context.Request.Query["access_token"];
+                // Спочатку перевіряємо cookies для SignalR
                 var path = context.HttpContext.Request.Path;
-
-                if (!string.IsNullOrEmpty(accessToken) && path.StartsWithSegments("/chatHub"))
+                if (path.StartsWithSegments("/chatHub"))
                 {
-                    context.Token = accessToken;
+                    var accessToken = context.Request.Cookies["access_token"];
+                    if (!string.IsNullOrEmpty(accessToken))
+                    {
+                        context.Token = accessToken;
+                    }
                 }
+
+                // Fallback до Authorization header для REST API
+                if (string.IsNullOrEmpty(context.Token))
+                {
+                    var authHeader = context.Request.Headers.Authorization.FirstOrDefault();
+                    if (!string.IsNullOrEmpty(authHeader) && authHeader.StartsWith("Bearer "))
+                    {
+                        context.Token = authHeader.Substring("Bearer ".Length);
+                    }
+                }
+
                 return Task.CompletedTask;
             }
         };

@@ -1,11 +1,8 @@
 @ChatService_HostAddress = http://localhost:5056
 
-GET {{ChatService_HostAddress}}/weatherforecast/
-Accept: application/json
 
 ### Start chat with seller
 POST http://localhost:8080/api/chat/start
-Authorization: Bearer {{token}}
 Content-Type: application/json
 
 {
@@ -16,7 +13,6 @@ Content-Type: application/json
 
 ### Send message
 POST http://localhost:8080/api/chat/{{chatId}}/messages
-Authorization: Bearer {{token}}
 Content-Type: application/json
 
 {
@@ -27,18 +23,14 @@ Content-Type: application/json
 
 ### Get my chats
 GET http://localhost:8080/api/chat/my-chats
-Authorization: Bearer {{token}}
 
 ###
 
 ### Get specific chat
 GET http://localhost:8080/api/chat/{{chatId}}
-Authorization: Bearer {{token}}
 
 ###
 
 ### Get chat messages
 GET http://localhost:8080/api/chat/{{chatId}}/messages?page=1&pageSize=50
-Authorization: Bearer {{token}}
 
-###

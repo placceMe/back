@@ -18,7 +18,6 @@ public class ProductsDBContext : DbContext
     public DbSet<CharacteristicDict> CharacteristicDicts { get; set; }
     public DbSet<Attachment> Attachments { get; set; }
     public DbSet<Feedback> Feedbacks { get; set; }
-    // public DbSet<Rating> Ratings { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

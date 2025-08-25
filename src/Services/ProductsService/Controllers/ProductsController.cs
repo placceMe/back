@@ -17,6 +17,12 @@ public class ChangeProductStateDto
     public required string State { get; set; }
 }
 
+public class ChangeQuantityDto
+{
+    public required string Operation { get; set; } // "add", "minus", "set"
+    public required int Quantity { get; set; }
+}
+
 [ApiController]
 [Route("api/[controller]")]
 public class ProductsController : ControllerBase
@@ -175,6 +181,27 @@ public class ProductsController : ControllerBase
     public async Task<IActionResult> ChangeProductState(Guid id, [FromBody] ChangeProductStateDto dto)
     {
         var success = await _productsService.ChangeProductStateAsync(id, dto.State);
+        if (!success)
+        {
+            return NotFound();
+        }
+        return NoContent();
+    }
+
+    [HttpPut("{id}/quantity")]
+    public async Task<IActionResult> ChangeProductQuantity(Guid id, [FromBody] ChangeQuantityDto dto)
+    {
+        if (!new[] { "add", "minus", "set" }.Contains(dto.Operation.ToLower()))
+        {
+            return BadRequest("Operation must be 'add', 'minus', or 'set'");
+        }
+
+        if (dto.Quantity < 0)
+        {
+            return BadRequest("Quantity cannot be negative");
+        }
+
+        var success = await _productsService.ChangeProductQuantityAsync(id, dto.Operation.ToLower(), dto.Quantity);
         if (!success)
         {
             return NotFound();

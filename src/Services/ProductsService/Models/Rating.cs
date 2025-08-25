@@ -6,7 +6,6 @@ public class Rating
     public Guid ProductId { get; set; }
     public Guid UserId { get; set; }
     public uint Value { get; set; } // Assuming Value is an integer rating
-    public string? Comment { get; set; } // Optional comment
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     public string State { get; set; } = ProductState.Moderation;
 

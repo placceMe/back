@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "JPxVeOf1aUU=",
+  "dgSpecHash": "xMCMt0eyh8s=",
   "success": true,
-  "projectFilePath": "P:\\Norsen\\back\\src\\services\\UsersService\\UsersService.csproj",
+  "projectFilePath": "P:\\Norsen\\back\\src\\Services\\UsersService\\UsersService.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\aleks\\.nuget\\packages\\bcrypt.net-next\\4.0.3\\bcrypt.net-next.4.0.3.nupkg.sha512",
     "C:\\Users\\aleks\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
