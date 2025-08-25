@@ -10,8 +10,15 @@ public class UsersController : ControllerBase
 {
 
     private readonly IUserService _service;
+    private readonly ISalerInfoService _salerInfoService;
+    private readonly ILogger<UsersController> _logger;
 
-    public UsersController(IUserService service) => _service = service;
+    public UsersController(IUserService service, ISalerInfoService salerInfoService, ILogger<UsersController> logger)
+    {
+        _service = service;
+        _salerInfoService = salerInfoService;
+        _logger = logger;
+    }
 
     [HttpGet]
     public async Task<ActionResult<IEnumerable<User>>> GetAll() =>
@@ -47,6 +54,7 @@ public class UsersController : ControllerBase
     public async Task<ActionResult> MakeSeller([FromBody] MakeSellerRequest request)
     {
         var updated = await _service.MakeSellerAsync(request.Id);
+        await _salerInfoService.CreateAsync(new SalerInfo { UserId = request.Id });
         if (!updated)
             return NotFound();
 

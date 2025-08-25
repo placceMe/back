@@ -60,6 +60,7 @@ public class UserService : IUserService
         {
             user.Roles.Add(Role.Saler);
             await _repository.UpdateAsync(user);
+
         }
         return true;
     }
