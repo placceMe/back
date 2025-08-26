@@ -445,8 +445,8 @@ appsettings.Development.json
 appsettings.Local.json
 appsettings.Production.json
 appsettings.Staging.json
-*.env
-.env.*
+#.env
+#env.*
 
 # Connection strings and secrets
 connectionstrings.json
