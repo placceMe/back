@@ -123,10 +123,7 @@ public class ProductsService : IProductsService
         }
     }
 
-    public bool UpdateProduct(Guid id, Product product)
-    {
-        return _repository.UpdateProduct(id, product);
-    }
+
 
     public bool DeleteProduct(Guid id)
     {
@@ -290,5 +287,38 @@ public class ProductsService : IProductsService
 
         await _repository.UpdateProductAsync(product);
         return true;
+    }
+
+    public async Task<bool> UpdateProductAsync(Guid id, Product product, IEnumerable<UpdateCharacteristicDto>? characteristics = null)
+    {
+        if (characteristics != null)
+        {
+            foreach (var characteristic in characteristics)
+            {
+                var existing = product.Characteristics.FirstOrDefault(c => c.Id == characteristic.Id);
+                if (existing != null)
+                {
+                    existing.Value = characteristic.Value;
+                }
+                else
+                {
+                    product.Characteristics.Add(new Characteristic
+                    {
+                        ProductId = product.Id,
+                        Value = characteristic.Value
+                    });
+                }
+            }
+        }
+
+
+        await _repository.UpdateProductAsync(product);
+        return true;
+    }
+
+    public async Task<IEnumerable<Product>> GetProductsByStateAsync(string state)
+    {
+        return await _repository.GetProductsByStateAsync(state);
+
     }
 }
