@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using UsersService.Models;
 using UsersService.Services;
+using UsersService.DTOs;
 
 namespace UsersService.Controllers;
 
@@ -63,13 +64,23 @@ public class UsersController : ControllerBase
     public class MakeSellerRequest
     {
         public Guid Id { get; set; }
+        public UpdateSalerInfoDto SalerInfo { get; set; } = new UpdateSalerInfoDto();
     }
 
     [HttpPut("make-saler")]
     public async Task<ActionResult> MakeSeller([FromBody] MakeSellerRequest request)
     {
         var updated = await _service.MakeSellerAsync(request.Id);
-        await _salerInfoService.CreateAsync(new SalerInfo { UserId = request.Id });
+
+        var salerInfo = new SalerInfo
+        {
+            UserId = request.Id,
+            Description = request.SalerInfo.Description,
+            CompanyName = request.SalerInfo.CompanyName,
+            Schedule = request.SalerInfo.Schedule,
+        };
+
+        await _salerInfoService.CreateAsync(salerInfo);
         if (!updated)
             return NotFound();
 

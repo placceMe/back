@@ -11,6 +11,8 @@ public static class ProductExtensions
         {
             Id = product.Id,
             Title = product.Title,
+            Producer = product.Producer,
+            IsNew = product.IsNew,
             Description = product.Description,
             Price = product.Price,
             Color = product.Color,
