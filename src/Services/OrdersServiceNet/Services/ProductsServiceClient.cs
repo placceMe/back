@@ -59,4 +59,41 @@ public class ProductsServiceClient
         }
         return new Dictionary<Guid, ProductInfo>();
     }
+
+    public async Task<bool> ChangeProductQuantityAsync(Guid productId, string operation, int quantity)
+    {
+        try
+        {
+            var changeQuantityDto = new ChangeQuantityDto
+            {
+                Operation = operation,
+                Quantity = quantity
+            };
+
+            var response = await _httpClient.PutAsJsonAsync($"api/products/{productId}/quantity", changeQuantityDto);
+
+            if (response.IsSuccessStatusCode)
+            {
+                _logger.LogInformation("Product {ProductId} quantity updated. Operation: {Operation}, Quantity: {Quantity}",
+                    productId, operation, quantity);
+                return true;
+            }
+            else
+            {
+                _logger.LogWarning("Failed to update product {ProductId} quantity. Status: {StatusCode}",
+                    productId, response.StatusCode);
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error updating product {ProductId} quantity", productId);
+        }
+        return false;
+    }
+}
+
+public class ChangeQuantityDto
+{
+    public required string Operation { get; set; } // "add", "minus", "set"
+    public required int Quantity { get; set; }
 }

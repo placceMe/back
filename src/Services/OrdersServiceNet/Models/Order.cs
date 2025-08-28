@@ -5,7 +5,7 @@ public class Order
     public Guid Id { get; set; }
     public Guid UserId { get; set; }
     public decimal TotalAmount { get; set; }
-    public OrderStatus Status { get; set; }
+    public string Status { get; set; } = OrderStatus.Pending;
     public string? Notes { get; set; }
     public string? DeliveryAddress { get; set; }
     public DateTime CreatedAt { get; set; }
@@ -15,11 +15,12 @@ public class Order
     public virtual ICollection<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
 }
 
-public enum OrderStatus
+public static class OrderStatus
 {
-    Pending = 0,
-    Confirmed = 1,
-    Shipped = 2,
-    Delivered = 3,
-    Cancelled = 4
+    public static readonly string Pending = "Pending";
+    public static readonly string Confirmed = "Confirmed";
+    public static readonly string Shipped = "Shipped";
+    public static readonly string Delivered = "Delivered";
+    public static readonly string Cancelled = "Cancelled";
+    public static readonly string Rejected = "Rejected";
 }

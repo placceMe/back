@@ -4,5 +4,5 @@ namespace OrdersServiceNet.DTOs;
 
 public class UpdateOrderStatusRequest
 {
-    public OrderStatus Status { get; set; }
+    public required string Status { get; set; }
 }

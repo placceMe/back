@@ -7,7 +7,7 @@ public class OrderResponse
     public Guid Id { get; set; }
     public Guid UserId { get; set; }
     public decimal TotalAmount { get; set; }
-    public OrderStatus Status { get; set; }
+    public string Status { get; set; } = string.Empty;
     public string? Notes { get; set; }
     public string? DeliveryAddress { get; set; }
     public DateTime CreatedAt { get; set; }

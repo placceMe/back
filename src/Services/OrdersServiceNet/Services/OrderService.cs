@@ -131,6 +131,40 @@ public class OrderService : IOrderService
         return result;
     }
 
+    public async Task<OrderResponse?> ConfirmOrderAsync(Guid id)
+    {
+        var order = await _orderRepository.GetOrderByIdAsync(id);
+        if (order == null) return null;
+
+        order.Status = OrderStatus.Confirmed;
+        order.UpdatedAt = DateTime.UtcNow;
+
+        await _orderRepository.UpdateOrderAsync(order);
+
+        // Update product quantities after successful order confirmation
+        foreach (var item in order.OrderItems)
+        {
+            // Decrease product quantity by ordered amount
+            await _productsClient.ChangeProductQuantityAsync(item.ProductId, "minus", item.Quantity);
+        }
+
+        _logger.LogInformation("Order {OrderId} confirmed and product quantities updated", id);
+
+        return await MapToOrderResponseAsync(order);
+    }
+
+    public async Task<OrderResponse?> RejectOrderAsync(Guid id)
+    {
+        var order = await _orderRepository.GetOrderByIdAsync(id);
+        if (order == null) return null;
+
+        order.Status = OrderStatus.Rejected;
+        order.UpdatedAt = DateTime.UtcNow;
+
+        await _orderRepository.UpdateOrderAsync(order);
+        return await MapToOrderResponseAsync(order);
+    }
+
     private async Task<OrderResponse> MapToOrderResponseAsync(Order order)
     {
         var response = new OrderResponse

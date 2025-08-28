@@ -57,10 +57,17 @@ public class OrdersController : ControllerBase
         return Ok(orders);
     }
 
-    [HttpPut("{id}/status")]
-    public async Task<ActionResult<OrderResponse>> UpdateOrderStatus(Guid id, UpdateOrderStatusRequest request)
+    [HttpPut("{id}/confirm")]
+    public async Task<ActionResult<OrderResponse>> ConfirmOrder(Guid id)
     {
-        var order = await _orderService.UpdateOrderStatusAsync(id, request);
+        var order = await _orderService.ConfirmOrderAsync(id);
+        return order != null ? Ok(order) : NotFound();
+    }
+
+    [HttpPut("{id}/reject")]
+    public async Task<ActionResult<OrderResponse>> RejectOrder(Guid id)
+    {
+        var order = await _orderService.RejectOrderAsync(id);
         return order != null ? Ok(order) : NotFound();
     }
 
