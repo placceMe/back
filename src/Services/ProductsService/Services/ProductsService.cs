@@ -68,7 +68,10 @@ public class ProductsService : IProductsService
                 CategoryId = createDto.CategoryId,
                 SellerId = createDto.SellerId,
                 Quantity = createDto.Quantity,
-                Category = category
+                Category = category,
+                Producer = createDto.Producer,
+                IsNew = createDto.IsNew,
+
             };
 
             // Створюємо продукт (включаючи embedding)

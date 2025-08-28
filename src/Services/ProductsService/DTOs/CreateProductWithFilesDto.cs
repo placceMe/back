@@ -13,4 +13,6 @@ public class CreateProductWithFilesDto
     public Guid CategoryId { get; set; }
     public Guid SellerId { get; set; }
     public uint Quantity { get; set; }
+    public string Producer { get; set; } = string.Empty;
+    public bool IsNew { get; set; }
 }
