@@ -14,23 +14,29 @@ namespace UsersService.Services;
 public class UserService : IUserService
 {
     private readonly IUserRepository _repository;
+    private readonly ISalerInfoService _salerInfoService;
     private readonly IConfiguration _configuration;
     private readonly ILogger<UserService> _logger;
     private readonly INotificationServiceClient _notificationServiceClient;
     private readonly IRedisAuthStore _redisAuthStore;
+    private readonly IEmailService _emailService;
 
     public UserService(
         IUserRepository repository,
+        ISalerInfoService salerInfoService,
         IConfiguration configuration,
         ILogger<UserService> logger,
         INotificationServiceClient notificationServiceClient,
-        IRedisAuthStore redisAuthStore)
+        IRedisAuthStore redisAuthStore,
+        IEmailService emailService)
     {
         _repository = repository;
+        _salerInfoService = salerInfoService;
         _configuration = configuration;
         _logger = logger;
         _notificationServiceClient = notificationServiceClient;
         _redisAuthStore = redisAuthStore;
+        _emailService = emailService;
     }
 
     // User Management Methods
@@ -87,8 +93,6 @@ public class UserService : IUserService
         _logger.LogInformation("Changed state of user {UserId} to {NewState}", userId, newState);
         return true;
     }
-
-
 
     public async Task<bool> ConfirmUserAsync(Guid token)
     {
@@ -614,5 +618,56 @@ public class UserService : IUserService
         {
             _logger.LogError(ex, "Помилка при відправці email для скидання паролю");
         }
+    }
+
+    public async Task<UserInfoWithSellerInfo?> GetWithSellerInfoAsync(Guid id)
+    {
+        var user = await _repository.GetByIdAsync(id);
+        if (user is null) return null;
+
+        var sellerInfo = await _salerInfoService.GetByUserIdAsync(id);
+        return new UserInfoWithSellerInfo
+        {
+            Id = user.Id,
+            Name = user.Name,
+            Surname = user.Surname,
+            Email = user.Email,
+            Roles = user.Roles,
+            SalerInfo = sellerInfo != null ? new SalerInfoResponseDto
+            {
+                Id = sellerInfo.Id,
+                Description = sellerInfo.Description,
+                CompanyName = sellerInfo.CompanyName,
+                Schedule = sellerInfo.Schedule
+            } : null
+        };
+    }
+
+    public async Task<(IEnumerable<UserInfoWithSellerInfo> Users, int TotalCount)> GetAllWithSellerInfoAsync(int page = 1, int pageSize = 10)
+    {
+        var (users, totalCount) = await _repository.GetAllWithPaginationAsync(page, pageSize);
+        var usersWithSellerInfo = new List<UserInfoWithSellerInfo>();
+
+        foreach (var user in users)
+        {
+            var sellerInfo = await _salerInfoService.GetByUserIdAsync(user.Id);
+            usersWithSellerInfo.Add(new UserInfoWithSellerInfo
+            {
+                Id = user.Id,
+                Name = user.Name,
+                Surname = user.Surname,
+                Email = user.Email,
+                Roles = user.Roles,
+                SalerInfo = sellerInfo != null ? new SalerInfoResponseDto
+                {
+                    Id = sellerInfo.Id,
+                    Description = sellerInfo.Description,
+                    CompanyName = sellerInfo.CompanyName,
+                    Schedule = sellerInfo.Schedule
+                } : null
+            });
+        }
+
+        return (usersWithSellerInfo, totalCount);
     }
 }

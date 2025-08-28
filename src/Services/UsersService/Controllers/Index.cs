@@ -40,6 +40,26 @@ public class UsersController : ControllerBase
     public async Task<ActionResult<IEnumerable<User>>> GetAll() =>
         Ok(await _service.GetAllAsync());
 
+    [HttpGet("with-saler-info")]
+    public async Task<ActionResult<PaginatedUsersWithSellerInfoDto>> GetAllWithSellerInfo([FromQuery] int page = 1, [FromQuery] int pageSize = 10)
+    {
+        if (page < 1) page = 1;
+        if (pageSize < 1) pageSize = 10;
+        if (pageSize > 100) pageSize = 100; // Limit max page size
+
+        var (users, totalCount) = await _service.GetAllWithSellerInfoAsync(page, pageSize);
+        var totalPages = (int)Math.Ceiling((double)totalCount / pageSize);
+
+        return Ok(new PaginatedUsersWithSellerInfoDto
+        {
+            Users = users,
+            TotalCount = totalCount,
+            Page = page,
+            PageSize = pageSize,
+            TotalPages = totalPages
+        });
+    }
+
     [HttpGet("{id:guid}")]
     public async Task<ActionResult<User>> Get(Guid id)
     {
@@ -104,7 +124,12 @@ public class UsersController : ControllerBase
 
         return NoContent();
     }
-
+    [HttpGet("{id}/with-seller-info")]
+    public async Task<ActionResult<UserInfoWithSellerInfo>> GetWithSellerInfo(Guid id)
+    {
+        var userWithSellerInfo = await _service.GetWithSellerInfoAsync(id);
+        return userWithSellerInfo is null ? NotFound() : Ok(userWithSellerInfo);
+    }
 
 }
 

@@ -17,6 +17,17 @@ public class UserRepository : IUserRepository
     public async Task<User?> GetByEmailAsync(string email) =>
         await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
 
+    public async Task<(IEnumerable<User> Users, int TotalCount)> GetAllWithPaginationAsync(int page, int pageSize)
+    {
+        var totalCount = await _context.Users.CountAsync();
+        var users = await _context.Users
+            .Skip((page - 1) * pageSize)
+            .Take(pageSize)
+            .ToListAsync();
+
+        return (users, totalCount);
+    }
+
     public async Task<User?> AddAsync(User user)
     {
         await _context.Users.AddAsync(user);

@@ -11,6 +11,7 @@ public class ProductsService : IProductsService
     private readonly IProductsRepository _repository;
     private readonly ICategoryRepository _categoryRepository;
     private readonly IFilesServiceClient _filesServiceClient;
+    private readonly UsersServiceClient _usersServiceClient;
     private readonly IAttachmentService _attachmentService;
     private readonly ICharacteristicService _characteristicService;
     private readonly ILogger<ProductsService> _logger;
@@ -21,11 +22,13 @@ public class ProductsService : IProductsService
         IFilesServiceClient filesServiceClient,
         IAttachmentService attachmentService,
         ICharacteristicService characteristicService,
+        UsersServiceClient usersServiceClient,
         ILogger<ProductsService> logger)
     {
         _repository = repository;
         _categoryRepository = categoryRepository;
         _filesServiceClient = filesServiceClient;
+        _usersServiceClient = usersServiceClient;
         _attachmentService = attachmentService;
         _characteristicService = characteristicService;
         _logger = logger;

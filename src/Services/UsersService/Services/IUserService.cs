@@ -27,4 +27,6 @@ public interface IUserService
     Task<AuthResponse> ChangePasswordAsync(Guid userId, string currentPassword, string newPassword);
     Task<AuthResponse> ForgotPasswordAsync(string email);
     Task<AuthResponse> ResetPasswordAsync(string token, string newPassword);
+    Task<UserInfoWithSellerInfo?> GetWithSellerInfoAsync(Guid id);
+    Task<(IEnumerable<UserInfoWithSellerInfo> Users, int TotalCount)> GetAllWithSellerInfoAsync(int page = 1, int pageSize = 10);
 }
