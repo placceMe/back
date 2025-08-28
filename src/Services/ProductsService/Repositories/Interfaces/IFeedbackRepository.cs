@@ -1,3 +1,4 @@
+using ProductsService.DTOs;
 using ProductsService.Models;
 
 namespace ProductsService.Repositories.Interfaces;
@@ -20,4 +21,5 @@ public interface IFeedbackRepository
     Task<IEnumerable<Feedback>> GetFeedbacksByUserIdAsync(Guid userId);
     Task<IEnumerable<Feedback>> GetFeedbacksByUserIdAsync(Guid userId, int offset, int limit);
     Task<IEnumerable<Feedback>> GetFeedbacksBySellerIdAsync(Guid sellerId, int offset, int limit);
+    Task<IEnumerable<Feedback>> GetFeedbacksByStatusAsync(string status);
 }

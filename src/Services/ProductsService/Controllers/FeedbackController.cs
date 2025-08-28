@@ -110,4 +110,21 @@ public class FeedbackController : ControllerBase
 
         return NoContent();
     }
+
+    [HttpPatch("{id}/status")]
+    public async Task<ActionResult<FeedbackDto>> UpdateFeedbackStatus(Guid id, [FromBody] UpdateFeedbackStatusDto updateStatusDto)
+    {
+        if (!ModelState.IsValid)
+            return BadRequest(ModelState);
+
+        try
+        {
+            var feedback = await _feedbackService.UpdateFeedbackStatusAsync(id, updateStatusDto);
+            return Ok(feedback);
+        }
+        catch (ArgumentException)
+        {
+            return NotFound();
+        }
+    }
 }

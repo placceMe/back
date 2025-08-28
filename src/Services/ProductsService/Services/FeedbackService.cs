@@ -125,7 +125,8 @@ public class FeedbackService : IFeedbackService
             RatingAvailable = createFeedbackDto.RatingAvailable,
             RatingAverage = ratingAverage,
             ProductId = createFeedbackDto.ProductId,
-            UserId = createFeedbackDto.UserId
+            UserId = createFeedbackDto.UserId,
+            Status = createFeedbackDto.Content != string.Empty ? FeedbackStatus.New : FeedbackStatus.Approved
         };
 
         var createdFeedback = await _feedbackRepository.CreateAsync(feedback);
@@ -205,6 +206,41 @@ public class FeedbackService : IFeedbackService
             UserId = feedback.UserId,
             CreatedAt = feedback.CreatedAt,
             User = feedbackUserDto ?? new FeedbackUserDto(),
+            Status = feedback.Status
         };
+    }
+
+    public async Task<bool> UpdateFeedbackStatusAsync(Guid id, UpdateFeedbackStatusDto updateFeedbackStatusDto)
+    {
+        var feedback = await _feedbackRepository.GetByIdAsync(id);
+        if (feedback == null)
+        {
+            throw new ArgumentException("Feedback not found");
+        }
+
+        feedback.Status = updateFeedbackStatusDto.Status;
+
+        var updatedFeedback = await _feedbackRepository.UpdateAsync(feedback);
+        return updatedFeedback != null;
+    }
+
+    public async Task<IEnumerable<FeedbackDto>> GetFeedbacksByStatusAsync(string status)
+    {
+        var feedbacks = await _feedbackRepository.GetFeedbacksByStatusAsync(status);
+        return feedbacks.Select(f => new FeedbackDto
+        {
+            Id = f.Id,
+            Content = f.Content,
+            RatingService = f.RatingService,
+            RatingSpeed = f.RatingSpeed,
+            RatingDescription = f.RatingDescription,
+            RatingAvailable = f.RatingAvailable,
+            RatingAverage = f.RatingAverage,
+            ProductId = f.ProductId,
+            UserId = f.UserId,
+            CreatedAt = f.CreatedAt,
+            User = null,
+            Status = f.Status
+        });
     }
 }

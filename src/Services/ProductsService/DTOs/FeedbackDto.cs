@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using ProductsService.Models;
 
 namespace ProductsService.DTOs;
 
@@ -16,6 +17,7 @@ public class FeedbackDto
     public Guid UserId { get; set; }
     public DateTime CreatedAt { get; set; }
     public FeedbackUserDto User { get; set; } = new();
+    public string Status { get; set; } = FeedbackStatus.New;
 }
 
 public class FeedbackUserDto

@@ -15,4 +15,13 @@ public class Feedback
     public Product? Product { get; set; }
     public Guid UserId { get; set; }
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+    public string Status { get; set; } = FeedbackStatus.New;
+
+}
+
+public static class FeedbackStatus
+{
+    public static readonly string New = "New";
+    public static readonly string Approved = "Approved";
+    public static readonly string Rejected = "Rejected";
 }

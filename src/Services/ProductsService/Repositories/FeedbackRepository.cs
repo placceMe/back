@@ -162,4 +162,12 @@ public class FeedbackRepository : IFeedbackRepository
             .Take(limit)
             .ToListAsync();
     }
+
+    public async Task<IEnumerable<Feedback>> GetFeedbacksByStatusAsync(string status)
+    {
+        return await _context.Feedbacks
+            .Include(f => f.Product)
+            .Where(f => f.Status == status)
+            .ToListAsync();
+    }
 }

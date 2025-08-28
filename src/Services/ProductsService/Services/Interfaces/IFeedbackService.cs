@@ -16,4 +16,6 @@ public interface IFeedbackService
     Task<FeedbackDto> UpdateFeedbackAsync(Guid id, UpdateFeedbackDto updateFeedbackDto);
     Task<bool> DeleteFeedbackAsync(Guid id);
     Task<FeedbackSummaryDto> GetFeedbackSummaryByProductIdAsync(Guid productId);
+    Task<bool> UpdateFeedbackStatusAsync(Guid id, UpdateFeedbackStatusDto updateFeedbackStatusDto);
+    Task<IEnumerable<FeedbackDto>> GetFeedbacksByStatusAsync(string status);
 }
