@@ -21,4 +21,31 @@ public class CategoryService : ICategoryService
     {
         return _repository.GetAllCategories().ToList();
     }
+    public async Task<bool> UpdateCategoryState(Guid id, DTOs.CategoryStateDto stateDto)
+    {
+        var category = _repository.GetCategoryById(id);
+        if (category == null) return false;
+
+        category.Status = stateDto.State;
+        return _repository.UpdateCategory(id, category);
+    }
+
+    public async Task<bool> DeleteCategoryWithTransfer(Guid id, DTOs.DeleteCategoryDto deleteDto)
+    {
+        var category = _repository.GetCategoryById(id);
+        if (category == null) return false;
+
+        // If transfer category is specified, transfer all products first
+        if (deleteDto.TransferToCategoryId.HasValue)
+        {
+            var targetCategory = _repository.GetCategoryById(deleteDto.TransferToCategoryId.Value);
+            if (targetCategory == null) return false;
+
+            await _repository.TransferProductsToCategoryAsync(id, deleteDto.TransferToCategoryId.Value);
+        }
+
+        // Change category status to Deleted
+        category.Status = CategoryState.Deleted;
+        return _repository.UpdateCategory(id, category);
+    }
 }

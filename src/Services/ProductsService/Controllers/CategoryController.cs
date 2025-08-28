@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using ProductsService.Extensions;
 using ProductsService.Models;
+using ProductsService.DTOs;
 using ProductsService.Services.Interfaces;
 
 namespace ProductsService.Controllers
@@ -51,5 +52,22 @@ namespace ProductsService.Controllers
             if (category == null) return NotFound();
             return Ok(category);
         }
+        [HttpPut("state/{id}")]
+        public async Task<IActionResult> UpdateCategoryState(Guid id, [FromBody] CategoryStateDto stateDto)
+        {
+            var updated = await _service.UpdateCategoryState(id, stateDto);
+            if (!updated) return NotFound();
+            return NoContent();
+        }
+
+        [HttpDelete("transfer/{id}")]
+        public async Task<IActionResult> DeleteCategoryWithTransfer(Guid id, [FromBody] DeleteCategoryDto deleteDto)
+        {
+            var deleted = await _service.DeleteCategoryWithTransfer(id, deleteDto);
+            if (!deleted) return NotFound();
+            return NoContent();
+        }
     }
+
+
 }

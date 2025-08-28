@@ -9,4 +9,5 @@ public interface ICategoryRepository
     bool DeleteCategory(Guid id);
     Category? GetCategoryById(Guid id);
     IEnumerable<Category> GetAllCategories();
+    Task TransferProductsToCategoryAsync(Guid fromCategoryId, Guid toCategoryId);
 }

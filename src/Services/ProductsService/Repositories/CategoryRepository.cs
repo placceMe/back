@@ -43,4 +43,14 @@ public class CategoryRepository : ICategoryRepository
     {
         return _context.Categories.Where(c => c.Status != CategoryState.Deleted).ToList();
     }
+
+    public async Task TransferProductsToCategoryAsync(Guid fromCategoryId, Guid toCategoryId)
+    {
+        var products = _context.Products.Where(p => p.CategoryId == fromCategoryId).ToList();
+        foreach (var product in products)
+        {
+            product.CategoryId = toCategoryId;
+        }
+        await _context.SaveChangesAsync();
+    }
 }
