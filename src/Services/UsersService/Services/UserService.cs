@@ -19,7 +19,6 @@ public class UserService : IUserService
     private readonly ILogger<UserService> _logger;
     private readonly INotificationServiceClient _notificationServiceClient;
     private readonly IRedisAuthStore _redisAuthStore;
-    private readonly IEmailService _emailService;
 
     public UserService(
         IUserRepository repository,
@@ -27,8 +26,8 @@ public class UserService : IUserService
         IConfiguration configuration,
         ILogger<UserService> logger,
         INotificationServiceClient notificationServiceClient,
-        IRedisAuthStore redisAuthStore,
-        IEmailService emailService)
+        IRedisAuthStore redisAuthStore
+        )
     {
         _repository = repository;
         _salerInfoService = salerInfoService;
@@ -36,7 +35,6 @@ public class UserService : IUserService
         _logger = logger;
         _notificationServiceClient = notificationServiceClient;
         _redisAuthStore = redisAuthStore;
-        _emailService = emailService;
     }
 
     // User Management Methods
