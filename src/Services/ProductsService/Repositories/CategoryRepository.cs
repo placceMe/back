@@ -1,6 +1,8 @@
 using ProductsService.Models;
 using ProductsService.Data;
 using ProductsService.Repositories.Interfaces;
+using ProductsService.DTOs;
+using Microsoft.EntityFrameworkCore;
 
 namespace ProductsService.Repositories;
 
@@ -52,5 +54,25 @@ public class CategoryRepository : ICategoryRepository
             product.CategoryId = toCategoryId;
         }
         await _context.SaveChangesAsync();
+    }
+
+    public async Task<IEnumerable<CategoryFullInfo>> GetAllCategoriesFullInfo()
+    {
+        var categories = await _context.Categories.ToListAsync();
+        var result = new List<CategoryFullInfo>();
+        foreach (var category in categories)
+        {
+            var productsCount = await _context.Products.CountAsync(p => p.CategoryId == category.Id);
+            var characteristicsCount = await _context.CharacteristicDicts.CountAsync(c => c.CategoryId == category.Id);
+            result.Add(new CategoryFullInfo
+            {
+                Id = category.Id,
+                Name = category.Name,
+                Status = category.Status,
+                ProductsCount = productsCount,
+                CharacteristicsCount = characteristicsCount
+            });
+        }
+        return result;
     }
 }
