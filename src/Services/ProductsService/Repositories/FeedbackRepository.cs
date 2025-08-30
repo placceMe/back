@@ -92,7 +92,7 @@ public class FeedbackRepository : IFeedbackRepository
     public async Task<int> GetFeedbackCountByProductIdAsync(Guid productId)
     {
         return await _context.Feedbacks
-            .CountAsync(f => f.ProductId == productId);
+            .CountAsync(f => f.ProductId == productId && f.Status == FeedbackStatus.Approved);
     }
 
     public async Task<IEnumerable<Feedback>> GetAllFeedbacksAsync()
@@ -117,7 +117,7 @@ public class FeedbackRepository : IFeedbackRepository
     {
         return await _context.Feedbacks
             .Include(f => f.Product)
-            .Where(f => f.ProductId == productId)
+            .Where(f => f.ProductId == productId && f.Status == FeedbackStatus.Approved)
             .OrderByDescending(f => f.CreatedAt)
             .ToListAsync();
     }
@@ -126,7 +126,7 @@ public class FeedbackRepository : IFeedbackRepository
     {
         return await _context.Feedbacks
             .Include(f => f.Product)
-            .Where(f => f.ProductId == productId)
+            .Where(f => f.ProductId == productId && f.Status == FeedbackStatus.Approved)
             .OrderByDescending(f => f.CreatedAt)
             .Skip(offset)
             .Take(limit)
@@ -137,7 +137,7 @@ public class FeedbackRepository : IFeedbackRepository
     {
         return await _context.Feedbacks
             .Include(f => f.Product)
-            .Where(f => f.UserId == userId)
+            .Where(f => f.UserId == userId && f.Status == FeedbackStatus.Approved)
             .OrderByDescending(f => f.CreatedAt)
             .ToListAsync();
     }
@@ -146,7 +146,7 @@ public class FeedbackRepository : IFeedbackRepository
     {
         return await _context.Feedbacks
             .Include(f => f.Product)
-            .Where(f => f.UserId == userId)
+            .Where(f => f.UserId == userId && f.Status == FeedbackStatus.Approved)
             .OrderByDescending(f => f.CreatedAt)
             .Skip(offset)
             .Take(limit)
@@ -157,7 +157,7 @@ public class FeedbackRepository : IFeedbackRepository
     {
         return await _context.Feedbacks
             .Include(f => f.Product)
-            .Where(f => f.Product != null && f.Product.SellerId == sellerId)
+            .Where(f => f.Product != null && f.Product.SellerId == sellerId && f.Status == FeedbackStatus.Approved)
             .Skip(offset)
             .Take(limit)
             .ToListAsync();
