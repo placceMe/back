@@ -40,8 +40,9 @@ namespace OrdersServiceNet.Migrations
                     b.Property<string>("Notes")
                         .HasColumnType("text");
 
-                    b.Property<int>("Status")
-                        .HasColumnType("integer");
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<decimal>("TotalAmount")
                         .HasColumnType("decimal(18,2)");

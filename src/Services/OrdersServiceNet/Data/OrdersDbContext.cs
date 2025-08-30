@@ -20,7 +20,6 @@ public class OrdersDbContext : DbContext
             entity.HasKey(e => e.Id);
             entity.Property(e => e.Id).HasDefaultValueSql("gen_random_uuid()");
             entity.Property(e => e.TotalAmount).HasColumnType("decimal(18,2)");
-            entity.Property(e => e.Status).HasConversion<int>();
             entity.Property(e => e.CreatedAt).HasDefaultValueSql("CURRENT_TIMESTAMP");
             entity.Property(e => e.UpdatedAt).HasDefaultValueSql("CURRENT_TIMESTAMP");
         });

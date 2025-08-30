@@ -12,8 +12,8 @@ using OrdersServiceNet.Data;
 namespace OrdersServiceNet.Migrations
 {
     [DbContext(typeof(OrdersDbContext))]
-    [Migration("20250828203942_ChangeOrderStatusValue")]
-    partial class ChangeOrderStatusValue
+    [Migration("20250830103526_ChangeStatusType")]
+    partial class ChangeStatusType
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -43,8 +43,9 @@ namespace OrdersServiceNet.Migrations
                     b.Property<string>("Notes")
                         .HasColumnType("text");
 
-                    b.Property<int>("Status")
-                        .HasColumnType("integer");
+                    b.Property<string>("Status")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<decimal>("TotalAmount")
                         .HasColumnType("decimal(18,2)");
