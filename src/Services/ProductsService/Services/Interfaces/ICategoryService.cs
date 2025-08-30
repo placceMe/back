@@ -12,4 +12,5 @@ public interface ICategoryService
     IEnumerable<Category> GetAllCategories();
     Task<bool> UpdateCategoryState(Guid id, CategoryStateDto stateDto);
     Task<bool> DeleteCategoryWithTransfer(Guid id, DeleteCategoryDto deleteDto);
+    Task<IEnumerable<CategoryFullInfo>> GetAllCategoriesFullInfo();
 }

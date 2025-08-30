@@ -22,3 +22,10 @@ public class CategoryStateDto
 {
     public string State { get; set; } = string.Empty;
 }
+
+public class CategoryFullInfo : CategoryDto
+{
+    public int ProductsCount { get; set; }
+    public int CharacteristicsCount { get; set; }
+
+}

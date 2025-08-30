@@ -67,6 +67,13 @@ namespace ProductsService.Controllers
             if (!deleted) return NotFound();
             return NoContent();
         }
+
+        [HttpGet("full-info")]
+        public async Task<ActionResult<IEnumerable<CategoryFullInfo>>> GetAllCategoriesFullInfo()
+        {
+            var categories = await _service.GetAllCategoriesFullInfo();
+            return Ok(categories);
+        }
     }
 
 

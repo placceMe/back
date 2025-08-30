@@ -1,3 +1,4 @@
+using ProductsService.DTOs;
 using ProductsService.Models;
 using ProductsService.Repositories.Interfaces;
 using ProductsService.Services.Interfaces;
@@ -47,5 +48,10 @@ public class CategoryService : ICategoryService
         // Change category status to Deleted
         category.Status = CategoryState.Deleted;
         return _repository.UpdateCategory(id, category);
+    }
+
+    public async Task<IEnumerable<CategoryFullInfo>> GetAllCategoriesFullInfo()
+    {
+        return await _repository.GetAllCategoriesFullInfo();
     }
 }

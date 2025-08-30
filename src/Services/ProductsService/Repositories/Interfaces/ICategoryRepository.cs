@@ -1,4 +1,5 @@
 using ProductsService.Models;
+using ProductsService.DTOs;
 
 namespace ProductsService.Repositories.Interfaces;
 
@@ -10,4 +11,5 @@ public interface ICategoryRepository
     Category? GetCategoryById(Guid id);
     IEnumerable<Category> GetAllCategories();
     Task TransferProductsToCategoryAsync(Guid fromCategoryId, Guid toCategoryId);
+    Task<IEnumerable<CategoryFullInfo>> GetAllCategoriesFullInfo();
 }
