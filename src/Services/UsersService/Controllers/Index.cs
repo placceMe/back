@@ -98,6 +98,13 @@ public class UsersController : ControllerBase
             Description = request.SalerInfo.Description,
             CompanyName = request.SalerInfo.CompanyName,
             Schedule = request.SalerInfo.Schedule,
+            Contacts = request.SalerInfo.Contacts.Select(c => new Contact
+            {
+                Type = c.Type,
+                Value = c.Value
+            }).ToList(),
+            CreatedAt = DateTime.UtcNow,
+            UpdatedAt = DateTime.UtcNow
         };
 
         await _salerInfoService.CreateAsync(salerInfo);
