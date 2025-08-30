@@ -661,7 +661,15 @@ public class UserService : IUserService
                     Id = sellerInfo.Id,
                     Description = sellerInfo.Description,
                     CompanyName = sellerInfo.CompanyName,
-                    Schedule = sellerInfo.Schedule
+                    Schedule = sellerInfo.Schedule,
+                    UserId = sellerInfo.UserId,
+                    CreatedAt = sellerInfo.CreatedAt,
+                    UpdatedAt = sellerInfo.UpdatedAt,
+                    Contacts = sellerInfo.Contacts.Select(c => new ContactDto
+                    {
+                        Type = c.Type,
+                        Value = c.Value
+                    }).ToList()
                 } : null
             });
         }
