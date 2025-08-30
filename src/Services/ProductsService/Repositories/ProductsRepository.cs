@@ -148,6 +148,7 @@ public class ProductsRepository : IProductsRepository
         return await _context.Products
             .Include(p => p.Category)
             .Where(p => p.CategoryId == categoryId)
+            .Where(p => p.State == ProductState.Active)
             .Skip(offset)
             .Take(limit)
             .ToListAsync();
