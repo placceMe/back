@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using System.Text.Json;
 using UsersService.Models;
 
 namespace UsersService.Data;
@@ -50,10 +51,10 @@ public class UsersDbContext : DbContext
 
             // Configure Contacts as JSON
             entity.Property(e => e.Contacts)
+                  .HasColumnType("jsonb")
                   .HasConversion(
-                      contacts => System.Text.Json.JsonSerializer.Serialize(contacts, (System.Text.Json.JsonSerializerOptions?)null),
-                      json => System.Text.Json.JsonSerializer.Deserialize<List<Contact>>(json, (System.Text.Json.JsonSerializerOptions?)null) ?? new List<Contact>())
-                  .HasColumnType("jsonb");
+                      contacts => JsonSerializer.Serialize(contacts, new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase }),
+                      json => JsonSerializer.Deserialize<List<Contact>>(json, new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase }) ?? new List<Contact>());
         });
     }
 

@@ -86,13 +86,14 @@ public class SalerInfoController : ControllerBase
     private static SalerInfoResponseDto MapToResponseDto(SalerInfo salerInfo) => new()
     {
         Id = salerInfo.Id,
+        CompanyName = salerInfo.CompanyName,
         Description = salerInfo.Description,
         Schedule = salerInfo.Schedule,
-        Contacts = salerInfo.Contacts.Select(c => new ContactDto
+        Contacts = salerInfo.Contacts?.Select(c => new ContactDto
         {
             Type = c.Type,
             Value = c.Value
-        }).ToList(),
+        }).ToList() ?? new List<ContactDto>(),
         UserId = salerInfo.UserId,
         CreatedAt = salerInfo.CreatedAt,
         UpdatedAt = salerInfo.UpdatedAt
