@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace ChatService.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class Initial : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -20,11 +20,10 @@ namespace ChatService.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    ProductId = table.Column<Guid>(type: "uuid", nullable: false),
                     SellerId = table.Column<Guid>(type: "uuid", nullable: false),
                     BuyerId = table.Column<Guid>(type: "uuid", nullable: false),
-                    ProductId = table.Column<Guid>(type: "uuid", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "NOW()"),
-                    LastMessageAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "NOW()")
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "now() at time zone 'utc'")
                 },
                 constraints: table =>
                 {
@@ -38,10 +37,9 @@ namespace ChatService.Migrations
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     ChatId = table.Column<Guid>(type: "uuid", nullable: false),
-                    SenderId = table.Column<Guid>(type: "uuid", nullable: false),
-                    Content = table.Column<string>(type: "character varying(1000)", maxLength: 1000, nullable: false),
-                    SentAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "NOW()"),
-                    IsRead = table.Column<bool>(type: "boolean", nullable: false, defaultValue: false)
+                    SenderUserId = table.Column<Guid>(type: "uuid", nullable: false),
+                    Body = table.Column<string>(type: "character varying(4000)", maxLength: 4000, nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp with time zone", nullable: false, defaultValueSql: "now() at time zone 'utc'")
                 },
                 constraints: table =>
                 {
@@ -56,23 +54,29 @@ namespace ChatService.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_ChatMessages_ChatId",
+                name: "IX_ChatMessages_ChatId_CreatedAt",
                 schema: "chat_service",
                 table: "ChatMessages",
-                column: "ChatId");
+                columns: new[] { "ChatId", "CreatedAt" });
 
             migrationBuilder.CreateIndex(
-                name: "IX_ChatMessages_SenderId",
-                schema: "chat_service",
-                table: "ChatMessages",
-                column: "SenderId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Chats_SellerId_BuyerId_ProductId",
+                name: "IX_Chats_BuyerId",
                 schema: "chat_service",
                 table: "Chats",
-                columns: new[] { "SellerId", "BuyerId", "ProductId" },
+                column: "BuyerId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Chats_ProductId_SellerId_BuyerId",
+                schema: "chat_service",
+                table: "Chats",
+                columns: new[] { "ProductId", "SellerId", "BuyerId" },
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Chats_SellerId",
+                schema: "chat_service",
+                table: "Chats",
+                column: "SellerId");
         }
 
         /// <inheritdoc />

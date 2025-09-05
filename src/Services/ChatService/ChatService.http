@@ -1,36 +1,6 @@
-@ChatService_HostAddress = http://localhost:5056
+@ChatService_HostAddress = http://localhost:5015
 
-
-### Start chat with seller
-POST http://localhost:8080/api/chat/start
-Content-Type: application/json
-
-{
-  "productId": "{{productId}}"
-}
+GET {{ChatService_HostAddress}}/weatherforecast/
+Accept: application/json
 
 ###
-
-### Send message
-POST http://localhost:8080/api/chat/{{chatId}}/messages
-Content-Type: application/json
-
-{
-  "content": "Привіт! Цікавить цей товар, чи є знижки?"
-}
-
-###
-
-### Get my chats
-GET http://localhost:8080/api/chat/my-chats
-
-###
-
-### Get specific chat
-GET http://localhost:8080/api/chat/{{chatId}}
-
-###
-
-### Get chat messages
-GET http://localhost:8080/api/chat/{{chatId}}/messages?page=1&pageSize=50
-

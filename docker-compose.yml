@@ -208,8 +208,9 @@ services:
       - ConnectionStrings__DefaultConnection=Host=${DB_HOST:-postgres-db};Port=5432;Database=marketplace_db;Username=marketplace;Password=marketplace_password;Search Path=chat_service;
       - UsersService__BaseUrl=${USERS_SERVICE_URL:-http://users-service:80/}
       - ProductsService__BaseUrl=${PRODUCTS_SERVICE_URL:-http://products-service:80/}
-      - Jwt__Key=default-key-for-development
-      - ALLOWED_ORIGINS=${FRONTEND_URL:-http://localhost:5173}
+      - Cors__AllowedOrigins__0=${FRONTEND_URL:-http://localhost:5173}
+      - Cors__AllowedOrigins__1=http://localhost:3000
+      - Cors__AllowedOrigins__2=http://localhost:8080
     depends_on:
       postgres-db:
         condition: service_healthy

@@ -67,6 +67,18 @@ public class UsersController : ControllerBase
         return user is null ? NotFound() : Ok(user);
     }
 
+    [HttpPost("by-ids")]
+    public async Task<ActionResult<IEnumerable<User>>> GetByIds([FromBody] GetUsersByIdsRequest request)
+    {
+        if (request?.Ids == null || !request.Ids.Any())
+        {
+            return BadRequest("At least one user ID must be provided.");
+        }
+
+        var users = await _service.GetByIdsAsync(request.Ids);
+        return Ok(users);
+    }
+
     [HttpPut("{id:guid}")]
     public async Task<ActionResult> Update(Guid id, User user)
     {
@@ -135,6 +147,7 @@ public class UsersController : ControllerBase
     public async Task<ActionResult<UserInfoWithSellerInfo>> GetWithSellerInfo(Guid id)
     {
         var userWithSellerInfo = await _service.GetWithSellerInfoAsync(id);
+
         return userWithSellerInfo is null ? NotFound() : Ok(userWithSellerInfo);
     }
 
@@ -144,4 +157,9 @@ public class UpdateRolesRequest
 {
     public Guid UserId { get; set; }
     public List<string> Roles { get; set; } = new();
+}
+
+public class GetUsersByIdsRequest
+{
+    public List<Guid> Ids { get; set; } = new();
 }

@@ -4,3 +4,49 @@ GET {{UsersService_HostAddress}}/weatherforecast/
 Accept: application/json
 
 ###
+
+# Get all users
+GET {{UsersService_HostAddress}}/api/users
+Accept: application/json
+
+###
+
+# Get single user by ID
+GET {{UsersService_HostAddress}}/api/users/{{user_id}}
+Accept: application/json
+
+###
+
+# Get multiple users by IDs
+POST {{UsersService_HostAddress}}/api/users/by-ids
+Content-Type: application/json
+
+{
+  "ids": [
+    "guid1-here",
+    "guid2-here",
+    "guid3-here"
+  ]
+}
+
+###
+
+# Get all saler infos
+GET {{UsersService_HostAddress}}/api/salerinfo
+Accept: application/json
+
+###
+
+# Get multiple saler infos by IDs
+POST {{UsersService_HostAddress}}/api/salerinfo/by-ids
+Content-Type: application/json
+
+{
+  "ids": [
+    "guid1-here",
+    "guid2-here",
+    "guid3-here"
+  ]
+}
+
+###

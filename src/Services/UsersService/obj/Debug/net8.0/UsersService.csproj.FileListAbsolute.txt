@@ -256,11 +256,6 @@ P:/Norsen/back/src/Services/UsersService/obj/Debug/net8.0/UsersService.MvcApplic
 P:/Norsen/back/src/Services/UsersService/obj/Debug/net8.0/UsersService.sourcelink.json
 P:/Norsen/back/src/Services/UsersService/obj/Debug/net8.0/staticwebassets.build.json
 P:/Norsen/back/src/Services/UsersService/obj/Debug/net8.0/staticwebassets.development.json
-P:/Norsen/back/src/Services/UsersService/obj/Debug/net8.0/staticwebassets/msbuild.UsersService.Microsoft.AspNetCore.StaticWebAssets.props
-P:/Norsen/back/src/Services/UsersService/obj/Debug/net8.0/staticwebassets/msbuild.build.UsersService.props
-P:/Norsen/back/src/Services/UsersService/obj/Debug/net8.0/staticwebassets/msbuild.buildMultiTargeting.UsersService.props
-P:/Norsen/back/src/Services/UsersService/obj/Debug/net8.0/staticwebassets/msbuild.buildTransitive.UsersService.props
-P:/Norsen/back/src/Services/UsersService/obj/Debug/net8.0/staticwebassets.pack.json
 P:/Norsen/back/src/Services/UsersService/obj/Debug/net8.0/scopedcss/bundle/UsersService.styles.css
 P:/Norsen/back/src/Services/UsersService/obj/Debug/net8.0/UsersSer.370FECAF.Up2Date
 P:/Norsen/back/src/Services/UsersService/obj/Debug/net8.0/UsersService.dll
@@ -596,11 +591,6 @@ P:\Norsen\back\src\Services\UsersService\obj\Debug\net8.0\UsersService.MvcApplic
 P:\Norsen\back\src\Services\UsersService\obj\Debug\net8.0\UsersService.sourcelink.json
 P:\Norsen\back\src\Services\UsersService\obj\Debug\net8.0\staticwebassets.build.json
 P:\Norsen\back\src\Services\UsersService\obj\Debug\net8.0\staticwebassets.development.json
-P:\Norsen\back\src\Services\UsersService\obj\Debug\net8.0\staticwebassets\msbuild.UsersService.Microsoft.AspNetCore.StaticWebAssets.props
-P:\Norsen\back\src\Services\UsersService\obj\Debug\net8.0\staticwebassets\msbuild.build.UsersService.props
-P:\Norsen\back\src\Services\UsersService\obj\Debug\net8.0\staticwebassets\msbuild.buildMultiTargeting.UsersService.props
-P:\Norsen\back\src\Services\UsersService\obj\Debug\net8.0\staticwebassets\msbuild.buildTransitive.UsersService.props
-P:\Norsen\back\src\Services\UsersService\obj\Debug\net8.0\staticwebassets.pack.json
 P:\Norsen\back\src\Services\UsersService\obj\Debug\net8.0\scopedcss\bundle\UsersService.styles.css
 P:\Norsen\back\src\Services\UsersService\obj\Debug\net8.0\UsersSer.370FECAF.Up2Date
 P:\Norsen\back\src\Services\UsersService\obj\Debug\net8.0\UsersService.dll
@@ -608,3 +598,11 @@ P:\Norsen\back\src\Services\UsersService\obj\Debug\net8.0\refint\UsersService.dl
 P:\Norsen\back\src\Services\UsersService\obj\Debug\net8.0\UsersService.pdb
 P:\Norsen\back\src\Services\UsersService\obj\Debug\net8.0\UsersService.genruntimeconfig.cache
 P:\Norsen\back\src\Services\UsersService\obj\Debug\net8.0\ref\UsersService.dll
+P:\Norsen\back\src\Services\UsersService\bin\Debug\net8.0\UsersService.staticwebassets.endpoints.json
+P:\Norsen\back\src\Services\UsersService\obj\Debug\net8.0\rpswa.dswa.cache.json
+P:\Norsen\back\src\Services\UsersService\obj\Debug\net8.0\rjimswa.dswa.cache.json
+P:\Norsen\back\src\Services\UsersService\obj\Debug\net8.0\rjsmrazor.dswa.cache.json
+P:\Norsen\back\src\Services\UsersService\obj\Debug\net8.0\rjsmcshtml.dswa.cache.json
+P:\Norsen\back\src\Services\UsersService\obj\Debug\net8.0\staticwebassets.build.json.cache
+P:\Norsen\back\src\Services\UsersService\obj\Debug\net8.0\staticwebassets.build.endpoints.json
+P:\Norsen\back\src\Services\UsersService\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt

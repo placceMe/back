@@ -1,1 +1,0 @@
-// This file is intentionally empty - ChatMessage class is defined in Chat.cs to avoid duplicates

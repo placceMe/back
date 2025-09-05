@@ -42,6 +42,8 @@ public class UserService : IUserService
 
     public Task<User?> GetByIdAsync(Guid id) => _repository.GetByIdAsync(id);
 
+    public Task<IEnumerable<User>> GetByIdsAsync(IEnumerable<Guid> ids) => _repository.GetByIdsAsync(ids);
+
     public Task CreateAsync(User user) => _repository.AddAsync(user);
 
     public async Task<bool> UpdateAsync(User user)

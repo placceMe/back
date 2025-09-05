@@ -1,123 +1,109 @@
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
-using System.Text;
-using ChatService.Data;
+﻿using ChatService.Data;
 using ChatService.Hubs;
 using ChatService.Services;
-using ChatService.Repositories;
-using ChatService.Extensions;
-using ChatService.HttpClients;
-using Serilog;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Serilog
-builder.Host.UseSerilog((context, configuration) =>
+// Add services to the container.
+builder.Services.AddControllers();
+
+// Register ChatDbContext with PostgreSQL
+builder.Services.AddDbContext<ChatDbContext>(options =>
+    options.UseNpgsql(
+        builder.Configuration.GetConnectionString("DefaultConnection"),
+        npgsqlOptions => npgsqlOptions.MigrationsHistoryTable("__EFMigrationsHistory", "chat_service")
+    )
+);
+
+// HTTP Client for ProductsService
+builder.Services.AddHttpClient<ProductsServiceClient>((serviceProvider, client) =>
 {
-    configuration.ReadFrom.Configuration(context.Configuration);
+    var configuration = serviceProvider.GetRequiredService<IConfiguration>();
+    client.BaseAddress = new Uri(configuration["ProductsService:BaseUrl"] ?? "http://localhost:5003/");
 });
 
-builder.Services.AddControllers();
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+// HTTP Client for UsersService
+builder.Services.AddHttpClient<UsersServiceClient>((serviceProvider, client) =>
+{
+    var configuration = serviceProvider.GetRequiredService<IConfiguration>();
+    client.BaseAddress = new Uri(configuration["UsersService:BaseUrl"] ?? "http://localhost:5002/");
+});
 
-// Database
-builder.Services.AddDbContext<ChatDbContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"),
-        npgsqlOptions => npgsqlOptions.MigrationsHistoryTable("__EFMigrationsHistory", "chat_service")));
+// Register NotificationService
+builder.Services.AddScoped<INotificationService, NotificationService>();
 
-// SignalR
-builder.Services.AddSignalR();
+// Add SignalR with configuration
+builder.Services.AddSignalR(options =>
+{
+    options.EnableDetailedErrors = true; // Для debugging
+});
 
-// Authentication
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    .AddJwtBearer(options =>
-    {
-        options.TokenValidationParameters = new TokenValidationParameters
-        {
-            ValidateIssuer = false,
-            ValidateAudience = false,
-            ValidateLifetime = true,
-            ValidateIssuerSigningKey = true,
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"] ?? "default-key-for-development"))
-        };
-
-        // Для SignalR підтримки токенів через server-side cookies
-        options.Events = new JwtBearerEvents
-        {
-            OnMessageReceived = context =>
-            {
-                // Спочатку перевіряємо cookies для SignalR
-                var path = context.HttpContext.Request.Path;
-                if (path.StartsWithSegments("/chatHub"))
-                {
-                    var accessToken = context.Request.Cookies["access_token"];
-                    if (!string.IsNullOrEmpty(accessToken))
-                    {
-                        context.Token = accessToken;
-                    }
-                }
-
-                // Fallback до Authorization header для REST API
-                if (string.IsNullOrEmpty(context.Token))
-                {
-                    var authHeader = context.Request.Headers.Authorization.FirstOrDefault();
-                    if (!string.IsNullOrEmpty(authHeader) && authHeader.StartsWith("Bearer "))
-                    {
-                        context.Token = authHeader.Substring("Bearer ".Length);
-                    }
-                }
-
-                return Task.CompletedTask;
-            }
-        };
-    });
-
-// CORS
-var allowedOrigins = builder.Configuration["ALLOWED_ORIGINS"]?.Split(',') ?? new[] { "http://localhost:5173" };
+// Add CORS for SignalR with specific origins to support credentials
 builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(policy =>
     {
+        // Get allowed origins from configuration
+        var allowedOrigins = builder.Configuration.GetSection("Cors:AllowedOrigins").Get<string[]>() 
+                           ?? new[] { "http://localhost:5173", "http://localhost:3000" };
+        
         policy.WithOrigins(allowedOrigins)
-              .AllowAnyHeader()
               .AllowAnyMethod()
-              .AllowCredentials();
+              .AllowAnyHeader()
+              .AllowCredentials(); // This is required for SignalR
     });
 });
 
-// HttpClients для комунікації з іншими сервісами - following project pattern
-builder.Services.AddHttpClient<IUsersServiceClient, UsersServiceClient>((serviceProvider, client) =>
+// Add Swagger/OpenAPI
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen(c =>
 {
-    client.BaseAddress = new Uri(builder.Configuration["UsersService:BaseUrl"] ?? "http://users-service:80/");
+    c.SwaggerDoc("v1", new() { 
+        Title = "Chat Service API", 
+        Version = "v1",
+        Description = "API для управління чатами між покупцями та продавцями по товарах"
+    });
+    
+    // Include XML comments if available
+    var xmlFile = $"{System.Reflection.Assembly.GetExecutingAssembly().GetName().Name}.xml";
+    var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+    if (File.Exists(xmlPath))
+    {
+        c.IncludeXmlComments(xmlPath);
+    }
 });
-
-builder.Services.AddHttpClient<IProductsServiceClient, ProductsServiceClient>((serviceProvider, client) =>
-{
-    client.BaseAddress = new Uri(builder.Configuration["ProductsService:BaseUrl"] ?? "http://products-service:80/");
-});
-
-// Services - following project conventions
-builder.Services.AddScoped<IChatRepository, ChatRepository>();
-builder.Services.AddScoped<IChatService, ChatServiceImplementation>();
 
 var app = builder.Build();
 
-if (app.Environment.IsDevelopment())
+// Apply EF Core migrations automatically on startup
+using (var scope = app.Services.CreateScope())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    var db = scope.ServiceProvider.GetRequiredService<ChatDbContext>();
+    db.Database.Migrate();
 }
 
+// Configure the HTTP request pipeline.
+app.UseSwagger();
+app.UseSwaggerUI(c =>
+{
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Chat Service API v1");
+    c.RoutePrefix = "swagger";
+});
+
+// Serve static files (for SignalR test page)
+app.UseStaticFiles();
+
+// CORS must be before routing and authorization
 app.UseCors();
-app.UseAuthentication();
+
+app.UseRouting(); // Explicit routing
+
 app.UseAuthorization();
 
 app.MapControllers();
-app.MapHub<ChatHub>("/chatHub");
 
-// Apply migrations
-app.ApplyMigrations<ChatDbContext>();
+// Map SignalR hub
+app.MapHub<ChatHub>("/hubs/chat");
 
 app.Run();

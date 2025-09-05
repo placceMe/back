@@ -16,6 +16,9 @@ public class SalerInfoRepository : ISalerInfoRepository
     public async Task<SalerInfo?> GetByIdAsync(Guid id) =>
         await _context.SalerInfos.Include(s => s.User).FirstOrDefaultAsync(s => s.Id == id);
 
+    public async Task<IEnumerable<SalerInfo>> GetByIdsAsync(IEnumerable<Guid> ids) =>
+        await _context.SalerInfos.Include(s => s.User).Where(s => ids.Contains(s.Id)).ToListAsync();
+
     public async Task<SalerInfo?> GetByUserIdAsync(Guid userId) =>
         await _context.SalerInfos.FirstOrDefaultAsync(s => s.UserId == userId);
 

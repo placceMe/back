@@ -35,6 +35,19 @@ public class SalerInfoController : ControllerBase
         return salerInfo is null ? NotFound() : Ok(MapToResponseDto(salerInfo));
     }
 
+    [HttpPost("by-ids")]
+    public async Task<ActionResult<IEnumerable<SalerInfoResponseDto>>> GetByIds([FromBody] GetSalerInfoByIdsRequest request)
+    {
+        if (request?.Ids == null || !request.Ids.Any())
+        {
+            return BadRequest("At least one SalerInfo ID must be provided.");
+        }
+
+        var salerInfos = await _service.GetByIdsAsync(request.Ids);
+        var response = salerInfos.Select(MapToResponseDto);
+        return Ok(response);
+    }
+
     [HttpPost]
     public async Task<ActionResult<SalerInfoResponseDto>> Create(CreateSalerInfoDto createDto)
     {
@@ -98,4 +111,9 @@ public class SalerInfoController : ControllerBase
         CreatedAt = salerInfo.CreatedAt,
         UpdatedAt = salerInfo.UpdatedAt
     };
+}
+
+public class GetSalerInfoByIdsRequest
+{
+    public List<Guid> Ids { get; set; } = new();
 }

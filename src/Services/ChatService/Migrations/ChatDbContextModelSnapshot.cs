@@ -18,7 +18,7 @@ namespace ChatService.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasDefaultSchema("chat_service")
-                .HasAnnotation("ProductVersion", "8.0.0")
+                .HasAnnotation("ProductVersion", "9.0.8")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -35,12 +35,7 @@ namespace ChatService.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
-                        .HasDefaultValueSql("NOW()");
-
-                    b.Property<DateTime>("LastMessageAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp with time zone")
-                        .HasDefaultValueSql("NOW()");
+                        .HasDefaultValueSql("now() at time zone 'utc'");
 
                     b.Property<Guid>("ProductId")
                         .HasColumnType("uuid");
@@ -50,7 +45,11 @@ namespace ChatService.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("SellerId", "BuyerId", "ProductId")
+                    b.HasIndex("BuyerId");
+
+                    b.HasIndex("SellerId");
+
+                    b.HasIndex("ProductId", "SellerId", "BuyerId")
                         .IsUnique();
 
                     b.ToTable("Chats", "chat_service");
@@ -62,32 +61,25 @@ namespace ChatService.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
+                    b.Property<string>("Body")
+                        .IsRequired()
+                        .HasMaxLength(4000)
+                        .HasColumnType("character varying(4000)");
+
                     b.Property<Guid>("ChatId")
                         .HasColumnType("uuid");
 
-                    b.Property<string>("Content")
-                        .IsRequired()
-                        .HasMaxLength(1000)
-                        .HasColumnType("character varying(1000)");
-
-                    b.Property<bool>("IsRead")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("boolean")
-                        .HasDefaultValue(false);
-
-                    b.Property<Guid>("SenderId")
-                        .HasColumnType("uuid");
-
-                    b.Property<DateTime>("SentAt")
+                    b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp with time zone")
-                        .HasDefaultValueSql("NOW()");
+                        .HasDefaultValueSql("now() at time zone 'utc'");
+
+                    b.Property<Guid>("SenderUserId")
+                        .HasColumnType("uuid");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ChatId");
-
-                    b.HasIndex("SenderId");
+                    b.HasIndex("ChatId", "CreatedAt");
 
                     b.ToTable("ChatMessages", "chat_service");
                 });

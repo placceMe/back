@@ -14,6 +14,9 @@ public class UserRepository : IUserRepository
 
     public async Task<User?> GetByIdAsync(Guid id) => await _context.Users.FirstOrDefaultAsync(u => u.Id == id);
 
+    public async Task<IEnumerable<User>> GetByIdsAsync(IEnumerable<Guid> ids) =>
+        await _context.Users.Where(u => ids.Contains(u.Id)).ToListAsync();
+
     public async Task<User?> GetByEmailAsync(string email) =>
         await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
 

@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "xMCMt0eyh8s=",
+  "dgSpecHash": "dPmeUyglMjI=",
   "success": true,
   "projectFilePath": "P:\\Norsen\\back\\src\\Services\\UsersService\\UsersService.csproj",
   "expectedPackageFiles": [
@@ -113,8 +113,10 @@
     {
       "code": "NU1603",
       "level": "Warning",
+      "message": "UsersService depends on System.IdentityModel.Tokens.Jwt (>= 8.0.8) but System.IdentityModel.Tokens.Jwt 8.0.8 was not found. System.IdentityModel.Tokens.Jwt 8.1.0 was resolved instead.",
+      "projectPath": "P:\\Norsen\\back\\src\\Services\\UsersService\\UsersService.csproj",
       "warningLevel": 1,
-      "message": "UsersService depends on System.IdentityModel.Tokens.Jwt (>= 8.0.8) but System.IdentityModel.Tokens.Jwt 8.0.8 was not found. An approximate best match of System.IdentityModel.Tokens.Jwt 8.1.0 was resolved.",
+      "filePath": "P:\\Norsen\\back\\src\\Services\\UsersService\\UsersService.csproj",
       "libraryId": "System.IdentityModel.Tokens.Jwt",
       "targetGraphs": [
         "net8.0"

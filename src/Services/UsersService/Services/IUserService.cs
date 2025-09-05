@@ -8,6 +8,7 @@ public interface IUserService
     // User management methods
     Task<IEnumerable<User>> GetAllAsync();
     Task<User?> GetByIdAsync(Guid id);
+    Task<IEnumerable<User>> GetByIdsAsync(IEnumerable<Guid> ids);
     Task CreateAsync(User user);
     Task<bool> UpdateAsync(User user);
     Task<bool> SoftDeleteAsync(Guid id);

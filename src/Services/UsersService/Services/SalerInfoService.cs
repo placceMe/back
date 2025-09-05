@@ -18,6 +18,8 @@ public class SalerInfoService : ISalerInfoService
 
     public Task<SalerInfo?> GetByIdAsync(Guid id) => _repository.GetByIdAsync(id);
 
+    public Task<IEnumerable<SalerInfo>> GetByIdsAsync(IEnumerable<Guid> ids) => _repository.GetByIdsAsync(ids);
+
     public Task<SalerInfo?> GetByUserIdAsync(Guid userId) => _repository.GetByUserIdAsync(userId);
 
     public async Task CreateAsync(SalerInfo salerInfo)

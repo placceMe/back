@@ -1,0 +1,513 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Chat Service - Повний Тест з Користувацькими Чатами</title>
+    <script src="https://unpkg.com/@microsoft/signalr@latest/dist/browser/signalr.js"></script>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; background: #f5f5f5; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        .header { background: white; padding: 20px; border-radius: 8px; margin-bottom: 20px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .user-section { background: #e3f2fd; padding: 15px; border-radius: 8px; margin-bottom: 20px; }
+        .main-content { display: flex; gap: 20px; }
+        .sidebar { width: 300px; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .chat-area { flex: 1; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .messages { border: 1px solid #ddd; height: 400px; overflow-y: scroll; padding: 15px; margin: 15px 0; background: #fafafa; border-radius: 4px; }
+        .input-group { margin: 10px 0; display: flex; gap: 10px; align-items: center; }
+        .input-group label { min-width: 120px; font-weight: bold; }
+        input, button, select { padding: 8px; border: 1px solid #ddd; border-radius: 4px; }
+        input[type="text"] { flex: 1; }
+        button { background: #2196f3; color: white; border: none; cursor: pointer; padding: 8px 16px; }
+        button:hover { background: #1976d2; }
+        button:disabled { background: #ccc; cursor: not-allowed; }
+        .message { margin: 8px 0; padding: 8px 12px; border-radius: 8px; }
+        .message.info { background: #e3f2fd; border-left: 4px solid #2196f3; }
+        .message.success { background: #e8f5e8; border-left: 4px solid #4caf50; }
+        .message.error { background: #ffebee; border-left: 4px solid #f44336; }
+        .message.notification { background: #fff3e0; border-left: 4px solid #ff9800; border: 1px solid #ffcc02; }
+        .chat-list { max-height: 300px; overflow-y: auto; }
+        .chat-item { padding: 12px; border: 1px solid #ddd; margin: 5px 0; border-radius: 4px; cursor: pointer; background: #f9f9f9; }
+        .chat-item:hover { background: #e3f2fd; }
+        .chat-item.active { background: #2196f3; color: white; }
+        .chat-item h4 { margin: 0 0 8px 0; font-size: 14px; }
+        .chat-item p { margin: 0; font-size: 12px; opacity: 0.8; }
+        .status { padding: 4px 8px; border-radius: 12px; font-size: 12px; font-weight: bold; }
+        .status.connected { background: #4caf50; color: white; }
+        .status.disconnected { background: #f44336; color: white; }
+        .status.connecting { background: #ff9800; color: white; }
+        .section { margin: 20px 0; }
+        .section h3 { margin: 0 0 15px 0; padding-bottom: 8px; border-bottom: 2px solid #2196f3; }
+        .create-chat-form { background: #f0f8ff; padding: 15px; border-radius: 8px; margin: 15px 0; }
+        .current-chat-info { background: #e8f5e8; padding: 10px; border-radius: 4px; margin: 10px 0; }
+        .notification-badge { background: #f44336; color: white; border-radius: 50%; padding: 2px 6px; font-size: 12px; margin-left: 8px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header with User Settings -->
+        <div class="header">
+            <h1>🔥 Chat Service - Повнофункціональний Тест</h1>
+            <div class="user-section">
+                <div class="input-group">
+                    <label>👤 User ID:</label>
+                    <input type="text" id="currentUserId" placeholder="Ваш User ID (UUID)" style="width: 300px;">
+                    <button onclick="initializeUser()">Ініціалізувати користувача</button>
+                    <span id="connectionStatus" class="status disconnected">Відключено</span>
+                </div>
+                <div id="userInfo" style="margin-top: 10px; font-size: 14px; color: #666;"></div>
+            </div>
+        </div>
+
+        <div class="main-content">
+            <!-- Sidebar with Chats -->
+            <div class="sidebar">
+                <div class="section">
+                    <h3>📋 Мої Чати <span id="notificationBadge" class="notification-badge" style="display: none;">0</span></h3>
+                    <button onclick="loadUserChats()" style="margin-bottom: 15px; width: 100%;">🔄 Оновити чати</button>
+                    <div id="chatList" class="chat-list">
+                        <p style="text-align: center; color: #666; margin: 20px 0;">
+                            Введіть User ID та натисніть "Ініціалізувати користувача"
+                        </p>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h3>➕ Створити новий чат</h3>
+                    <div class="create-chat-form">
+                        <div class="input-group">
+                            <label>🏪 Product ID:</label>
+                            <input type="text" id="productId" placeholder="Product UUID">
+                        </div>
+                        <div class="input-group">
+                            <label>🤝 Seller ID:</label>
+                            <input type="text" id="sellerId" placeholder="Seller UUID">
+                        </div>
+                        <div class="input-group">
+                            <label>🛒 Buyer ID:</label>
+                            <input type="text" id="buyerId" placeholder="Buyer UUID">
+                        </div>
+                        <button onclick="createNewChat()" style="width: 100%; margin-top: 10px;">Створити чат</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Chat Area -->
+            <div class="chat-area">
+                <div class="section">
+                    <h3>💬 Активний чат</h3>
+                    <div id="currentChatInfo" class="current-chat-info" style="display: none;">
+                        <strong>Chat ID:</strong> <span id="activeChatId">-</span><br>
+                        <strong>Product ID:</strong> <span id="activeChatProduct">-</span><br>
+                        <strong>Participants:</strong> <span id="activeChatParticipants">-</span>
+                    </div>
+                    <div style="margin: 15px 0;">
+                        <button id="joinChatBtn" onclick="joinCurrentChat()" disabled>🚪 Приєднатися до чату</button>
+                        <button id="leaveChatBtn" onclick="leaveCurrentChat()" disabled>🚶 Покинути чат</button>
+                        <button onclick="loadChatMessages()" disabled id="loadMessagesBtn">📖 Завантажити історію</button>
+                    </div>
+                </div>
+
+                <div id="messages" class="messages">
+                    <div style="text-align: center; color: #666; margin: 50px 0;">
+                        <h3>Оберіть чат зі списку або створіть новий</h3>
+                        <p>Після підключення ви будете отримувати нотифікації про нові повідомлення</p>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h3>✉️ Відправити повідомлення</h3>
+                    <div class="input-group">
+                        <input type="text" id="messageText" placeholder="Введіть ваше повідомлення..." disabled>
+                        <button onclick="sendMessage()" id="sendBtn" disabled>📤 Відправити</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let connection = null;
+        let currentUserId = null;
+        let activeChatId = null;
+        let userChats = [];
+        let unreadCount = 0;
+
+        // Initialize user and connect to SignalR
+        async function initializeUser() {
+            const userId = document.getElementById('currentUserId').value.trim();
+            if (!userId) {
+                addMessage('🚨 Введіть User ID', 'error');
+                return;
+            }
+
+            currentUserId = userId;
+            document.getElementById('userInfo').textContent = `Поточний користувач: ${userId}`;
+            
+            await connectToSignalR();
+            await loadUserChats();
+            
+            addMessage(`👤 Користувач ініціалізований: ${userId}`, 'success');
+        }
+
+        // Connect to SignalR Hub
+        async function connectToSignalR() {
+            if (connection) {
+                await connection.stop();
+            }
+
+            try {
+                updateConnectionStatus('connecting', 'Підключення...');
+                addMessage('🔄 Підключення до SignalR...', 'info');
+                
+                connection = new signalR.HubConnectionBuilder()
+                    .withUrl("/hubs/chat")
+                    .withAutomaticReconnect()
+                    .configureLogging(signalR.LogLevel.Information)
+                    .build();
+
+                // Setup event handlers
+                setupSignalRHandlers();
+
+                // Start connection
+                await connection.start();
+                updateConnectionStatus('connected', 'Підключено');
+                addMessage('🔗 Підключено до SignalR', 'success');
+
+                // Subscribe to user notifications
+                if (currentUserId) {
+                    await connection.invoke("SubscribeToUserNotifications", currentUserId);
+                }
+
+            } catch (err) {
+                updateConnectionStatus('disconnected', 'Помилка');
+                addMessage(`🚨 Помилка підключення: ${err.toString()}`, 'error');
+                console.error('SignalR connection error:', err);
+            }
+        }
+
+        // Setup SignalR event handlers
+        function setupSignalRHandlers() {
+            // Chat messages
+            connection.on("MessageCreated", function (message) {
+                if (activeChatId === message.chatId) {
+                    addMessage(`💬 ${message.senderUserId}: ${message.body}`, 'success');
+                }
+            });
+
+            // Notifications
+            connection.on("MessageNotification", function (notification) {
+                addMessage(`🔔 Нотифікація: ${notification.senderName} в ${notification.productTitle}: ${notification.messagePreview}`, 'notification');
+                updateUnreadCount(++unreadCount);
+                
+                // Update chat list to show unread indicator
+                updateChatListItem(notification.chatId, notification);
+            });
+
+            // Connection events
+            connection.on("JoinedChat", function (chatId) {
+                addMessage(`✅ Приєдналися до чату: ${chatId}`, 'success');
+                document.getElementById('joinChatBtn').disabled = true;
+                document.getElementById('leaveChatBtn').disabled = false;
+                document.getElementById('sendBtn').disabled = false;
+                document.getElementById('messageText').disabled = false;
+            });
+
+            connection.on("LeftChat", function (chatId) {
+                addMessage(`❌ Покинули чат: ${chatId}`, 'info');
+                document.getElementById('joinChatBtn').disabled = false;
+                document.getElementById('leaveChatBtn').disabled = true;
+                document.getElementById('sendBtn').disabled = true;
+                document.getElementById('messageText').disabled = true;
+            });
+
+            connection.on("SubscribedToNotifications", function (userId) {
+                addMessage(`🔔 Підписка на нотифікації активна`, 'success');
+            });
+
+            connection.on("Error", function (error) {
+                addMessage(`🚨 SignalR помилка: ${error}`, 'error');
+            });
+
+            // Connection state changes
+            connection.onclose(error => {
+                updateConnectionStatus('disconnected', 'Відключено');
+                addMessage(error ? `🔌 З'єднання втрачено: ${error}` : '🔌 З\'єднання закрито', 'error');
+            });
+
+            connection.onreconnecting(error => {
+                updateConnectionStatus('connecting', 'Переп\'єднання...');
+                addMessage('🔄 Спроба повторного підключення...', 'info');
+            });
+
+            connection.onreconnected(connectionId => {
+                updateConnectionStatus('connected', 'Підключено');
+                addMessage(`🔗 Повторно підключено`, 'success');
+                if (currentUserId) {
+                    connection.invoke("SubscribeToUserNotifications", currentUserId);
+                }
+            });
+        }
+
+        // Load user's chats
+        async function loadUserChats() {
+            if (!currentUserId) {
+                addMessage('🚨 Спочатку ініціалізуйте користувача', 'error');
+                return;
+            }
+
+            try {
+                // Try both as seller and buyer
+                const [sellerResponse, buyerResponse] = await Promise.all([
+                    fetch(`/api/chats?sellerId=${currentUserId}`),
+                    fetch(`/api/chats?buyerId=${currentUserId}`)
+                ]);
+
+                const sellerChats = sellerResponse.ok ? await sellerResponse.json() : [];
+                const buyerChats = buyerResponse.ok ? await buyerResponse.json() : [];
+
+                // Combine and deduplicate chats
+                const allChats = [...sellerChats, ...buyerChats];
+                userChats = allChats.filter((chat, index, self) => 
+                    index === self.findIndex(c => c.id === chat.id)
+                );
+
+                displayChatList();
+                addMessage(`📋 Завантажено ${userChats.length} чатів`, 'info');
+
+            } catch (err) {
+                addMessage(`🚨 Помилка завантаження чатів: ${err}`, 'error');
+                console.error('Load chats error:', err);
+            }
+        }
+
+        // Display chat list in sidebar
+        function displayChatList() {
+            const chatListDiv = document.getElementById('chatList');
+            
+            if (userChats.length === 0) {
+                chatListDiv.innerHTML = '<p style="text-align: center; color: #666;">Чатів не знайдено</p>';
+                return;
+            }
+
+            chatListDiv.innerHTML = userChats.map(chat => `
+                <div class="chat-item" onclick="selectChat('${chat.id}')" id="chat-${chat.id}">
+                    <h4>💬 Chat: ${chat.id.substring(0, 8)}...</h4>
+                    <p>📦 Product: ${chat.productId.substring(0, 8)}...</p>
+                    <p>👥 Seller: ${chat.sellerId.substring(0, 8)}... | Buyer: ${chat.buyerId.substring(0, 8)}...</p>
+                    <p>📅 ${new Date(chat.createdAt).toLocaleString()}</p>
+                </div>
+            `).join('');
+        }
+
+        // Select a chat from the list
+        function selectChat(chatId) {
+            activeChatId = chatId;
+            
+            // Update UI
+            document.querySelectorAll('.chat-item').forEach(item => item.classList.remove('active'));
+            document.getElementById(`chat-${chatId}`).classList.add('active');
+
+            const chat = userChats.find(c => c.id === chatId);
+            if (chat) {
+                document.getElementById('activeChatId').textContent = chatId;
+                document.getElementById('activeChatProduct').textContent = chat.productId;
+                document.getElementById('activeChatParticipants').textContent = 
+                    `Seller: ${chat.sellerId}, Buyer: ${chat.buyerId}`;
+                document.getElementById('currentChatInfo').style.display = 'block';
+                
+                // Enable buttons
+                document.getElementById('joinChatBtn').disabled = false;
+                document.getElementById('loadMessagesBtn').disabled = false;
+                
+                addMessage(`📝 Обрано чат: ${chatId}`, 'info');
+                
+                // Clear messages for new chat
+                clearChatMessages();
+            }
+        }
+
+        // Join current chat
+        async function joinCurrentChat() {
+            if (!connection || !activeChatId) return;
+            
+            try {
+                await connection.invoke("JoinChat", activeChatId);
+            } catch (err) {
+                addMessage(`🚨 Помилка приєднання до чату: ${err}`, 'error');
+            }
+        }
+
+        // Leave current chat
+        async function leaveCurrentChat() {
+            if (!connection || !activeChatId) return;
+            
+            try {
+                await connection.invoke("LeaveChat", activeChatId);
+            } catch (err) {
+                addMessage(`🚨 Помилка покидання чату: ${err}`, 'error');
+            }
+        }
+
+        // Load chat messages
+        async function loadChatMessages() {
+            if (!activeChatId) return;
+            
+            try {
+                const response = await fetch(`/api/chats/${activeChatId}/messages`);
+                if (response.ok) {
+                    const messages = await response.json();
+                    clearChatMessages();
+                    
+                    if (messages.length === 0) {
+                        addMessage('📭 В цьому чаті поки немає повідомлень', 'info');
+                    } else {
+                        addMessage(`📖 Завантажено ${messages.length} повідомлень:`, 'info');
+                        messages.forEach(msg => {
+                            const senderRole = msg.senderUserId === currentUserId ? 'Ви' : msg.senderUserId.substring(0, 8) + '...';
+                            addMessage(
+                                `💬 ${senderRole}: ${msg.body} (${new Date(msg.createdAt).toLocaleString()})`, 
+                                msg.senderUserId === currentUserId ? 'info' : 'success'
+                            );
+                        });
+                    }
+                } else {
+                    addMessage(`🚨 Помилка завантаження повідомлень: ${response.status}`, 'error');
+                }
+            } catch (err) {
+                addMessage(`🚨 Помилка завантаження повідомлень: ${err}`, 'error');
+            }
+        }
+
+        // Send message
+        async function sendMessage() {
+            if (!activeChatId || !currentUserId) return;
+            
+            const messageText = document.getElementById('messageText').value.trim();
+            if (!messageText) {
+                addMessage('🚨 Введіть текст повідомлення', 'error');
+                return;
+            }
+
+            try {
+                const response = await fetch(`/api/chats/${activeChatId}/messages`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        senderUserId: currentUserId,
+                        body: messageText
+                    })
+                });
+
+                if (response.ok) {
+                    document.getElementById('messageText').value = '';
+                    addMessage(`📤 Повідомлення відправлено`, 'success');
+                } else {
+                    const errorText = await response.text();
+                    addMessage(`🚨 Помилка відправки: ${errorText}`, 'error');
+                }
+            } catch (err) {
+                addMessage(`🚨 Помилка відправки: ${err}`, 'error');
+            }
+        }
+
+        // Create new chat
+        async function createNewChat() {
+            const productId = document.getElementById('productId').value.trim();
+            const sellerId = document.getElementById('sellerId').value.trim();
+            const buyerId = document.getElementById('buyerId').value.trim();
+
+            if (!productId || !sellerId || !buyerId) {
+                addMessage('🚨 Заповніть всі поля для створення чату', 'error');
+                return;
+            }
+
+            try {
+                const response = await fetch('/api/chats', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ productId, sellerId, buyerId })
+                });
+
+                if (response.ok) {
+                    const chat = await response.json();
+                    addMessage(`✅ Чат створено: ${chat.id}`, 'success');
+                    
+                    // Clear form
+                    document.getElementById('productId').value = '';
+                    document.getElementById('sellerId').value = '';
+                    document.getElementById('buyerId').value = '';
+                    
+                    // Reload chats and select new one
+                    await loadUserChats();
+                    selectChat(chat.id);
+                } else {
+                    const errorText = await response.text();
+                    addMessage(`🚨 Помилка створення чату: ${errorText}`, 'error');
+                }
+            } catch (err) {
+                addMessage(`🚨 Помилка створення чату: ${err}`, 'error');
+            }
+        }
+
+        // Utility functions
+        function addMessage(text, type = 'info') {
+            const messagesDiv = document.getElementById('messages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${type}`;
+            messageDiv.innerHTML = `[${new Date().toLocaleTimeString()}] ${text}`;
+            messagesDiv.appendChild(messageDiv);
+            messagesDiv.scrollTop = messagesDiv.scrollHeight;
+        }
+
+        function clearChatMessages() {
+            const messagesDiv = document.getElementById('messages');
+            messagesDiv.innerHTML = '';
+        }
+
+        function updateConnectionStatus(status, text) {
+            const statusElement = document.getElementById('connectionStatus');
+            statusElement.className = `status ${status}`;
+            statusElement.textContent = text;
+        }
+
+        function updateUnreadCount(count) {
+            const badge = document.getElementById('notificationBadge');
+            if (count > 0) {
+                badge.textContent = count;
+                badge.style.display = 'inline';
+            } else {
+                badge.style.display = 'none';
+            }
+        }
+
+        function updateChatListItem(chatId, notification) {
+            const chatItem = document.getElementById(`chat-${chatId}`);
+            if (chatItem && chatId !== activeChatId) {
+                chatItem.style.background = '#fff3e0';
+                chatItem.style.borderColor = '#ff9800';
+            }
+        }
+
+        // Handle Enter key in message input
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('messageText').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    sendMessage();
+                }
+            });
+            
+            document.getElementById('currentUserId').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    initializeUser();
+                }
+            });
+        });
+
+        // Page unload handler
+        window.onbeforeunload = function() {
+            if (connection) {
+                connection.stop();
+            }
+        };
+    </script>
+</body>
+</html>
