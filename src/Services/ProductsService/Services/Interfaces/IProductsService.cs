@@ -10,6 +10,7 @@ public interface IProductsService
     void CreateProduct(Product product);
     Task<Product> CreateProductWithFilesAsync(CreateProductWithFilesDto createDto, CancellationToken cancellationToken = default);
     Task<bool> UpdateProductAsync(Guid id, Product product, IEnumerable<UpdateCharacteristicDto>? characteristics = null);
+    Task<Product?> UpdateProductWithFilesAsync(Guid id, UpdateProductWithFilesDto updateDto, CancellationToken cancellationToken = default);
     Task<bool> DeleteProductAsync(Guid id, CancellationToken cancellationToken = default);
     bool DeleteProduct(Guid id);
     Product? GetProductById(Guid id);

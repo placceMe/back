@@ -144,6 +144,30 @@ public class ProductsController : ControllerBase
         return CreatedAtAction(nameof(GetProduct), new { id = product.Id }, product.ToDto());
     }
 
+    // Новий endpoint для оновлення продукту з файлами для веб-інтерфейсу
+    [HttpPut("{id}/web")]
+    public async Task<ActionResult<ProductDto>> UpdateProductForWeb(
+        Guid id,
+        [FromForm] UpdateProductWithFilesDto updateProductDto,
+        CancellationToken cancellationToken)
+    {
+        try
+        {
+            var updatedProduct = await _productsService.UpdateProductWithFilesAsync(id, updateProductDto, cancellationToken);
+            
+            if (updatedProduct == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(updatedProduct.ToDto());
+        }
+        catch (ArgumentException ex)
+        {
+            return BadRequest(ex.Message);
+        }
+    }
+
     [HttpPut("{id}")]
     public async Task<IActionResult> UpdateProduct(Guid id, UpdateProductDto updateProductDto)
     {
@@ -158,13 +182,15 @@ public class ProductsController : ControllerBase
         {
             Id = id,
             Title = updateProductDto.Title,
+            Producer = updateProductDto.Producer,
+            IsNew = updateProductDto.IsNew,
             Description = updateProductDto.Description,
             Price = updateProductDto.Price,
             Color = updateProductDto.Color,
             Weight = updateProductDto.Weight,
             MainImageUrl = updateProductDto.MainImageUrl,
             CategoryId = updateProductDto.CategoryId,
-            Quantity = updateProductDto.Quantity
+            Quantity = updateProductDto.Quantity,
         };
 
         var success = await _productsService.UpdateProductAsync(id, product, updateProductDto.Characteristics);

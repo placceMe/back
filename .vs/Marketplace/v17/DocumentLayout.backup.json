@@ -3,68 +3,20 @@
   "WorkspaceRootPath": "P:\\Norsen\\back\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{643F2203-ABC0-4CB9-A9F4-149E9BB153C8}|src\\Services\\ChatService\\ChatService.csproj|p:\\norsen\\back\\src\\services\\chatservice\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{643F2203-ABC0-4CB9-A9F4-149E9BB153C8}|src\\Services\\ChatService\\ChatService.csproj|solutionrelative:src\\services\\chatservice\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{02BC7905-811C-478C-B722-6C28141DCAE9}|src\\Services\\ProductsService\\ProductsService.csproj|p:\\norsen\\back\\src\\services\\productsservice\\controllers\\productscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{02BC7905-811C-478C-B722-6C28141DCAE9}|src\\Services\\ProductsService\\ProductsService.csproj|solutionrelative:src\\services\\productsservice\\controllers\\productscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|P:\\Norsen\\back\\.github\\copilot-instructions.md||{EFC0BB08-EA7D-40C6-A696-C870411A895B}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:.github\\copilot-instructions.md||{EFC0BB08-EA7D-40C6-A696-C870411A895B}"
+      "AbsoluteMoniker": "D:0:0:{02BC7905-811C-478C-B722-6C28141DCAE9}|src\\Services\\ProductsService\\ProductsService.csproj|p:\\norsen\\back\\src\\services\\productsservice\\dtos\\productdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{02BC7905-811C-478C-B722-6C28141DCAE9}|src\\Services\\ProductsService\\ProductsService.csproj|solutionrelative:src\\services\\productsservice\\dtos\\productdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{643F2203-ABC0-4CB9-A9F4-149E9BB153C8}|src\\Services\\ChatService\\ChatService.csproj|p:\\norsen\\back\\src\\services\\chatservice\\hubs\\chathub.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{643F2203-ABC0-4CB9-A9F4-149E9BB153C8}|src\\Services\\ChatService\\ChatService.csproj|solutionrelative:src\\services\\chatservice\\hubs\\chathub.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{02BC7905-811C-478C-B722-6C28141DCAE9}|src\\Services\\ProductsService\\ProductsService.csproj|p:\\norsen\\back\\src\\services\\productsservice\\services\\interfaces\\iproductsservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{02BC7905-811C-478C-B722-6C28141DCAE9}|src\\Services\\ProductsService\\ProductsService.csproj|solutionrelative:src\\services\\productsservice\\services\\interfaces\\iproductsservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{643F2203-ABC0-4CB9-A9F4-149E9BB153C8}|src\\Services\\ChatService\\ChatService.csproj|p:\\norsen\\back\\src\\services\\chatservice\\wwwroot\\test-signalr.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{643F2203-ABC0-4CB9-A9F4-149E9BB153C8}|src\\Services\\ChatService\\ChatService.csproj|solutionrelative:src\\services\\chatservice\\wwwroot\\test-signalr.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{643F2203-ABC0-4CB9-A9F4-149E9BB153C8}|src\\Services\\ChatService\\ChatService.csproj|p:\\norsen\\back\\src\\services\\chatservice\\controllers\\chatcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{643F2203-ABC0-4CB9-A9F4-149E9BB153C8}|src\\Services\\ChatService\\ChatService.csproj|solutionrelative:src\\services\\chatservice\\controllers\\chatcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{643F2203-ABC0-4CB9-A9F4-149E9BB153C8}|src\\Services\\ChatService\\ChatService.csproj|p:\\norsen\\back\\src\\services\\chatservice\\dtos\\chatdtos.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{643F2203-ABC0-4CB9-A9F4-149E9BB153C8}|src\\Services\\ChatService\\ChatService.csproj|solutionrelative:src\\services\\chatservice\\dtos\\chatdtos.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|P:\\Norsen\\back\\http src\\Services\\ChatService\\ChatService.http||{5703B403-55E7-4C63-8C88-A8F52C7A45C5}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:http src\\Services\\ChatService\\ChatService.http||{5703B403-55E7-4C63-8C88-A8F52C7A45C5}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{643F2203-ABC0-4CB9-A9F4-149E9BB153C8}|src\\Services\\ChatService\\ChatService.csproj|p:\\norsen\\back\\src\\services\\chatservice\\dtos\\errorresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{643F2203-ABC0-4CB9-A9F4-149E9BB153C8}|src\\Services\\ChatService\\ChatService.csproj|solutionrelative:src\\services\\chatservice\\dtos\\errorresponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{643F2203-ABC0-4CB9-A9F4-149E9BB153C8}|src\\Services\\ChatService\\ChatService.csproj|p:\\norsen\\back\\src\\services\\chatservice\\services\\productsserviceclient.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{643F2203-ABC0-4CB9-A9F4-149E9BB153C8}|src\\Services\\ChatService\\ChatService.csproj|solutionrelative:src\\services\\chatservice\\services\\productsserviceclient.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{643F2203-ABC0-4CB9-A9F4-149E9BB153C8}|src\\Services\\ChatService\\ChatService.csproj|p:\\norsen\\back\\src\\services\\chatservice\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
-      "RelativeMoniker": "D:0:0:{643F2203-ABC0-4CB9-A9F4-149E9BB153C8}|src\\Services\\ChatService\\ChatService.csproj|solutionrelative:src\\services\\chatservice\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{4C19D3A8-B35E-4EBA-9E00-AFFAB879393B}|src\\Services\\UsersService\\UsersService.csproj|p:\\norsen\\back\\src\\services\\usersservice\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
-      "RelativeMoniker": "D:0:0:{4C19D3A8-B35E-4EBA-9E00-AFFAB879393B}|src\\Services\\UsersService\\UsersService.csproj|solutionrelative:src\\services\\usersservice\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{643F2203-ABC0-4CB9-A9F4-149E9BB153C8}|src\\Services\\ChatService\\ChatService.csproj|p:\\norsen\\back\\src\\services\\chatservice\\data\\chatdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{643F2203-ABC0-4CB9-A9F4-149E9BB153C8}|src\\Services\\ChatService\\ChatService.csproj|solutionrelative:src\\services\\chatservice\\data\\chatdbcontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{643F2203-ABC0-4CB9-A9F4-149E9BB153C8}|src\\Services\\ChatService\\ChatService.csproj|p:\\norsen\\back\\src\\services\\chatservice\\models\\chatentities.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{643F2203-ABC0-4CB9-A9F4-149E9BB153C8}|src\\Services\\ChatService\\ChatService.csproj|solutionrelative:src\\services\\chatservice\\models\\chatentities.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{8EC462FD-D22E-90A8-E5CE-7E832BA40C5D}|Solution Items{8EC462FD-D22E-90A8-E5CE-7E832BA40C5D}|P:\\Norsen\\back\\chat.md||{EFC0BB08-EA7D-40C6-A696-C870411A895B}",
-      "RelativeMoniker": "D:0:0:{8EC462FD-D22E-90A8-E5CE-7E832BA40C5D}|Solution Items{8EC462FD-D22E-90A8-E5CE-7E832BA40C5D}|solutionrelative:chat.md||{EFC0BB08-EA7D-40C6-A696-C870411A895B}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{643F2203-ABC0-4CB9-A9F4-149E9BB153C8}|src\\Services\\ChatService\\ChatService.csproj|p:\\norsen\\back\\src\\services\\chatservice\\services\\usersserviceclient.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{643F2203-ABC0-4CB9-A9F4-149E9BB153C8}|src\\Services\\ChatService\\ChatService.csproj|solutionrelative:src\\services\\chatservice\\services\\usersserviceclient.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{643F2203-ABC0-4CB9-A9F4-149E9BB153C8}|src\\Services\\ChatService\\ChatService.csproj|p:\\norsen\\back\\src\\services\\chatservice\\services\\notificationservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{643F2203-ABC0-4CB9-A9F4-149E9BB153C8}|src\\Services\\ChatService\\ChatService.csproj|solutionrelative:src\\services\\chatservice\\services\\notificationservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{02BC7905-811C-478C-B722-6C28141DCAE9}|src\\Services\\ProductsService\\ProductsService.csproj|p:\\norsen\\back\\src\\services\\productsservice\\services\\productsservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{02BC7905-811C-478C-B722-6C28141DCAE9}|src\\Services\\ProductsService\\ProductsService.csproj|solutionrelative:src\\services\\productsservice\\services\\productsservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -74,222 +26,62 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 10,
+          "SelectedChildIndex": 4,
           "Children": [
             {
               "$type": "Bookmark",
               "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
             },
             {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{56df62a4-05a3-4e5b-aa1a-99371ccfb997}"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "copilot-instructions.md",
-              "DocumentMoniker": "P:\\Norsen\\back\\.github\\copilot-instructions.md",
-              "RelativeDocumentMoniker": ".github\\copilot-instructions.md",
-              "ToolTip": "P:\\Norsen\\back\\.github\\copilot-instructions.md",
-              "RelativeToolTip": ".github\\copilot-instructions.md",
-              "ViewState": "AgIAAHsGAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001818|",
-              "WhenOpened": "2025-09-05T19:08:27.445Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 14,
-              "Title": "UsersServiceClient.cs",
-              "DocumentMoniker": "P:\\Norsen\\back\\src\\Services\\ChatService\\Services\\UsersServiceClient.cs",
-              "RelativeDocumentMoniker": "src\\Services\\ChatService\\Services\\UsersServiceClient.cs",
-              "ToolTip": "P:\\Norsen\\back\\src\\Services\\ChatService\\Services\\UsersServiceClient.cs",
-              "RelativeToolTip": "src\\Services\\ChatService\\Services\\UsersServiceClient.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEkAAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-05T15:07:41.201Z",
-              "EditorCaption": ""
-            },
-            {
               "$type": "Document",
               "DocumentIndex": 3,
-              "Title": "test-signalr.html",
-              "DocumentMoniker": "P:\\Norsen\\back\\src\\Services\\ChatService\\wwwroot\\test-signalr.html",
-              "RelativeDocumentMoniker": "src\\Services\\ChatService\\wwwroot\\test-signalr.html",
-              "ToolTip": "P:\\Norsen\\back\\src\\Services\\ChatService\\wwwroot\\test-signalr.html",
-              "RelativeToolTip": "src\\Services\\ChatService\\wwwroot\\test-signalr.html",
-              "ViewState": "AgIAAMcBAAAAAAAAAAAgwH0AAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
-              "WhenOpened": "2025-09-05T12:46:36.613Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "ChatService.http",
-              "DocumentMoniker": "P:\\Norsen\\back\\http src\\Services\\ChatService\\ChatService.http",
-              "RelativeDocumentMoniker": "http src\\Services\\ChatService\\ChatService.http",
-              "ToolTip": "P:\\Norsen\\back\\http src\\Services\\ChatService\\ChatService.http",
-              "RelativeToolTip": "http src\\Services\\ChatService\\ChatService.http",
-              "ViewState": "AgIAAAAAAAAAAAAAAADwvwAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003502|",
-              "WhenOpened": "2025-09-05T12:46:02.9Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "ErrorResponse.cs",
-              "DocumentMoniker": "P:\\Norsen\\back\\src\\Services\\ChatService\\DTOs\\ErrorResponse.cs",
-              "RelativeDocumentMoniker": "src\\Services\\ChatService\\DTOs\\ErrorResponse.cs",
-              "ToolTip": "P:\\Norsen\\back\\src\\Services\\ChatService\\DTOs\\ErrorResponse.cs",
-              "RelativeToolTip": "src\\Services\\ChatService\\DTOs\\ErrorResponse.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAABAAAAAAAAAA==",
+              "Title": "ProductsService.cs",
+              "DocumentMoniker": "P:\\Norsen\\back\\src\\Services\\ProductsService\\Services\\ProductsService.cs",
+              "RelativeDocumentMoniker": "src\\Services\\ProductsService\\Services\\ProductsService.cs",
+              "ToolTip": "P:\\Norsen\\back\\src\\Services\\ProductsService\\Services\\ProductsService.cs",
+              "RelativeToolTip": "src\\Services\\ProductsService\\Services\\ProductsService.cs",
+              "ViewState": "AgIAAKMBAAAAAAAAAEBVwAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-05T11:06:33.861Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "ProductsServiceClient.cs",
-              "DocumentMoniker": "P:\\Norsen\\back\\src\\Services\\ChatService\\Services\\ProductsServiceClient.cs",
-              "RelativeDocumentMoniker": "src\\Services\\ChatService\\Services\\ProductsServiceClient.cs",
-              "ToolTip": "P:\\Norsen\\back\\src\\Services\\ChatService\\Services\\ProductsServiceClient.cs",
-              "RelativeToolTip": "src\\Services\\ChatService\\Services\\ProductsServiceClient.cs",
-              "ViewState": "AgIAAEQAAAAAAAAAAAAAAGEAAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-05T11:06:18.782Z",
+              "WhenOpened": "2025-09-07T08:59:34.056Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "ChatHub.cs",
-              "DocumentMoniker": "P:\\Norsen\\back\\src\\Services\\ChatService\\Hubs\\ChatHub.cs",
-              "RelativeDocumentMoniker": "src\\Services\\ChatService\\Hubs\\ChatHub.cs",
-              "ToolTip": "P:\\Norsen\\back\\src\\Services\\ChatService\\Hubs\\ChatHub.cs",
-              "RelativeToolTip": "src\\Services\\ChatService\\Hubs\\ChatHub.cs",
-              "ViewState": "AgIAAH8AAAAAAAAAAAAIwKIAAAABAAAAAAAAAA==",
+              "Title": "IProductsService.cs",
+              "DocumentMoniker": "P:\\Norsen\\back\\src\\Services\\ProductsService\\Services\\Interfaces\\IProductsService.cs",
+              "RelativeDocumentMoniker": "src\\Services\\ProductsService\\Services\\Interfaces\\IProductsService.cs",
+              "ToolTip": "P:\\Norsen\\back\\src\\Services\\ProductsService\\Services\\Interfaces\\IProductsService.cs",
+              "RelativeToolTip": "src\\Services\\ProductsService\\Services\\Interfaces\\IProductsService.cs",
+              "ViewState": "AgIAABYAAAAAAAAAAMBawAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-05T10:53:04.513Z",
+              "WhenOpened": "2025-09-07T08:59:16.949Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "ChatDTOs.cs",
-              "DocumentMoniker": "P:\\Norsen\\back\\src\\Services\\ChatService\\DTOs\\ChatDTOs.cs",
-              "RelativeDocumentMoniker": "src\\Services\\ChatService\\DTOs\\ChatDTOs.cs",
-              "ToolTip": "P:\\Norsen\\back\\src\\Services\\ChatService\\DTOs\\ChatDTOs.cs",
-              "RelativeToolTip": "src\\Services\\ChatService\\DTOs\\ChatDTOs.cs",
-              "ViewState": "AgIAADQAAAAAAAAAAAA2wC4AAAAAAAAAAAAAAA==",
+              "DocumentIndex": 1,
+              "Title": "ProductDto.cs",
+              "DocumentMoniker": "P:\\Norsen\\back\\src\\Services\\ProductsService\\DTOs\\ProductDto.cs",
+              "RelativeDocumentMoniker": "src\\Services\\ProductsService\\DTOs\\ProductDto.cs",
+              "ToolTip": "P:\\Norsen\\back\\src\\Services\\ProductsService\\DTOs\\ProductDto.cs",
+              "RelativeToolTip": "src\\Services\\ProductsService\\DTOs\\ProductDto.cs",
+              "ViewState": "AgIAAGEAAAAAAAAAAKBhwAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-05T10:48:37.074Z",
+              "WhenOpened": "2025-09-07T08:59:03.634Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "Program.cs",
-              "DocumentMoniker": "P:\\Norsen\\back\\src\\Services\\ChatService\\Program.cs",
-              "RelativeDocumentMoniker": "src\\Services\\ChatService\\Program.cs",
-              "ToolTip": "P:\\Norsen\\back\\src\\Services\\ChatService\\Program.cs",
-              "RelativeToolTip": "src\\Services\\ChatService\\Program.cs",
-              "ViewState": "AgIAAD8AAAAAAAAAAAAkwG0AAAAAAAAAAAAAAA==",
+              "Title": "ProductsController.cs",
+              "DocumentMoniker": "P:\\Norsen\\back\\src\\Services\\ProductsService\\Controllers\\ProductsController.cs",
+              "RelativeDocumentMoniker": "src\\Services\\ProductsService\\Controllers\\ProductsController.cs",
+              "ToolTip": "P:\\Norsen\\back\\src\\Services\\ProductsService\\Controllers\\ProductsController.cs",
+              "RelativeToolTip": "src\\Services\\ProductsService\\Controllers\\ProductsController.cs",
+              "ViewState": "AgIAANkAAAAAAAAAAAAwwCUAAAArAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-05T10:21:36.849Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 15,
-              "Title": "NotificationService.cs",
-              "DocumentMoniker": "P:\\Norsen\\back\\src\\Services\\ChatService\\Services\\NotificationService.cs",
-              "RelativeDocumentMoniker": "src\\Services\\ChatService\\Services\\NotificationService.cs",
-              "ToolTip": "P:\\Norsen\\back\\src\\Services\\ChatService\\Services\\NotificationService.cs",
-              "RelativeToolTip": "src\\Services\\ChatService\\Services\\NotificationService.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAGUAAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-05T15:07:58.091Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "ChatController.cs",
-              "DocumentMoniker": "P:\\Norsen\\back\\src\\Services\\ChatService\\Controllers\\ChatController.cs",
-              "RelativeDocumentMoniker": "src\\Services\\ChatService\\Controllers\\ChatController.cs",
-              "ToolTip": "P:\\Norsen\\back\\src\\Services\\ChatService\\Controllers\\ChatController.cs",
-              "RelativeToolTip": "src\\Services\\ChatService\\Controllers\\ChatController.cs",
-              "ViewState": "AgIAAHEBAAAAAAAAAAAswGMBAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-05T10:48:11.291Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 10,
-              "Title": "appsettings.json",
-              "DocumentMoniker": "P:\\Norsen\\back\\src\\Services\\UsersService\\appsettings.json",
-              "RelativeDocumentMoniker": "src\\Services\\UsersService\\appsettings.json",
-              "ToolTip": "P:\\Norsen\\back\\src\\Services\\UsersService\\appsettings.json",
-              "RelativeToolTip": "src\\Services\\UsersService\\appsettings.json",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAlAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2025-09-05T10:36:17.305Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "appsettings.json",
-              "DocumentMoniker": "P:\\Norsen\\back\\src\\Services\\ChatService\\appsettings.json",
-              "RelativeDocumentMoniker": "src\\Services\\ChatService\\appsettings.json",
-              "ToolTip": "P:\\Norsen\\back\\src\\Services\\ChatService\\appsettings.json",
-              "RelativeToolTip": "src\\Services\\ChatService\\appsettings.json",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAEAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
-              "WhenOpened": "2025-09-05T10:36:01.183Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 12,
-              "Title": "ChatEntities.cs",
-              "DocumentMoniker": "P:\\Norsen\\back\\src\\Services\\ChatService\\Models\\ChatEntities.cs",
-              "RelativeDocumentMoniker": "src\\Services\\ChatService\\Models\\ChatEntities.cs",
-              "ToolTip": "P:\\Norsen\\back\\src\\Services\\ChatService\\Models\\ChatEntities.cs",
-              "RelativeToolTip": "src\\Services\\ChatService\\Models\\ChatEntities.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABoAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-05T10:22:34.728Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 11,
-              "Title": "ChatDbContext.cs",
-              "DocumentMoniker": "P:\\Norsen\\back\\src\\Services\\ChatService\\Data\\ChatDbContext.cs",
-              "RelativeDocumentMoniker": "src\\Services\\ChatService\\Data\\ChatDbContext.cs",
-              "ToolTip": "P:\\Norsen\\back\\src\\Services\\ChatService\\Data\\ChatDbContext.cs",
-              "RelativeToolTip": "src\\Services\\ChatService\\Data\\ChatDbContext.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAACcAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-05T10:22:34.717Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 13,
-              "Title": "chat.md",
-              "DocumentMoniker": "P:\\Norsen\\back\\chat.md",
-              "RelativeDocumentMoniker": "chat.md",
-              "ToolTip": "P:\\Norsen\\back\\chat.md",
-              "RelativeToolTip": "chat.md",
-              "ViewState": "AgIAAKUAAAAAAAAAAAAYwMYAAAA6AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001818|",
-              "WhenOpened": "2025-09-05T10:05:49.141Z",
+              "WhenOpened": "2025-09-07T08:57:08.007Z",
               "EditorCaption": ""
             }
           ]

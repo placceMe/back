@@ -297,29 +297,143 @@ public class ProductsService : IProductsService
 
     public async Task<bool> UpdateProductAsync(Guid id, Product product, IEnumerable<UpdateCharacteristicDto>? characteristics = null)
     {
+        // Get the existing product to preserve certain fields and update characteristics
+        var existingProduct = _repository.GetProductById(id);
+        if (existingProduct == null)
+        {
+            return false;
+        }
+
+        // Update the existing product with new values
+        existingProduct.Title = product.Title;
+        existingProduct.Producer = product.Producer;
+        existingProduct.IsNew = product.IsNew;
+        existingProduct.Description = product.Description;
+        existingProduct.Price = product.Price;
+        existingProduct.Color = product.Color;
+        existingProduct.Weight = product.Weight;
+        existingProduct.MainImageUrl = product.MainImageUrl;
+        existingProduct.CategoryId = product.CategoryId;
+        existingProduct.Quantity = product.Quantity;
+        existingProduct.State = product.State; // Set state to moderation when updated
+
+        // Update characteristics
         if (characteristics != null)
         {
             foreach (var characteristic in characteristics)
             {
-                var existing = product.Characteristics.FirstOrDefault(c => c.Id == characteristic.Id);
+                var existing = existingProduct.Characteristics.FirstOrDefault(c => c.Id == characteristic.Id);
                 if (existing != null)
                 {
                     existing.Value = characteristic.Value;
                 }
                 else
                 {
-                    product.Characteristics.Add(new Characteristic
+                    existingProduct.Characteristics.Add(new Characteristic
                     {
-                        ProductId = product.Id,
+                        ProductId = existingProduct.Id,
                         Value = characteristic.Value
                     });
                 }
             }
         }
 
-
-        await _repository.UpdateProductAsync(product);
+        await _repository.UpdateProductAsync(existingProduct);
         return true;
+    }
+
+    // Новий метод для оновлення продукту з файлами для веб-інтерфейсу
+    public async Task<Product?> UpdateProductWithFilesAsync(Guid id, UpdateProductWithFilesDto updateDto, CancellationToken cancellationToken = default)
+    {
+        try
+        {
+            // Крок 1: Отримати існуючий продукт
+            var existingProduct = _repository.GetProductById(id);
+            if (existingProduct == null)
+            {
+                return null;
+            }
+
+            // Крок 2: Перевірити, чи існує категорія
+            var category = _categoryRepository.GetCategoryById(updateDto.CategoryId);
+            if (category == null)
+            {
+                throw new ArgumentException($"Category with id {updateDto.CategoryId} does not exist");
+            }
+
+            // Крок 3: Оновити основні поля продукту
+            existingProduct.Title = updateDto.Title;
+            existingProduct.Producer = updateDto.Producer;
+            existingProduct.IsNew = updateDto.IsNew;
+            existingProduct.Description = updateDto.Description;
+            existingProduct.Price = updateDto.Price;
+            existingProduct.Color = updateDto.Color;
+            existingProduct.Weight = updateDto.Weight;
+            existingProduct.CategoryId = updateDto.CategoryId;
+            existingProduct.Quantity = updateDto.Quantity;
+            existingProduct.State = ProductState.Moderation; // Встановлюємо стан на модерацію
+            existingProduct.Category = category;
+
+            // Крок 4: Оновити головне зображення, якщо надано нове
+            if (updateDto.MainImage != null)
+            {
+                // Видалити старе головне зображення, якщо воно існує
+                if (!string.IsNullOrEmpty(existingProduct.MainImageUrl))
+                {
+                    await _filesServiceClient.DeleteImageAsync(existingProduct.MainImageUrl, cancellationToken);
+                }
+
+                // Завантажити нове головне зображення
+                var mainImageFileName = await _filesServiceClient.UploadImageAsync(updateDto.MainImage, cancellationToken);
+                existingProduct.MainImageUrl = mainImageFileName;
+            }
+
+            // Крок 5: Видалити зазначені зображення
+            if (updateDto.ImagesToDelete != null && updateDto.ImagesToDelete.Any())
+            {
+                foreach (var imageId in updateDto.ImagesToDelete)
+                {
+                    await _attachmentService.DeleteAttachmentAsync(imageId, cancellationToken);
+                }
+            }
+
+            // Крок 6: Додати нові додаткові зображення
+            if (updateDto.AdditionalImages != null && updateDto.AdditionalImages.Any())
+            {
+                foreach (var image in updateDto.AdditionalImages)
+                {
+                    var attachmentDto = new CreateAttachmentDto
+                    {
+                        File = image,
+                        ProductId = existingProduct.Id
+                    };
+                    await _attachmentService.CreateAttachmentAsync(attachmentDto, cancellationToken);
+                }
+            }
+
+            // Крок 7: Оновити характеристики
+            if (updateDto.Characteristics != null && updateDto.Characteristics.Any())
+            {
+                foreach (var characteristic in updateDto.Characteristics)
+                {
+                    var existing = existingProduct.Characteristics.FirstOrDefault(c => c.Id == characteristic.Id);
+                    if (existing != null)
+                    {
+                        existing.Value = characteristic.Value;
+                    }
+                }
+            }
+
+            // Крок 8: Зберегти оновлений продукт
+            await _repository.UpdateProductAsync(existingProduct);
+
+            return existingProduct;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Failed to update product with files for product {ProductId}", id);
+            throw;
+        }
     }
 
     public async Task<IEnumerable<Product>> GetProductsByStateAsync(string state)

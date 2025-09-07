@@ -62,6 +62,23 @@ public class UpdateProductDto
     public List<UpdateCharacteristicDto> Characteristics { get; set; } = new List<UpdateCharacteristicDto>();
 }
 
+public class UpdateProductWithFilesDto
+{
+    public string Title { get; set; } = string.Empty;
+    public string Producer { get; set; } = string.Empty;
+    public bool IsNew { get; set; } = false;
+    public string Description { get; set; } = string.Empty;
+    public uint Price { get; set; }
+    public string Color { get; set; } = string.Empty;
+    public uint Weight { get; set; }
+    public IFormFile? MainImage { get; set; }
+    public List<IFormFile> AdditionalImages { get; set; } = new List<IFormFile>();
+    public List<UpdateCharacteristicDto> Characteristics { get; set; } = new List<UpdateCharacteristicDto>();
+    public Guid CategoryId { get; set; }
+    public uint Quantity { get; set; }
+    public List<Guid> ImagesToDelete { get; set; } = new List<Guid>(); // IDs of existing images to delete
+}
+
 public class SearchProductsDto
 {
     public string Title { get; set; } = string.Empty;
