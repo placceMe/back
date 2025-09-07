@@ -30,4 +30,6 @@ public interface IProductsRepository
     Task<Product?> GetProductByIdAsync(Guid id);
     Task UpdateProductAsync(Product product);
     Task<IEnumerable<Product>> GetProductsByStateAsync(string state);
+    Task<IEnumerable<Product>> GetProductsWithFilterAsync(int offset, int limit, Guid? sellerId = null, Guid? categoryId = null, string? status = null);
+    Task<PaginationInfo> GetPaginationInfoWithFilterAsync(int offset, int limit, Guid? sellerId = null, Guid? categoryId = null, string? status = null);
 }

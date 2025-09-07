@@ -1,27 +1,16 @@
 using Microsoft.AspNetCore.Mvc;
-using ProductsService.DTOs;
+using Marketplace.Contracts.Products;
+using Marketplace.Contracts.Common;
+using Marketplace.Contracts.Files;
 using ProductsService.Models;
 using ProductsService.Repositories.Interfaces;
 using ProductsService.Extensions;
 using ProductsService.Services.Interfaces;
+using LocalCreateProductWithFilesDto = ProductsService.DTOs.CreateProductWithFilesDto;
+using LocalUpdateProductWithFilesDto = ProductsService.DTOs.UpdateProductWithFilesDto;
+using LocalUpdateCharacteristicDto = ProductsService.DTOs.UpdateCharacteristicDto;
 
 namespace ProductsService.Controllers;
-
-public class IdsDto
-{
-    public required IEnumerable<Guid> Ids { get; set; }
-}
-
-public class ChangeProductStateDto
-{
-    public required string State { get; set; }
-}
-
-public class ChangeQuantityDto
-{
-    public required string Operation { get; set; } // "add", "minus", "set"
-    public required int Quantity { get; set; }
-}
 
 [ApiController]
 [Route("api/[controller]")]
@@ -39,87 +28,111 @@ public class ProductsController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<ProductsDto>> GetProducts([FromQuery] PaginationDto paginationDto)
+    public async Task<ActionResult<ApiResponse<ProductsDto>>> GetProducts([FromQuery] PaginationDto paginationDto)
     {
         var products = await _productsService.GetAllProductsAsync(paginationDto.Offset, paginationDto.Limit);
-        return Ok(products);
+        return Ok(ApiResponse<ProductsDto>.SuccessResult(products.ToContract()));
     }
 
     [HttpGet("search")]
-    public async Task<ActionResult<IEnumerable<SearchProductsDto>>> SearchProducts([FromQuery] string query)
+    public async Task<ActionResult<ApiResponse<IEnumerable<SearchProductsDto>>>> SearchProducts([FromQuery] string query)
     {
         if (string.IsNullOrWhiteSpace(query))
         {
-            return BadRequest("Search query cannot be empty");
+            return BadRequest(ApiResponse<IEnumerable<SearchProductsDto>>.ErrorResult("Search query cannot be empty"));
         }
 
         var products = await _productsService.SearchProductsByTitleAsync(query);
-        return Ok(products);
+        return Ok(ApiResponse<IEnumerable<SearchProductsDto>>.SuccessResult(products.ToContract()));
     }
 
     [HttpPost("many")]
-    public async Task<ActionResult<IEnumerable<ProductDto>>> GetProductsMany([FromBody] IdsDto dto)
+    public async Task<ActionResult<ApiResponse<IEnumerable<ProductDto>>>> GetProductsMany([FromBody] IdsDto dto)
     {
         var products = await _productsService.GetProductsByIdsAsync(dto.Ids);
-        return Ok(products.ToDto());
+        return Ok(ApiResponse<IEnumerable<ProductDto>>.SuccessResult(products.ToDto().ToContract()));
     }
 
     [HttpGet("{id}")]
-    public async Task<ActionResult<ProductDto>> GetProduct(Guid id)
+    public async Task<ActionResult<ApiResponse<ProductDto>>> GetProduct(Guid id)
     {
         var product = await _productsService.GetProductByIdAsync(id);
 
         if (product == null)
         {
-            return NotFound();
+            return NotFound(ApiResponse<ProductDto>.ErrorResult("Product not found"));
         }
 
-        return Ok(product.ToDto());
+        return Ok(ApiResponse<ProductDto>.SuccessResult(product.ToDto().ToContract()));
     }
+
     [HttpGet("category/{categoryId}")]
-    public async Task<ActionResult<ProductsDto>> GetProductsByCategoryId(
+    public async Task<ActionResult<ApiResponse<ProductsDto>>> GetProductsByCategoryId(
         Guid categoryId,
         [FromQuery] PaginationDto paginationDto)
     {
         var products = await _productsService.GetProductsByCategoryIdAsync(categoryId, paginationDto.Offset, paginationDto.Limit);
-        return Ok(products);
+        return Ok(ApiResponse<ProductsDto>.SuccessResult(products.ToContract()));
     }
 
     [HttpGet("seller/{sellerId}")]
-    public async Task<ActionResult<ProductsDto>> GetProductsBySellerId(
+    public async Task<ActionResult<ApiResponse<ProductsDto>>> GetProductsBySellerId(
         Guid sellerId,
         [FromQuery] PaginationDto paginationDto)
     {
         var products = await _productsService.GetProductsBySellerIdAsync(sellerId, paginationDto.Offset, paginationDto.Limit);
-        return Ok(products);
+        return Ok(ApiResponse<ProductsDto>.SuccessResult(products.ToContract()));
     }
 
     // Новий endpoint для створення продукту з файлами
     [HttpPost("with-files")]
-    public async Task<ActionResult<ProductDto>> CreateProductWithFiles(
+    public async Task<ActionResult<ApiResponse<ProductDto>>> CreateProductWithFiles(
         [FromForm] CreateProductWithFilesDto createProductDto,
         CancellationToken cancellationToken)
     {
         try
         {
-            var product = await _productsService.CreateProductWithFilesAsync(createProductDto, cancellationToken);
-            return CreatedAtAction(nameof(GetProduct), new { id = product.Id }, product.ToDto());
+            // Мапінг з Contract DTO до Local DTO
+            var localDto = new LocalCreateProductWithFilesDto
+            {
+                Title = createProductDto.Title,
+                Producer = createProductDto.Producer,
+                IsNew = createProductDto.IsNew,
+                Description = createProductDto.Description,
+                Price = createProductDto.Price,
+                Color = createProductDto.Color,
+                Weight = createProductDto.Weight,
+                MainImage = createProductDto.MainImage,
+                AdditionalImages = createProductDto.AdditionalImages,
+                CategoryId = createProductDto.CategoryId,
+                SellerId = createProductDto.SellerId,
+                Quantity = createProductDto.Quantity,
+                Characteristics = createProductDto.Characteristics?.Select(c => new ProductsService.DTOs.CreateCharacteristicDto
+                {
+                    Value = c.Value,
+                    CharacteristicDictId = c.CharacteristicDictId
+                }).ToList() ?? new()
+            };
+
+            var product = await _productsService.CreateProductWithFilesAsync(localDto, cancellationToken);
+            return CreatedAtAction(nameof(GetProduct), new { id = product.Id }, 
+                ApiResponse<ProductDto>.SuccessResult(product.ToDto().ToContract(), "Product created successfully"));
         }
         catch (ArgumentException ex)
         {
-            return BadRequest(ex.Message);
+            return BadRequest(ApiResponse<ProductDto>.ErrorResult(ex.Message));
         }
     }
 
     // Існуючий endpoint залишається для зворотної сумісності
     [HttpPost]
-    public ActionResult<ProductDto> CreateProduct(CreateProductDto createProductDto)
+    public ActionResult<ApiResponse<ProductDto>> CreateProduct(CreateProductDto createProductDto)
     {
         // Verify that the category exists
         var category = _categoryRepository.GetCategoryById(createProductDto.CategoryId);
         if (category == null)
         {
-            return BadRequest("Category does not exist");
+            return BadRequest(ApiResponse<ProductDto>.ErrorResult("Category does not exist"));
         }
 
         var product = new Product
@@ -133,7 +146,9 @@ public class ProductsController : ControllerBase
             MainImageUrl = createProductDto.MainImageUrl,
             CategoryId = createProductDto.CategoryId,
             SellerId = createProductDto.SellerId,
-            Quantity = createProductDto.Quantity
+            Quantity = createProductDto.Quantity,
+            Producer = createProductDto.Producer,
+            IsNew = createProductDto.IsNew
         };
 
         _productsService.CreateProduct(product);
@@ -141,30 +156,53 @@ public class ProductsController : ControllerBase
         // Load the category for the response
         product.Category = category;
 
-        return CreatedAtAction(nameof(GetProduct), new { id = product.Id }, product.ToDto());
+        return CreatedAtAction(nameof(GetProduct), new { id = product.Id }, 
+            ApiResponse<ProductDto>.SuccessResult(product.ToDto().ToContract(), "Product created successfully"));
     }
 
     // Новий endpoint для оновлення продукту з файлами для веб-інтерфейсу
     [HttpPut("{id}/web")]
-    public async Task<ActionResult<ProductDto>> UpdateProductForWeb(
+    public async Task<ActionResult<ApiResponse<ProductDto>>> UpdateProductForWeb(
         Guid id,
         [FromForm] UpdateProductWithFilesDto updateProductDto,
         CancellationToken cancellationToken)
     {
         try
         {
-            var updatedProduct = await _productsService.UpdateProductWithFilesAsync(id, updateProductDto, cancellationToken);
+            // Мапінг з Contract DTO до Local DTO
+            var localDto = new LocalUpdateProductWithFilesDto
+            {
+                Title = updateProductDto.Title,
+                Producer = updateProductDto.Producer,
+                IsNew = updateProductDto.IsNew,
+                Description = updateProductDto.Description,
+                Price = updateProductDto.Price,
+                Color = updateProductDto.Color,
+                Weight = updateProductDto.Weight,
+                MainImage = updateProductDto.MainImage,
+                AdditionalImages = updateProductDto.AdditionalImages,
+                CategoryId = updateProductDto.CategoryId,
+                Quantity = updateProductDto.Quantity,
+                ImagesToDelete = updateProductDto.ImagesToDelete,
+                Characteristics = updateProductDto.Characteristics?.Select(c => new LocalUpdateCharacteristicDto
+                {
+                    Id = c.Id,
+                    Value = c.Value
+                }).ToList() ?? new()
+            };
+
+            var updatedProduct = await _productsService.UpdateProductWithFilesAsync(id, localDto, cancellationToken);
             
             if (updatedProduct == null)
             {
-                return NotFound();
+                return NotFound(ApiResponse<ProductDto>.ErrorResult("Product not found"));
             }
 
-            return Ok(updatedProduct.ToDto());
+            return Ok(ApiResponse<ProductDto>.SuccessResult(updatedProduct.ToDto().ToContract(), "Product updated successfully"));
         }
         catch (ArgumentException ex)
         {
-            return BadRequest(ex.Message);
+            return BadRequest(ApiResponse<ProductDto>.ErrorResult(ex.Message));
         }
     }
 
@@ -175,7 +213,7 @@ public class ProductsController : ControllerBase
         var category = _categoryRepository.GetCategoryById(updateProductDto.CategoryId);
         if (category == null)
         {
-            return BadRequest("Category does not exist");
+            return BadRequest(ApiResponse.CreateError("Category does not exist"));
         }
 
         var product = new Product
@@ -193,14 +231,21 @@ public class ProductsController : ControllerBase
             Quantity = updateProductDto.Quantity,
         };
 
-        var success = await _productsService.UpdateProductAsync(id, product, updateProductDto.Characteristics);
+        // Мапінг характеристик
+        var localCharacteristics = updateProductDto.Characteristics?.Select(c => new LocalUpdateCharacteristicDto
+        {
+            Id = c.Id,
+            Value = c.Value
+        }).ToList();
+
+        var success = await _productsService.UpdateProductAsync(id, product, localCharacteristics);
 
         if (!success)
         {
-            return NotFound();
+            return NotFound(ApiResponse.CreateError("Product not found"));
         }
 
-        return NoContent();
+        return Ok(ApiResponse.CreateSuccess("Product updated successfully"));
     }
 
     [HttpPut("{id}/state")]
@@ -209,9 +254,9 @@ public class ProductsController : ControllerBase
         var success = await _productsService.ChangeProductStateAsync(id, dto.State);
         if (!success)
         {
-            return NotFound();
+            return NotFound(ApiResponse.CreateError("Product not found"));
         }
-        return NoContent();
+        return Ok(ApiResponse.CreateSuccess("Product state updated successfully"));
     }
 
     [HttpPut("{id}/quantity")]
@@ -219,20 +264,20 @@ public class ProductsController : ControllerBase
     {
         if (!new[] { "add", "minus", "set" }.Contains(dto.Operation.ToLower()))
         {
-            return BadRequest("Operation must be 'add', 'minus', or 'set'");
+            return BadRequest(ApiResponse.CreateError("Operation must be 'add', 'minus', or 'set'"));
         }
 
         if (dto.Quantity < 0)
         {
-            return BadRequest("Quantity cannot be negative");
+            return BadRequest(ApiResponse.CreateError("Quantity cannot be negative"));
         }
 
         var success = await _productsService.ChangeProductQuantityAsync(id, dto.Operation.ToLower(), dto.Quantity);
         if (!success)
         {
-            return NotFound();
+            return NotFound(ApiResponse.CreateError("Product not found"));
         }
-        return NoContent();
+        return Ok(ApiResponse.CreateSuccess("Product quantity updated successfully"));
     }
 
     [HttpDelete("{id}")]
@@ -242,16 +287,30 @@ public class ProductsController : ControllerBase
 
         if (!success)
         {
-            return NotFound();
+            return NotFound(ApiResponse.CreateError("Product not found"));
         }
 
-        return NoContent();
+        return Ok(ApiResponse.CreateSuccess("Product deleted successfully"));
     }
 
     [HttpGet("state/{state}")]
-    public async Task<ActionResult<IEnumerable<ProductDto>>> GetProductsByState(string state)
+    public async Task<ActionResult<ApiResponse<IEnumerable<ProductDto>>>> GetProductsByState(string state)
     {
         var products = await _productsService.GetProductsByStateAsync(state);
-        return Ok(products.ToDto());
+        return Ok(ApiResponse<IEnumerable<ProductDto>>.SuccessResult(products.ToDto().ToContract()));
+    }
+
+    [HttpGet("filter")]
+    public async Task<ActionResult<ApiResponse<ProductsDto>>> GetProductsWithFilter(
+        [FromQuery] PaginationDto paginationDto,
+        [FromQuery] ProductFilterDto filterDto)
+    {
+        var products = await _productsService.GetProductsWithFilterAsync(
+            paginationDto.Offset, 
+            paginationDto.Limit, 
+            filterDto.SellerId, 
+            filterDto.CategoryId, 
+            filterDto.Status);
+        return Ok(ApiResponse<ProductsDto>.SuccessResult(products.ToContract()));
     }
 }

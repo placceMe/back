@@ -6,6 +6,9 @@ using ChatService.Models;
 using ChatService.DTOs;
 using ChatService.Hubs;
 using ChatService.Services;
+using ChatService.Extensions;
+using Marketplace.Contracts.Chat;
+using Marketplace.Contracts.Common;
 
 namespace ChatService.Controllers
 {
@@ -36,8 +39,7 @@ namespace ChatService.Controllers
             _productsServiceClient = productsServiceClient;
             _notificationService = notificationService;
         }
-        // If you intended to use a cursor-based pagination, add this property to GetChatsQuery:
-        public DateTime? Cursor { get; set; }
+
         /// <summary>
         /// Створює новий чат або повертає існуючий
         /// </summary>
@@ -47,23 +49,21 @@ namespace ChatService.Controllers
         /// <response code="400">Невалідні дані запиту або продавець не є власником товару</response>
         /// <response code="500">Внутрішня помилка сервера</response>
         [HttpPost]
-        [ProducesResponseType(typeof(ChatResponse), 200)]
-        [ProducesResponseType(typeof(ErrorResponse), 400)]
-        [ProducesResponseType(typeof(ErrorResponse), 500)]
-        public async Task<ActionResult<ChatResponse>> CreateOrGetChat(CreateChatRequest request)
+        [ProducesResponseType(typeof(ApiResponse<ChatDto>), 200)]
+        [ProducesResponseType(typeof(ApiResponse<ChatDto>), 400)]
+        [ProducesResponseType(typeof(ApiResponse<ChatDto>), 500)]
+        public async Task<ActionResult<ApiResponse<ChatDto>>> CreateOrGetChat(CreateChatDto request)
         {
             try
             {
+                // Мапінг з контракту до локального DTO
+                var localRequest = request.ToLocal();
+
                 // Валідація відповідності sellerId продавцю товару productId
                 var validation = await _productsServiceClient.ValidateProductSellerAsync(request.ProductId, request.SellerId);
                 if (!validation.IsValid)
                 {
-                    return BadRequest(new ErrorResponse
-                    {
-                        Code = ErrorCodes.InvalidSeller,
-                        Message = validation.Error ?? "Невалідний продавець для товару",
-                        Details = new { ProductId = request.ProductId, SellerId = request.SellerId }
-                    });
+                    return BadRequest(ApiResponse<ChatDto>.ErrorResult(validation.Error ?? "Невалідний продавець для товару"));
                 }
 
                 // Check if chat already exists
@@ -77,14 +77,7 @@ namespace ChatService.Controllers
                     _logger.LogInformation("Returning existing chat {ChatId} for product {ProductId}", 
                         existingChat.Id, request.ProductId);
                     
-                    return Ok(new ChatResponse
-                    {
-                        Id = existingChat.Id,
-                        ProductId = existingChat.ProductId,
-                        SellerId = existingChat.SellerId,
-                        BuyerId = existingChat.BuyerId,
-                        CreatedAt = existingChat.CreatedAt
-                    });
+                    return Ok(ApiResponse<ChatDto>.SuccessResult(existingChat.ToContract(), "Existing chat found"));
                 }
 
                 // Create new chat
@@ -102,90 +95,65 @@ namespace ChatService.Controllers
                 _logger.LogInformation("Created new chat {ChatId} for product {ProductId}", 
                     newChat.Id, request.ProductId);
 
-                return Ok(new ChatResponse
-                {
-                    Id = newChat.Id,
-                    ProductId = newChat.ProductId,
-                    SellerId = newChat.SellerId,
-                    BuyerId = newChat.BuyerId,
-                    CreatedAt = newChat.CreatedAt
-                });
+                return Ok(ApiResponse<ChatDto>.SuccessResult(newChat.ToContract(), "Chat created successfully"));
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error creating/getting chat for product {ProductId}", request.ProductId);
-                return StatusCode(500, new ErrorResponse
-                {
-                    Code = ErrorCodes.InternalError,
-                    Message = "Внутрішня помилка сервера",
-                    Details = ex.Message
-                });
+                return StatusCode(500, ApiResponse<ChatDto>.ErrorResult("Внутрішня помилка сервера"));
             }
         }
 
         /// <summary>
         /// Отримує список чатів з фільтрацією та пагінацією
         /// </summary>
-        /// <param name="query">Параметри фільтрації та пагінації</param>
+        /// <param name="sellerId">ID продавця для фільтрації</param>
+        /// <param name="buyerId">ID покупця для фільтрації</param>
+        /// <param name="skip">Кількість чатів для пропуску</param>
+        /// <param name="take">Кількість чатів для повернення</param>
         /// <returns>Список чатів</returns>
         /// <response code="200">Успішно отримано список чатів</response>
         /// <response code="500">Внутрішня помилка сервера</response>
         [HttpGet]
-        [ProducesResponseType(typeof(IEnumerable<ChatResponse>), 200)]
-        [ProducesResponseType(typeof(ErrorResponse), 500)]
-        public async Task<ActionResult<IEnumerable<ChatResponse>>> GetChats([FromQuery] GetChatsQuery query)
+        [ProducesResponseType(typeof(ApiResponse<IEnumerable<ChatDto>>), 200)]
+        [ProducesResponseType(typeof(ApiResponse<IEnumerable<ChatDto>>), 500)]
+        public async Task<ActionResult<ApiResponse<IEnumerable<ChatDto>>>> GetChats(
+            [FromQuery] Guid? sellerId,
+            [FromQuery] Guid? buyerId,
+            [FromQuery] int skip = 0,
+            [FromQuery] int take = 20)
         {
             try
             {
                 var queryable = _context.Chats.AsQueryable();
-                // Replace this block in GetChats method:
-                // if (query.Cursor.HasValue)
-                // {
-                //     queryable = queryable.Where(c => c.CreatedAt < query.Cursor.Value);
-                // }
 
-                // With this block:
-                if (query.Skip > 0)
+                if (skip > 0)
                 {
-                    queryable = queryable.Skip(query.Skip);
+                    queryable = queryable.Skip(skip);
                 }
                         
                 // Фільтрація за sellerId або buyerId
-                if (query.SellerId.HasValue)
+                if (sellerId.HasValue)
                 {
-                    queryable = queryable.Where(c => c.SellerId == query.SellerId.Value);
+                    queryable = queryable.Where(c => c.SellerId == sellerId.Value);
                 }
 
-                if (query.BuyerId.HasValue)
+                if (buyerId.HasValue)
                 {
-                    queryable = queryable.Where(c => c.BuyerId == query.BuyerId.Value);
+                    queryable = queryable.Where(c => c.BuyerId == buyerId.Value);
                 }
-
 
                 var chats = await queryable
                     .OrderByDescending(c => c.CreatedAt)
+                    .Take(take)
                     .ToListAsync();
 
-                // Формування результату
-                var chatResponses = chats.Select(c => new ChatResponse
-                {
-                    Id = c.Id,
-                    ProductId = c.ProductId,
-                    SellerId = c.SellerId,
-                    BuyerId = c.BuyerId,
-                    CreatedAt = c.CreatedAt
-                });
-
-                return Ok(chatResponses);
+                return Ok(ApiResponse<IEnumerable<ChatDto>>.SuccessResult(chats.ToContract()));
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error retrieving chats");
-                return StatusCode(500, new ErrorResponse
-                {
-                    Code = ErrorCodes.InternalError,
-                    Message = "Внутрішня помилка сервера"
-                });
+                return StatusCode(500, ApiResponse<IEnumerable<ChatDto>>.ErrorResult("Внутрішня помилка сервера"));
             }
         }
 
@@ -198,10 +166,10 @@ namespace ChatService.Controllers
         /// <response code="404">Чат не знайдено</response>
         /// <response code="500">Внутрішня помилка сервера</response>
         [HttpGet("{chatId}")]
-        [ProducesResponseType(typeof(ChatResponse), 200)]
-        [ProducesResponseType(typeof(ErrorResponse), 404)]
-        [ProducesResponseType(typeof(ErrorResponse), 500)]
-        public async Task<ActionResult<ChatResponse>> GetChat(Guid chatId)
+        [ProducesResponseType(typeof(ApiResponse<ChatDto>), 200)]
+        [ProducesResponseType(typeof(ApiResponse<ChatDto>), 404)]
+        [ProducesResponseType(typeof(ApiResponse<ChatDto>), 500)]
+        public async Task<ActionResult<ApiResponse<ChatDto>>> GetChat(Guid chatId)
         {
             try
             {
@@ -209,31 +177,15 @@ namespace ChatService.Controllers
                 
                 if (chat == null)
                 {
-                    return NotFound(new ErrorResponse
-                    {
-                        Code = ErrorCodes.NotFound,
-                        Message = "Чат не знайдено",
-                        Details = new { ChatId = chatId }
-                    });
+                    return NotFound(ApiResponse<ChatDto>.ErrorResult("Чат не знайдено"));
                 }
 
-                return Ok(new ChatResponse
-                {
-                    Id = chat.Id,
-                    ProductId = chat.ProductId,
-                    SellerId = chat.SellerId,
-                    BuyerId = chat.BuyerId,
-                    CreatedAt = chat.CreatedAt
-                });
+                return Ok(ApiResponse<ChatDto>.SuccessResult(chat.ToContract()));
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error retrieving chat {ChatId}", chatId);
-                return StatusCode(500, new ErrorResponse
-                {
-                    Code = ErrorCodes.InternalError,
-                    Message = "Внутрішня помилка сервера"
-                });
+                return StatusCode(500, ApiResponse<ChatDto>.ErrorResult("Внутрішня помилка сервера"));
             }
         }
 
@@ -241,16 +193,22 @@ namespace ChatService.Controllers
         /// Отримує повідомлення чату
         /// </summary>
         /// <param name="chatId">ID чату</param>
-        /// <param name="query">Параметри пагінації</param>
+        /// <param name="after">Дата після якої отримувати повідомлення</param>
+        /// <param name="skip">Кількість повідомлень для пропуску</param>
+        /// <param name="take">Кількість повідомлень для повернення</param>
         /// <returns>Список повідомлень</returns>
         /// <response code="200">Успішно отримано повідомлення</response>
         /// <response code="404">Чат не знайдено</response>
         /// <response code="500">Внутрішня помилка сервера</response>
         [HttpGet("{chatId}/messages")]
-        [ProducesResponseType(typeof(IEnumerable<MessageResponse>), 200)]
-        [ProducesResponseType(typeof(ErrorResponse), 404)]
-        [ProducesResponseType(typeof(ErrorResponse), 500)]
-        public async Task<ActionResult<IEnumerable<MessageResponse>>> GetMessages(Guid chatId, [FromQuery] GetMessagesQuery query)
+        [ProducesResponseType(typeof(ApiResponse<IEnumerable<ChatMessageDto>>), 200)]
+        [ProducesResponseType(typeof(ApiResponse<IEnumerable<ChatMessageDto>>), 404)]
+        [ProducesResponseType(typeof(ApiResponse<IEnumerable<ChatMessageDto>>), 500)]
+        public async Task<ActionResult<ApiResponse<IEnumerable<ChatMessageDto>>>> GetMessages(
+            Guid chatId,
+            [FromQuery] DateTime? after = null,
+            [FromQuery] int skip = 0,
+            [FromQuery] int take = 50)
         {
             try
             {
@@ -258,12 +216,7 @@ namespace ChatService.Controllers
                 var chatExists = await _context.Chats.AnyAsync(c => c.Id == chatId);
                 if (!chatExists)
                 {
-                    return NotFound(new ErrorResponse
-                    {
-                        Code = ErrorCodes.ChatNotFound,
-                        Message = "Чат не знайдено",
-                        Details = new { ChatId = chatId }
-                    });
+                    return NotFound(ApiResponse<IEnumerable<ChatMessageDto>>.ErrorResult("Чат не знайдено"));
                 }
 
                 var queryable = _context.ChatMessages
@@ -271,36 +224,23 @@ namespace ChatService.Controllers
                     .AsQueryable();
 
                 // Фільтрація за датою якщо вказано
-                if (query.After.HasValue)
+                if (after.HasValue)
                 {
-                    queryable = queryable.Where(m => m.CreatedAt > query.After.Value);
+                    queryable = queryable.Where(m => m.CreatedAt > after.Value);
                 }
 
-                // Пагінація
-                var totalMessages = await queryable.CountAsync();
                 var messages = await queryable
                     .OrderBy(m => m.CreatedAt)
+                    .Skip(skip)
+                    .Take(take)
                     .ToListAsync();
 
-                var messageResponses = messages.Select(m => new MessageResponse
-                {
-                    Id = m.Id,
-                    ChatId = m.ChatId,
-                    SenderUserId = m.SenderUserId,
-                    Body = m.Body,
-                    CreatedAt = m.CreatedAt
-                });
-
-                return Ok(messageResponses);
+                return Ok(ApiResponse<IEnumerable<ChatMessageDto>>.SuccessResult(messages.ToContract()));
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error retrieving messages for chat {ChatId}", chatId);
-                return StatusCode(500, new ErrorResponse
-                {
-                    Code = ErrorCodes.InternalError,
-                    Message = "Внутрішня помилка сервера"
-                });
+                return StatusCode(500, ApiResponse<IEnumerable<ChatMessageDto>>.ErrorResult("Внутрішня помилка сервера"));
             }
         }
 
@@ -315,35 +255,28 @@ namespace ChatService.Controllers
         /// <response code="404">Чат не знайдено</response>
         /// <response code="500">Внутрішня помилка сервера</response>
         [HttpPost("{chatId}/messages")]
-        [ProducesResponseType(typeof(MessageResponse), 200)]
-        [ProducesResponseType(typeof(ErrorResponse), 400)]
-        [ProducesResponseType(typeof(ErrorResponse), 404)]
-        [ProducesResponseType(typeof(ErrorResponse), 500)]
-        public async Task<ActionResult<MessageResponse>> SendMessage(Guid chatId, CreateMessageRequest request)
+        [ProducesResponseType(typeof(ApiResponse<ChatMessageDto>), 200)]
+        [ProducesResponseType(typeof(ApiResponse<ChatMessageDto>), 400)]
+        [ProducesResponseType(typeof(ApiResponse<ChatMessageDto>), 404)]
+        [ProducesResponseType(typeof(ApiResponse<ChatMessageDto>), 500)]
+        public async Task<ActionResult<ApiResponse<ChatMessageDto>>> SendMessage(Guid chatId, CreateMessageDto request)
         {
             try
             {
+                // Мапінг з контракту до локального DTO
+                var localRequest = request.ToLocal();
+
                 // Validate body is not empty/whitespace
                 if (string.IsNullOrWhiteSpace(request.Body))
                 {
-                    return BadRequest(new ErrorResponse
-                    {
-                        Code = ErrorCodes.EmptyMessage,
-                        Message = "Текст повідомлення не може бути порожнім",
-                        Details = new { ChatId = chatId }
-                    });
+                    return BadRequest(ApiResponse<ChatMessageDto>.ErrorResult("Текст повідомлення не може бути порожнім"));
                 }
 
                 // Check if chat exists and get chat info
                 var chat = await _context.Chats.FindAsync(chatId);
                 if (chat == null)
                 {
-                    return NotFound(new ErrorResponse
-                    {
-                        Code = ErrorCodes.ChatNotFound,
-                        Message = "Чат не знайдено",
-                        Details = new { ChatId = chatId }
-                    });
+                    return NotFound(ApiResponse<ChatMessageDto>.ErrorResult("Чат не знайдено"));
                 }
 
                 var message = new ChatMessage
@@ -360,18 +293,11 @@ namespace ChatService.Controllers
                 _logger.LogInformation("Created message {MessageId} in chat {ChatId} by user {UserId}", 
                     message.Id, chatId, request.SenderUserId);
 
-                var messageResponse = new MessageResponse
-                {
-                    Id = message.Id,
-                    ChatId = message.ChatId,
-                    SenderUserId = message.SenderUserId,
-                    Body = message.Body,
-                    CreatedAt = message.CreatedAt
-                };
+                var contractMessage = message.ToContract();
 
                 // Send SignalR notification to chat group
                 await _hubContext.Clients.Group($"chat:{chatId}")
-                    .SendAsync("MessageCreated", messageResponse);
+                    .SendAsync("MessageCreated", contractMessage);
 
                 _logger.LogInformation("Sent SignalR notification for message {MessageId} to group chat:{ChatId}", 
                     message.Id, chatId);
@@ -379,16 +305,12 @@ namespace ChatService.Controllers
                 // Send notification to users
                 await _notificationService.SendMessageNotificationAsync(message, chat);
 
-                return Ok(messageResponse);
+                return Ok(ApiResponse<ChatMessageDto>.SuccessResult(contractMessage, "Message sent successfully"));
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error sending message to chat {ChatId}", chatId);
-                return StatusCode(500, new ErrorResponse
-                {
-                    Code = ErrorCodes.InternalError,
-                    Message = "Внутрішня помилка сервера"
-                });
+                return StatusCode(500, ApiResponse<ChatMessageDto>.ErrorResult("Внутрішня помилка сервера"));
             }
         }
     }

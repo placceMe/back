@@ -606,3 +606,6 @@ P:\Norsen\back\src\Services\UsersService\obj\Debug\net8.0\rjsmcshtml.dswa.cache.
 P:\Norsen\back\src\Services\UsersService\obj\Debug\net8.0\staticwebassets.build.json.cache
 P:\Norsen\back\src\Services\UsersService\obj\Debug\net8.0\staticwebassets.build.endpoints.json
 P:\Norsen\back\src\Services\UsersService\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
+P:\Norsen\back\src\Services\UsersService\bin\Debug\net8.0\Marketplace.Contracts.dll
+P:\Norsen\back\src\Services\UsersService\bin\Debug\net8.0\Marketplace.Contracts.pdb
+P:\Norsen\back\src\Services\UsersService\bin\Debug\net8.0\Marketplace.Contracts.xml

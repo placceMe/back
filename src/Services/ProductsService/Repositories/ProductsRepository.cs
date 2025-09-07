@@ -219,4 +219,62 @@ public class ProductsRepository : IProductsRepository
             .Where(p => p.State == state)
             .ToListAsync();
     }
+
+    public async Task<IEnumerable<Product>> GetProductsWithFilterAsync(int offset, int limit, Guid? sellerId = null, Guid? categoryId = null, string? status = null)
+    {
+        IQueryable<Product> query = _context.Products
+            .Include(p => p.Category);
+
+        // Apply filters based on provided parameters
+        if (sellerId.HasValue)
+        {
+            query = query.Where(p => p.SellerId == sellerId.Value);
+        }
+
+        if (categoryId.HasValue)
+        {
+            query = query.Where(p => p.CategoryId == categoryId.Value);
+        }
+
+        if (!string.IsNullOrWhiteSpace(status))
+        {
+            query = query.Where(p => p.State == status);
+        }
+
+        return await query
+            .Skip(offset)
+            .Take(limit)
+            .ToListAsync();
+    }
+
+    public async Task<PaginationInfo> GetPaginationInfoWithFilterAsync(int offset, int limit, Guid? sellerId = null, Guid? categoryId = null, string? status = null)
+    {
+        IQueryable<Product> query = _context.Products;
+
+        // Apply filters based on provided parameters
+        if (sellerId.HasValue)
+        {
+            query = query.Where(p => p.SellerId == sellerId.Value);
+        }
+
+        if (categoryId.HasValue)
+        {
+            query = query.Where(p => p.CategoryId == categoryId.Value);
+        }
+
+        if (!string.IsNullOrWhiteSpace(status))
+        {
+            query = query.Where(p => p.State == status);
+        }
+
+        int totalItems = await query.CountAsync();
+
+        var paginationInfo = new PaginationInfo
+        {
+            TotalItems = totalItems,
+            PageSize = limit,
+            CurrentPage = (int)Math.Ceiling((double)offset / limit) + 1
+        };
+        return paginationInfo;
+    }
 }

@@ -72,7 +72,7 @@ public class ProductsService : IProductsService
                 SellerId = createDto.SellerId,
                 Quantity = createDto.Quantity,
                 Category = category,
-                Producer = createDto.Producer,
+               Producer = createDto.Producer,
                 IsNew = createDto.IsNew,
 
             };
@@ -439,6 +439,19 @@ public class ProductsService : IProductsService
     public async Task<IEnumerable<Product>> GetProductsByStateAsync(string state)
     {
         return await _repository.GetProductsByStateAsync(state);
+    }
 
+    public async Task<ProductsDto> GetProductsWithFilterAsync(int offset, int limit, Guid? sellerId = null, Guid? categoryId = null, string? status = null)
+    {
+        var products = await _repository.GetProductsWithFilterAsync(offset, limit, sellerId, categoryId, status);
+        var info = await _repository.GetPaginationInfoWithFilterAsync(offset, limit, sellerId, categoryId, status);
+
+        var productsDto = new ProductsDto
+        {
+            Products = products.ToDto()?.ToList() ?? new List<ProductDto>(),
+            Pagination = info
+        };
+
+        return productsDto;
     }
 }

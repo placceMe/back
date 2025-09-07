@@ -1,22 +1,31 @@
 # Build stage
 FROM mcr.microsoft.com/dotnet/sdk:8.0-alpine AS build
-WORKDIR /app
+WORKDIR /src
 
-# Copy project file and restore with retry and cache clear
-COPY *.csproj ./
+# Copy solution file if exists (optional)
+COPY *.sln ./
+
+# Copy project files for better layer caching
+COPY src/Services/UsersService/UsersService.csproj src/Services/UsersService/
+COPY src/Shared/Marketplace.Contracts/Marketplace.Contracts.csproj src/Shared/Marketplace.Contracts/
+
+# Restore dependencies with retry and cache clear
 RUN dotnet nuget locals all --clear && \
-    dotnet restore --no-cache --disable-parallel || \
-    (sleep 5 && dotnet restore --no-cache --disable-parallel) || \
-    (sleep 10 && dotnet restore --no-cache --disable-parallel)
+    (dotnet restore src/Services/UsersService/UsersService.csproj --no-cache --disable-parallel || \
+     (sleep 5 && dotnet restore src/Services/UsersService/UsersService.csproj --no-cache --disable-parallel) || \
+     (sleep 10 && dotnet restore src/Services/UsersService/UsersService.csproj --no-cache --disable-parallel))
 
-# Copy source code and publish
-COPY . ./
-RUN dotnet publish -c Release -o /out
+# Copy all source code
+COPY . .
+
+# Build and publish
+WORKDIR /src/src/Services/UsersService
+RUN dotnet publish UsersService.csproj -c Release -o /app/out
 
 # Runtime stage
 FROM mcr.microsoft.com/dotnet/aspnet:8.0-alpine AS runtime
 WORKDIR /app
 
-COPY --from=build /out .
+COPY --from=build /app/out .
 
 ENTRYPOINT ["dotnet", "UsersService.dll"]
