@@ -13,17 +13,18 @@ public class ApiResponse<T>
     public string Message { get; set; } = string.Empty;
     public List<string> Errors { get; set; } = new();
     public DateTime Timestamp { get; set; } = DateTime.UtcNow;
-    
-    public static ApiResponse<T> SuccessResult(T data, string message = "Success")
+
+    public static T SuccessResult(T data, string message = "Success")
     {
-        return new ApiResponse<T>
-        {
-            Success = true,
-            Data = data,
-            Message = message
-        };
+        return data;
+        // return new ApiResponse<T>
+        // {
+        //     Success = true,
+        //     Data = data,
+        //     Message = message
+        // };
     }
-    
+
     public static ApiResponse<T> ErrorResult(string error)
     {
         return new ApiResponse<T>
@@ -32,7 +33,7 @@ public class ApiResponse<T>
             Errors = new List<string> { error }
         };
     }
-    
+
     public static ApiResponse<T> ErrorResult(List<string> errors)
     {
         return new ApiResponse<T>
@@ -61,7 +62,7 @@ public class ApiResponse
             Message = message
         };
     }
-    
+
     public static ApiResponse CreateError(string error)
     {
         return new ApiResponse

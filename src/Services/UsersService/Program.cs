@@ -1,26 +1,15 @@
 using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
-using System.Text;
 using UsersService.Data;
 using UsersService.Repositories;
 using UsersService.Services;
 using UsersService.Extensions;
 using Serilog;
 using Serilog.Sinks.PostgreSQL;
-
-// + NEW:
 using StackExchange.Redis;
-using Microsoft.AspNetCore.DataProtection;
-using Microsoft.Extensions.Caching.Distributed;
-using Microsoft.Extensions.Caching.StackExchangeRedis;
-using System.Security.Cryptography;
-using System.Security.Claims;
-using System.IdentityModel.Tokens.Jwt;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// ---- Serilog (як у вас) ----
+// ---- Serilog ----
 Log.Logger = new LoggerConfiguration()
     .WriteTo.Console()
     .WriteTo.PostgreSQL(
@@ -31,77 +20,6 @@ Log.Logger = new LoggerConfiguration()
     .CreateLogger();
 builder.Host.UseSerilog();
 
-// ---- JWT config (як у вас) ----
-var jwtKey = builder.Configuration["Jwt:Key"] ?? "default-secret-key-for-development-only-min-32-chars";
-var jwtIssuer = builder.Configuration["Jwt:Issuer"] ?? "UsersService";
-var jwtAudience = builder.Configuration["Jwt:Audience"] ?? "MarketplaceClient";
-
-// + NEW: Redis multiplexer (один на застосунок)
-var redisConn = builder.Configuration.GetConnectionString("Redis") ?? "redis:6379";
-var multiplexer = ConnectionMultiplexer.Connect(redisConn);
-builder.Services.AddSingleton<IConnectionMultiplexer>(multiplexer);
-
-// + NEW: Data Protection key ring у Redis (спільні ключі між інстансами)
-builder.Services
-    .AddDataProtection()
-    .PersistKeysToStackExchangeRedis(multiplexer, "dp-keys");
-
-// + NEW: IDistributedCache на Redis (для різних сценаріїв)
-builder.Services.AddStackExchangeRedisCache(o =>
-{
-    o.Configuration = redisConn;
-    o.InstanceName = "userssvc:";
-});
-
-// + NEW: Наші сервіси для Redis-аутентифікації
-builder.Services.AddSingleton<IRedisAuthStore, RedisAuthStore>();
-
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    .AddJwtBearer(options =>
-    {
-        options.TokenValidationParameters = new TokenValidationParameters
-        {
-            ValidateIssuerSigningKey = true,
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtKey)),
-            ValidateIssuer = true,
-            ValidIssuer = jwtIssuer,
-            ValidateAudience = true,
-            ValidAudience = jwtAudience,
-            ValidateLifetime = true,
-            ClockSkew = TimeSpan.Zero
-        };
-
-        options.Events = new JwtBearerEvents
-        {
-            OnMessageReceived = context =>
-            {
-                // Token з cookie (як у вас)
-                if (context.Request.Cookies.TryGetValue("authToken", out var token))
-                {
-                    context.Token = token;
-                }
-                return Task.CompletedTask;
-            },
-
-            // + NEW: Перевірка denylist (revoked jti) у Redis — працює на всіх інстансах
-            OnTokenValidated = async context =>
-            {
-                var jti = context.Principal?.FindFirst(JwtRegisteredClaimNames.Jti)?.Value;
-                if (string.IsNullOrWhiteSpace(jti))
-                    return;
-
-                var store = context.HttpContext.RequestServices.GetRequiredService<IRedisAuthStore>();
-                var isRevoked = await store.IsJtiRevokedAsync(jti, context.HttpContext.RequestAborted);
-                if (isRevoked)
-                {
-                    context.Fail("Token revoked");
-                }
-            }
-        };
-    });
-
-builder.Services.AddAuthorization();
-
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -110,12 +28,74 @@ builder.Services.AddDbContext<UsersDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"),
         npgsqlOptions => npgsqlOptions.MigrationsHistoryTable("__EFMigrationsHistory", "users_service")));
 
-// ---- ваші DI ----
+// ---- Redis ----
+builder.Services.AddSingleton<IConnectionMultiplexer>(provider =>
+{
+    var configuration = provider.GetRequiredService<IConfiguration>();
+    var connectionString = configuration.GetConnectionString("Redis") ??
+                          configuration["Redis:DefaultConnection"] ??
+                          "localhost:6379";
+    return ConnectionMultiplexer.Connect(connectionString);
+});
+
+// ---- Service DI ----
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ISalerInfoRepository, SalerInfoRepository>();
 builder.Services.AddScoped<ISalerInfoService, SalerInfoService>();
+builder.Services.AddScoped<IRedisAuthStore, RedisAuthStore>();
 builder.Services.AddScoped<DatabaseMigrationService>();
+
+// ---- Authentication ----
+// Add the shared authentication library
+// builder.Services.AddMarketplaceAuthentication(builder.Configuration, "UsersService");
+
+// Temporary manual authentication setup until shared library reference is resolved
+builder.Services.AddAuthentication("Bearer")
+    .AddJwtBearer("Bearer", options =>
+    {
+        var jwtSettings = builder.Configuration.GetSection("Authentication:Jwt");
+        options.TokenValidationParameters = new Microsoft.IdentityModel.Tokens.TokenValidationParameters
+        {
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = new Microsoft.IdentityModel.Tokens.SymmetricSecurityKey(
+                System.Text.Encoding.UTF8.GetBytes(jwtSettings["SecretKey"] ?? "default-key-32-chars-minimum-length")),
+            ValidateIssuer = true,
+            ValidIssuer = jwtSettings["Issuer"],
+            ValidateAudience = true,
+            ValidAudience = jwtSettings["Audience"],
+            ValidateLifetime = true,
+            ClockSkew = TimeSpan.FromMinutes(5)
+        };
+
+        // Handle token from cookie
+        options.Events = new Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerEvents
+        {
+            OnMessageReceived = context =>
+            {
+                // Try to get token from cookie first
+                if (context.Request.Cookies.TryGetValue("authToken", out var cookieToken))
+                {
+                    context.Token = cookieToken;
+                }
+                return Task.CompletedTask;
+            }
+        };
+    });
+
+builder.Services.AddAuthorization();
+
+// ---- CORS ----
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(policy =>
+    {
+        policy.WithOrigins("http://localhost:5173", "http://localhost:3000") // Frontend URLs
+              .AllowAnyMethod()
+              .AllowAnyHeader()
+              .AllowCredentials(); // Required for cookies
+    });
+});
 
 // HttpClient for NotificationsService
 builder.Services.AddHttpClient<INotificationServiceClient, NotificationServiceClient>((serviceProvider, client) =>
@@ -125,12 +105,11 @@ builder.Services.AddHttpClient<INotificationServiceClient, NotificationServiceCl
     client.BaseAddress = new Uri(baseUrl);
 });
 
-
 builder.Services.AddHealthChecks();
 
 var app = builder.Build();
 
-// ---- міграції (як у вас) ----
+// ---- Migrations ----
 try
 {
     app.Logger.LogInformation("Початок застосування міграцій для Users Service...");
@@ -148,12 +127,16 @@ catch (Exception ex)
 app.UseSwagger();
 app.UseSwaggerUI();
 
+// ---- CORS ----
+app.UseCors();
+
+// ---- Authentication & Authorization ----
 app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
 app.MapHealthChecks("/health");
 
-Log.Information("Test log for PostgreSQL sink");
+Log.Information("Users Service запущено");
 
 app.Run();

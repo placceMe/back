@@ -3,112 +3,128 @@
   "WorkspaceRootPath": "P:\\Norsen\\back\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{643F2203-ABC0-4CB9-A9F4-149E9BB153C8}|src\\Services\\ChatService\\ChatService.csproj|p:\\norsen\\back\\src\\services\\chatservice\\controllers\\chatcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{643F2203-ABC0-4CB9-A9F4-149E9BB153C8}|src\\Services\\ChatService\\ChatService.csproj|solutionrelative:src\\services\\chatservice\\controllers\\chatcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{D2B3C4E5-F6A7-8901-BCDE-F23456789012}|src\\Services\\OrdersServiceNet\\OrdersServiceNet.csproj|p:\\norsen\\back\\src\\services\\ordersservicenet\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{D2B3C4E5-F6A7-8901-BCDE-F23456789012}|src\\Services\\OrdersServiceNet\\OrdersServiceNet.csproj|solutionrelative:src\\services\\ordersservicenet\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{02BC7905-811C-478C-B722-6C28141DCAE9}|src\\Services\\ProductsService\\ProductsService.csproj|p:\\norsen\\back\\src\\services\\productsservice\\controllers\\productscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{02BC7905-811C-478C-B722-6C28141DCAE9}|src\\Services\\ProductsService\\ProductsService.csproj|solutionrelative:src\\services\\productsservice\\controllers\\productscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{D2B3C4E5-F6A7-8901-BCDE-F23456789012}|src\\Services\\OrdersServiceNet\\OrdersServiceNet.csproj|p:\\norsen\\back\\src\\services\\ordersservicenet\\controllers\\orderscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D2B3C4E5-F6A7-8901-BCDE-F23456789012}|src\\Services\\OrdersServiceNet\\OrdersServiceNet.csproj|solutionrelative:src\\services\\ordersservicenet\\controllers\\orderscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{02BC7905-811C-478C-B722-6C28141DCAE9}|src\\Services\\ProductsService\\ProductsService.csproj|p:\\norsen\\back\\src\\services\\productsservice\\dtos\\productdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{02BC7905-811C-478C-B722-6C28141DCAE9}|src\\Services\\ProductsService\\ProductsService.csproj|solutionrelative:src\\services\\productsservice\\dtos\\productdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{4C19D3A8-B35E-4EBA-9E00-AFFAB879393B}|src\\Services\\UsersService\\UsersService.csproj|p:\\norsen\\back\\src\\services\\usersservice\\controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4C19D3A8-B35E-4EBA-9E00-AFFAB879393B}|src\\Services\\UsersService\\UsersService.csproj|solutionrelative:src\\services\\usersservice\\controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{02BC7905-811C-478C-B722-6C28141DCAE9}|src\\Services\\ProductsService\\ProductsService.csproj|p:\\norsen\\back\\src\\services\\productsservice\\services\\productsservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{02BC7905-811C-478C-B722-6C28141DCAE9}|src\\Services\\ProductsService\\ProductsService.csproj|solutionrelative:src\\services\\productsservice\\services\\productsservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{4C19D3A8-B35E-4EBA-9E00-AFFAB879393B}|src\\Services\\UsersService\\UsersService.csproj|p:\\norsen\\back\\src\\services\\usersservice\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4C19D3A8-B35E-4EBA-9E00-AFFAB879393B}|src\\Services\\UsersService\\UsersService.csproj|solutionrelative:src\\services\\usersservice\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{02BC7905-811C-478C-B722-6C28141DCAE9}|src\\Services\\ProductsService\\ProductsService.csproj|p:\\norsen\\back\\src\\services\\productsservice\\services\\interfaces\\iproductsservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{02BC7905-811C-478C-B722-6C28141DCAE9}|src\\Services\\ProductsService\\ProductsService.csproj|solutionrelative:src\\services\\productsservice\\services\\interfaces\\iproductsservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|P:\\Norsen\\back\\src\\Shared\\Marketplace.Authentication\\Marketplace.Authentication.csproj||{8B382828-6202-11D1-8870-0000F87579D2}|",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\Shared\\Marketplace.Authentication\\Marketplace.Authentication.csproj||{8B382828-6202-11D1-8870-0000F87579D2}|"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{02BC7905-811C-478C-B722-6C28141DCAE9}|src\\Services\\ProductsService\\ProductsService.csproj|p:\\norsen\\back\\src\\services\\productsservice\\repositories\\interfaces\\iproductsrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{02BC7905-811C-478C-B722-6C28141DCAE9}|src\\Services\\ProductsService\\ProductsService.csproj|solutionrelative:src\\services\\productsservice\\repositories\\interfaces\\iproductsrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|P:\\Norsen\\back\\src\\Shared\\Marketplace.Authentication\\Models\\AuthSession.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\Shared\\Marketplace.Authentication\\Models\\AuthSession.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{02BC7905-811C-478C-B722-6C28141DCAE9}|src\\Services\\ProductsService\\ProductsService.csproj|p:\\norsen\\back\\src\\services\\productsservice\\repositories\\productsrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{02BC7905-811C-478C-B722-6C28141DCAE9}|src\\Services\\ProductsService\\ProductsService.csproj|solutionrelative:src\\services\\productsservice\\repositories\\productsrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|P:\\Norsen\\back\\src\\Shared\\Marketplace.Authentication\\Models\\SessionToken.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\Shared\\Marketplace.Authentication\\Models\\SessionToken.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|P:\\Norsen\\back\\src\\Shared\\Marketplace.Contracts\\Marketplace.Contracts.csproj||{8B382828-6202-11D1-8870-0000F87579D2}|",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\Shared\\Marketplace.Contracts\\Marketplace.Contracts.csproj||{8B382828-6202-11D1-8870-0000F87579D2}|"
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|P:\\Norsen\\back\\src\\Shared\\Marketplace.Authentication\\Models\\CreateSessionRequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\Shared\\Marketplace.Authentication\\Models\\CreateSessionRequest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|P:\\Norsen\\back\\src\\Shared\\Marketplace.Contracts\\Common\\PaginationDto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\Shared\\Marketplace.Contracts\\Common\\PaginationDto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|P:\\Norsen\\back\\src\\Shared\\Marketplace.Authentication\\Models\\SessionValidationResult.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\Shared\\Marketplace.Authentication\\Models\\SessionValidationResult.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|P:\\Norsen\\back\\src\\Shared\\Marketplace.Contracts\\Common\\ApiResponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\Shared\\Marketplace.Contracts\\Common\\ApiResponse.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|P:\\Norsen\\back\\src\\Shared\\Marketplace.Authentication\\Configuration\\AuthenticationOptions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\Shared\\Marketplace.Authentication\\Configuration\\AuthenticationOptions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|P:\\Norsen\\back\\src\\Shared\\Marketplace.Contracts\\Constants\\ProductConstants.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\Shared\\Marketplace.Contracts\\Constants\\ProductConstants.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|P:\\Norsen\\back\\src\\Shared\\Marketplace.Authentication\\Abstractions\\ISessionManager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\Shared\\Marketplace.Authentication\\Abstractions\\ISessionManager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|P:\\Norsen\\back\\src\\Shared\\Marketplace.Contracts\\Products\\ProductContracts.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\Shared\\Marketplace.Contracts\\Products\\ProductContracts.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|P:\\Norsen\\back\\src\\Shared\\Marketplace.Authentication\\Services\\JwtTokenService.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\Shared\\Marketplace.Authentication\\Services\\JwtTokenService.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|P:\\Norsen\\back\\src\\Shared\\Marketplace.Contracts\\Products\\CategoryContracts.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\Shared\\Marketplace.Contracts\\Products\\CategoryContracts.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|P:\\Norsen\\back\\src\\Shared\\Marketplace.Authentication\\Services\\RedisSessionManager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\Shared\\Marketplace.Authentication\\Services\\RedisSessionManager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|P:\\Norsen\\back\\src\\Shared\\Marketplace.Contracts\\Users\\UserContracts.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\Shared\\Marketplace.Contracts\\Users\\UserContracts.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|P:\\Norsen\\back\\src\\Shared\\Marketplace.Authentication\\Extensions\\ServiceCollectionExtensions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\Shared\\Marketplace.Authentication\\Extensions\\ServiceCollectionExtensions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|P:\\Norsen\\back\\src\\Shared\\Marketplace.Contracts\\Files\\FileContracts.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\Shared\\Marketplace.Contracts\\Files\\FileContracts.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|P:\\Norsen\\back\\src\\Shared\\Marketplace.Contracts\\Orders\\OrderContracts.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\Shared\\Marketplace.Contracts\\Orders\\OrderContracts.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|P:\\Norsen\\back\\src\\Shared\\Marketplace.Contracts\\Chat\\ChatContracts.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\Shared\\Marketplace.Contracts\\Chat\\ChatContracts.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|P:\\Norsen\\back\\src\\Shared\\Marketplace.Contracts\\README.md||{EFC0BB08-EA7D-40C6-A696-C870411A895B}|",
-      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\Shared\\Marketplace.Contracts\\README.md||{EFC0BB08-EA7D-40C6-A696-C870411A895B}|"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{02BC7905-811C-478C-B722-6C28141DCAE9}|src\\Services\\ProductsService\\ProductsService.csproj|p:\\norsen\\back\\src\\services\\productsservice\\productsservice.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
-      "RelativeMoniker": "D:0:0:{02BC7905-811C-478C-B722-6C28141DCAE9}|src\\Services\\ProductsService\\ProductsService.csproj|solutionrelative:src\\services\\productsservice\\productsservice.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{02BC7905-811C-478C-B722-6C28141DCAE9}|src\\Services\\ProductsService\\ProductsService.csproj|p:\\norsen\\back\\src\\services\\productsservice\\extensions\\contractmappingextensions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{02BC7905-811C-478C-B722-6C28141DCAE9}|src\\Services\\ProductsService\\ProductsService.csproj|solutionrelative:src\\services\\productsservice\\extensions\\contractmappingextensions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|P:\\Norsen\\back\\src\\Shared\\Marketplace.Authentication\\Middleware\\SessionActivityMiddleware.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\Shared\\Marketplace.Authentication\\Middleware\\SessionActivityMiddleware.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{4C19D3A8-B35E-4EBA-9E00-AFFAB879393B}|src\\Services\\UsersService\\UsersService.csproj|p:\\norsen\\back\\src\\services\\usersservice\\usersservice.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
       "RelativeMoniker": "D:0:0:{4C19D3A8-B35E-4EBA-9E00-AFFAB879393B}|src\\Services\\UsersService\\UsersService.csproj|solutionrelative:src\\services\\usersservice\\usersservice.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{B4BA6298-62AD-441B-B775-D1F020A2725E}|src\\Services\\FilesService\\FilesService.csproj|p:\\norsen\\back\\src\\services\\filesservice\\filesservice.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
-      "RelativeMoniker": "D:0:0:{B4BA6298-62AD-441B-B775-D1F020A2725E}|src\\Services\\FilesService\\FilesService.csproj|solutionrelative:src\\services\\filesservice\\filesservice.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+      "AbsoluteMoniker": "D:0:0:{4C19D3A8-B35E-4EBA-9E00-AFFAB879393B}|src\\Services\\UsersService\\UsersService.csproj|p:\\norsen\\back\\src\\services\\usersservice\\appsettings.example.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{4C19D3A8-B35E-4EBA-9E00-AFFAB879393B}|src\\Services\\UsersService\\UsersService.csproj|solutionrelative:src\\services\\usersservice\\appsettings.example.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{643F2203-ABC0-4CB9-A9F4-149E9BB153C8}|src\\Services\\ChatService\\ChatService.csproj|p:\\norsen\\back\\src\\services\\chatservice\\chatservice.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
-      "RelativeMoniker": "D:0:0:{643F2203-ABC0-4CB9-A9F4-149E9BB153C8}|src\\Services\\ChatService\\ChatService.csproj|solutionrelative:src\\services\\chatservice\\chatservice.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|P:\\Norsen\\back\\src\\Shared\\Marketplace.Authentication\\README.md||{EFC0BB08-EA7D-40C6-A696-C870411A895B}|",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\Shared\\Marketplace.Authentication\\README.md||{EFC0BB08-EA7D-40C6-A696-C870411A895B}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|P:\\Norsen\\back\\src\\Shared\\Marketplace.Authentication\\Examples\\Program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\Shared\\Marketplace.Authentication\\Examples\\Program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|P:\\Norsen\\back\\src\\Shared\\Marketplace.Authentication\\Examples\\ExampleController.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\Shared\\Marketplace.Authentication\\Examples\\ExampleController.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|P:\\Norsen\\back\\src\\Shared\\Marketplace.Authentication\\Examples\\AuthController.WithSharedAuth.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\Shared\\Marketplace.Authentication\\Examples\\AuthController.WithSharedAuth.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|P:\\Norsen\\back\\src\\Shared\\Marketplace.Authentication\\MIGRATION.md||{EFC0BB08-EA7D-40C6-A696-C870411A895B}|",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\Shared\\Marketplace.Authentication\\MIGRATION.md||{EFC0BB08-EA7D-40C6-A696-C870411A895B}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|P:\\Norsen\\back\\src\\Shared\\Marketplace.Authentication\\SUMMARY.md||{EFC0BB08-EA7D-40C6-A696-C870411A895B}|",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:src\\Shared\\Marketplace.Authentication\\SUMMARY.md||{EFC0BB08-EA7D-40C6-A696-C870411A895B}|"
     },
     {
       "AbsoluteMoniker": "D:0:0:{D2B3C4E5-F6A7-8901-BCDE-F23456789012}|src\\Services\\OrdersServiceNet\\OrdersServiceNet.csproj|p:\\norsen\\back\\src\\services\\ordersservicenet\\ordersservicenet.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
       "RelativeMoniker": "D:0:0:{D2B3C4E5-F6A7-8901-BCDE-F23456789012}|src\\Services\\OrdersServiceNet\\OrdersServiceNet.csproj|solutionrelative:src\\services\\ordersservicenet\\ordersservicenet.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E3C4D5F6-A7B8-9012-CDEF-345678901234}|src\\Services\\NotificationsService\\NotificationsService.csproj|p:\\norsen\\back\\src\\services\\notificationsservice\\notificationsservice.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
-      "RelativeMoniker": "D:0:0:{E3C4D5F6-A7B8-9012-CDEF-345678901234}|src\\Services\\NotificationsService\\NotificationsService.csproj|solutionrelative:src\\services\\notificationsservice\\notificationsservice.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+      "AbsoluteMoniker": "D:0:0:{D2B3C4E5-F6A7-8901-BCDE-F23456789012}|src\\Services\\OrdersServiceNet\\OrdersServiceNet.csproj|p:\\norsen\\back\\src\\services\\ordersservicenet\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D2B3C4E5-F6A7-8901-BCDE-F23456789012}|src\\Services\\OrdersServiceNet\\OrdersServiceNet.csproj|solutionrelative:src\\services\\ordersservicenet\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{7AB4E10E-E706-4D7D-B96D-8C463D00FDF6}|src\\ApiGateway\\ApiGateway.csproj|p:\\norsen\\back\\src\\apigateway\\apigateway.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
-      "RelativeMoniker": "D:0:0:{7AB4E10E-E706-4D7D-B96D-8C463D00FDF6}|src\\ApiGateway\\ApiGateway.csproj|solutionrelative:src\\apigateway\\apigateway.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+      "AbsoluteMoniker": "D:0:0:{D2B3C4E5-F6A7-8901-BCDE-F23456789012}|src\\Services\\OrdersServiceNet\\OrdersServiceNet.csproj|p:\\norsen\\back\\src\\services\\ordersservicenet\\ordersservice.http||{3B902123-F8A7-4915-9F01-361F908088D0}|",
+      "RelativeMoniker": "D:0:0:{D2B3C4E5-F6A7-8901-BCDE-F23456789012}|src\\Services\\OrdersServiceNet\\OrdersServiceNet.csproj|solutionrelative:src\\services\\ordersservicenet\\ordersservice.http||{3B902123-F8A7-4915-9F01-361F908088D0}|"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{643F2203-ABC0-4CB9-A9F4-149E9BB153C8}|src\\Services\\ChatService\\ChatService.csproj|p:\\norsen\\back\\src\\services\\chatservice\\extensions\\contractmappingextensions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{643F2203-ABC0-4CB9-A9F4-149E9BB153C8}|src\\Services\\ChatService\\ChatService.csproj|solutionrelative:src\\services\\chatservice\\extensions\\contractmappingextensions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{D2B3C4E5-F6A7-8901-BCDE-F23456789012}|src\\Services\\OrdersServiceNet\\OrdersServiceNet.csproj|p:\\norsen\\back\\src\\services\\ordersservicenet\\authorization.md||{EFC0BB08-EA7D-40C6-A696-C870411A895B}|",
+      "RelativeMoniker": "D:0:0:{D2B3C4E5-F6A7-8901-BCDE-F23456789012}|src\\Services\\OrdersServiceNet\\OrdersServiceNet.csproj|solutionrelative:src\\services\\ordersservicenet\\authorization.md||{EFC0BB08-EA7D-40C6-A696-C870411A895B}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D2B3C4E5-F6A7-8901-BCDE-F23456789012}|src\\Services\\OrdersServiceNet\\OrdersServiceNet.csproj|p:\\norsen\\back\\src\\services\\ordersservicenet\\jwt_test.http||{3B902123-F8A7-4915-9F01-361F908088D0}|",
+      "RelativeMoniker": "D:0:0:{D2B3C4E5-F6A7-8901-BCDE-F23456789012}|src\\Services\\OrdersServiceNet\\OrdersServiceNet.csproj|solutionrelative:src\\services\\ordersservicenet\\jwt_test.http||{3B902123-F8A7-4915-9F01-361F908088D0}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D2B3C4E5-F6A7-8901-BCDE-F23456789012}|src\\Services\\OrdersServiceNet\\OrdersServiceNet.csproj|p:\\norsen\\back\\src\\services\\ordersservicenet\\test-jwt-sync.ps1||{3B902123-F8A7-4915-9F01-361F908088D0}|",
+      "RelativeMoniker": "D:0:0:{D2B3C4E5-F6A7-8901-BCDE-F23456789012}|src\\Services\\OrdersServiceNet\\OrdersServiceNet.csproj|solutionrelative:src\\services\\ordersservicenet\\test-jwt-sync.ps1||{3B902123-F8A7-4915-9F01-361F908088D0}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D2B3C4E5-F6A7-8901-BCDE-F23456789012}|src\\Services\\OrdersServiceNet\\OrdersServiceNet.csproj|p:\\norsen\\back\\src\\services\\ordersservicenet\\controllers\\debugcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D2B3C4E5-F6A7-8901-BCDE-F23456789012}|src\\Services\\OrdersServiceNet\\OrdersServiceNet.csproj|solutionrelative:src\\services\\ordersservicenet\\controllers\\debugcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{02BC7905-811C-478C-B722-6C28141DCAE9}|src\\Services\\ProductsService\\ProductsService.csproj|p:\\norsen\\back\\src\\services\\productsservice\\controllers\\productscontroller.example.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{02BC7905-811C-478C-B722-6C28141DCAE9}|src\\Services\\ProductsService\\ProductsService.csproj|solutionrelative:src\\services\\productsservice\\controllers\\productscontroller.example.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -118,7 +134,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 13,
+          "SelectedChildIndex": 7,
           "Children": [
             {
               "$type": "Bookmark",
@@ -126,223 +142,106 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 14,
-              "Title": "FileContracts.cs",
-              "DocumentMoniker": "P:\\Norsen\\back\\src\\Shared\\Marketplace.Contracts\\Files\\FileContracts.cs",
-              "RelativeDocumentMoniker": "src\\Shared\\Marketplace.Contracts\\Files\\FileContracts.cs",
-              "ToolTip": "P:\\Norsen\\back\\src\\Shared\\Marketplace.Contracts\\Files\\FileContracts.cs",
-              "RelativeToolTip": "src\\Shared\\Marketplace.Contracts\\Files\\FileContracts.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAADsAAAABAAAAAAAAAA==",
+              "DocumentIndex": 30,
+              "Title": "ProductsController.Example.cs",
+              "DocumentMoniker": "P:\\Norsen\\back\\src\\Services\\ProductsService\\Controllers\\ProductsController.Example.cs",
+              "RelativeDocumentMoniker": "src\\Services\\ProductsService\\Controllers\\ProductsController.Example.cs",
+              "ToolTip": "P:\\Norsen\\back\\src\\Services\\ProductsService\\Controllers\\ProductsController.Example.cs",
+              "RelativeToolTip": "src\\Services\\ProductsService\\Controllers\\ProductsController.Example.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-07T10:30:34.926Z",
+              "WhenOpened": "2025-09-07T13:20:37.271Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
-              "Title": "UserContracts.cs",
-              "DocumentMoniker": "P:\\Norsen\\back\\src\\Shared\\Marketplace.Contracts\\Users\\UserContracts.cs",
-              "RelativeDocumentMoniker": "src\\Shared\\Marketplace.Contracts\\Users\\UserContracts.cs",
-              "ToolTip": "P:\\Norsen\\back\\src\\Shared\\Marketplace.Contracts\\Users\\UserContracts.cs",
-              "RelativeToolTip": "src\\Shared\\Marketplace.Contracts\\Users\\UserContracts.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAKYAAAABAAAAAAAAAA==",
+              "DocumentIndex": 29,
+              "Title": "DebugController.cs",
+              "DocumentMoniker": "P:\\Norsen\\back\\src\\Services\\OrdersServiceNet\\Controllers\\DebugController.cs",
+              "RelativeDocumentMoniker": "src\\Services\\OrdersServiceNet\\Controllers\\DebugController.cs",
+              "ToolTip": "P:\\Norsen\\back\\src\\Services\\OrdersServiceNet\\Controllers\\DebugController.cs",
+              "RelativeToolTip": "src\\Services\\OrdersServiceNet\\Controllers\\DebugController.cs",
+              "ViewState": "AgIAAEcAAAAAAAAAAABRwEoAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-07T10:30:25.502Z",
+              "WhenOpened": "2025-09-07T13:05:37.67Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
-              "Title": "CategoryContracts.cs",
-              "DocumentMoniker": "P:\\Norsen\\back\\src\\Shared\\Marketplace.Contracts\\Products\\CategoryContracts.cs",
-              "RelativeDocumentMoniker": "src\\Shared\\Marketplace.Contracts\\Products\\CategoryContracts.cs",
-              "ToolTip": "P:\\Norsen\\back\\src\\Shared\\Marketplace.Contracts\\Products\\CategoryContracts.cs",
-              "RelativeToolTip": "src\\Shared\\Marketplace.Contracts\\Products\\CategoryContracts.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAGIAAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-07T10:30:08.984Z",
+              "DocumentIndex": 28,
+              "Title": "Test-JWT-Sync.ps1",
+              "DocumentMoniker": "P:\\Norsen\\back\\src\\Services\\OrdersServiceNet\\Test-JWT-Sync.ps1",
+              "RelativeDocumentMoniker": "src\\Services\\OrdersServiceNet\\Test-JWT-Sync.ps1",
+              "ToolTip": "P:\\Norsen\\back\\src\\Services\\OrdersServiceNet\\Test-JWT-Sync.ps1",
+              "RelativeToolTip": "src\\Services\\OrdersServiceNet\\Test-JWT-Sync.ps1",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAHQAAABoAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2025-09-07T13:05:07.108Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
-              "Title": "ProductContracts.cs",
-              "DocumentMoniker": "P:\\Norsen\\back\\src\\Shared\\Marketplace.Contracts\\Products\\ProductContracts.cs",
-              "RelativeDocumentMoniker": "src\\Shared\\Marketplace.Contracts\\Products\\ProductContracts.cs",
-              "ToolTip": "P:\\Norsen\\back\\src\\Shared\\Marketplace.Contracts\\Products\\ProductContracts.cs",
-              "RelativeToolTip": "src\\Shared\\Marketplace.Contracts\\Products\\ProductContracts.cs",
-              "ViewState": "AgIAABoBAAAAAAAAAEBVwB4BAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-07T10:29:59.485Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 10,
-              "Title": "ProductConstants.cs",
-              "DocumentMoniker": "P:\\Norsen\\back\\src\\Shared\\Marketplace.Contracts\\Constants\\ProductConstants.cs",
-              "RelativeDocumentMoniker": "src\\Shared\\Marketplace.Contracts\\Constants\\ProductConstants.cs",
-              "ToolTip": "P:\\Norsen\\back\\src\\Shared\\Marketplace.Contracts\\Constants\\ProductConstants.cs",
-              "RelativeToolTip": "src\\Shared\\Marketplace.Contracts\\Constants\\ProductConstants.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEMAAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-07T10:29:27.764Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "ApiResponse.cs",
-              "DocumentMoniker": "P:\\Norsen\\back\\src\\Shared\\Marketplace.Contracts\\Common\\ApiResponse.cs",
-              "RelativeDocumentMoniker": "src\\Shared\\Marketplace.Contracts\\Common\\ApiResponse.cs",
-              "ToolTip": "P:\\Norsen\\back\\src\\Shared\\Marketplace.Contracts\\Common\\ApiResponse.cs",
-              "RelativeToolTip": "src\\Shared\\Marketplace.Contracts\\Common\\ApiResponse.cs",
-              "ViewState": "AgIAAEUAAAAAAAAAAABRwEgAAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-07T10:29:18.357Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "PaginationDto.cs",
-              "DocumentMoniker": "P:\\Norsen\\back\\src\\Shared\\Marketplace.Contracts\\Common\\PaginationDto.cs",
-              "RelativeDocumentMoniker": "src\\Shared\\Marketplace.Contracts\\Common\\PaginationDto.cs",
-              "ToolTip": "P:\\Norsen\\back\\src\\Shared\\Marketplace.Contracts\\Common\\PaginationDto.cs",
-              "RelativeToolTip": "src\\Shared\\Marketplace.Contracts\\Common\\PaginationDto.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAACsAAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-07T10:29:10.344Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "Marketplace.Contracts.csproj",
-              "DocumentMoniker": "P:\\Norsen\\back\\src\\Shared\\Marketplace.Contracts\\Marketplace.Contracts.csproj",
-              "RelativeDocumentMoniker": "src\\Shared\\Marketplace.Contracts\\Marketplace.Contracts.csproj",
-              "ToolTip": "P:\\Norsen\\back\\src\\Shared\\Marketplace.Contracts\\Marketplace.Contracts.csproj",
-              "RelativeToolTip": "src\\Shared\\Marketplace.Contracts\\Marketplace.Contracts.csproj",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABgAAAAKAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
-              "WhenOpened": "2025-09-07T10:29:02.252Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "ProductsRepository.cs",
-              "DocumentMoniker": "P:\\Norsen\\back\\src\\Services\\ProductsService\\Repositories\\ProductsRepository.cs",
-              "RelativeDocumentMoniker": "src\\Services\\ProductsService\\Repositories\\ProductsRepository.cs",
-              "ToolTip": "P:\\Norsen\\back\\src\\Services\\ProductsService\\Repositories\\ProductsRepository.cs",
-              "RelativeToolTip": "src\\Services\\ProductsService\\Repositories\\ProductsRepository.cs",
-              "ViewState": "AgIAABQBAAAAAAAAAABRwAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-07T10:16:59.3Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "IProductsRepository.cs",
-              "DocumentMoniker": "P:\\Norsen\\back\\src\\Services\\ProductsService\\Repositories\\Interfaces\\IProductsRepository.cs",
-              "RelativeDocumentMoniker": "src\\Services\\ProductsService\\Repositories\\Interfaces\\IProductsRepository.cs",
-              "ToolTip": "P:\\Norsen\\back\\src\\Services\\ProductsService\\Repositories\\Interfaces\\IProductsRepository.cs",
-              "RelativeToolTip": "src\\Services\\ProductsService\\Repositories\\Interfaces\\IProductsRepository.cs",
-              "ViewState": "AgIAAB4AAAAAAAAAACBhwAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-07T10:16:48.892Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "ProductDto.cs",
-              "DocumentMoniker": "P:\\Norsen\\back\\src\\Services\\ProductsService\\DTOs\\ProductDto.cs",
-              "RelativeDocumentMoniker": "src\\Services\\ProductsService\\DTOs\\ProductDto.cs",
-              "ToolTip": "P:\\Norsen\\back\\src\\Services\\ProductsService\\DTOs\\ProductDto.cs",
-              "RelativeToolTip": "src\\Services\\ProductsService\\DTOs\\ProductDto.cs",
-              "ViewState": "AgIAABsAAAAAAAAAAAAgwDEAAAAdAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-07T08:59:03.634Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "ProductsController.cs",
-              "DocumentMoniker": "P:\\Norsen\\back\\src\\Services\\ProductsService\\Controllers\\ProductsController.cs",
-              "RelativeDocumentMoniker": "src\\Services\\ProductsService\\Controllers\\ProductsController.cs",
-              "ToolTip": "P:\\Norsen\\back\\src\\Services\\ProductsService\\Controllers\\ProductsController.cs",
-              "RelativeToolTip": "src\\Services\\ProductsService\\Controllers\\ProductsController.cs",
-              "ViewState": "AgIAABIBAAAAAAAAAAAwwDsBAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-07T08:57:08.007Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "ChatController.cs",
-              "DocumentMoniker": "P:\\Norsen\\back\\src\\Services\\ChatService\\Controllers\\ChatController.cs",
-              "RelativeDocumentMoniker": "src\\Services\\ChatService\\Controllers\\ChatController.cs",
-              "ToolTip": "P:\\Norsen\\back\\src\\Services\\ChatService\\Controllers\\ChatController.cs",
-              "RelativeToolTip": "src\\Services\\ChatService\\Controllers\\ChatController.cs",
-              "ViewState": "AgIAADwBAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-07T10:54:46.469Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 15,
-              "Title": "OrderContracts.cs",
-              "DocumentMoniker": "P:\\Norsen\\back\\src\\Shared\\Marketplace.Contracts\\Orders\\OrderContracts.cs",
-              "RelativeDocumentMoniker": "src\\Shared\\Marketplace.Contracts\\Orders\\OrderContracts.cs",
-              "ToolTip": "P:\\Norsen\\back\\src\\Shared\\Marketplace.Contracts\\Orders\\OrderContracts.cs",
-              "RelativeToolTip": "src\\Shared\\Marketplace.Contracts\\Orders\\OrderContracts.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAGIAAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-07T10:30:46.295Z",
+              "DocumentIndex": 27,
+              "Title": "JWT_TEST.http",
+              "DocumentMoniker": "P:\\Norsen\\back\\src\\Services\\OrdersServiceNet\\JWT_TEST.http",
+              "RelativeDocumentMoniker": "src\\Services\\OrdersServiceNet\\JWT_TEST.http",
+              "ToolTip": "P:\\Norsen\\back\\src\\Services\\OrdersServiceNet\\JWT_TEST.http",
+              "RelativeToolTip": "src\\Services\\OrdersServiceNet\\JWT_TEST.http",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAEMAAAADAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003502|",
+              "WhenOpened": "2025-09-07T13:04:08.107Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 26,
-              "Title": "ContractMappingExtensions.cs",
-              "DocumentMoniker": "P:\\Norsen\\back\\src\\Services\\ChatService\\Extensions\\ContractMappingExtensions.cs",
-              "RelativeDocumentMoniker": "src\\Services\\ChatService\\Extensions\\ContractMappingExtensions.cs",
-              "ToolTip": "P:\\Norsen\\back\\src\\Services\\ChatService\\Extensions\\ContractMappingExtensions.cs",
-              "RelativeToolTip": "src\\Services\\ChatService\\Extensions\\ContractMappingExtensions.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAIIAAAABAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-07T10:54:01.265Z",
+              "Title": "AUTHORIZATION.md",
+              "DocumentMoniker": "P:\\Norsen\\back\\src\\Services\\OrdersServiceNet\\AUTHORIZATION.md",
+              "RelativeDocumentMoniker": "src\\Services\\OrdersServiceNet\\AUTHORIZATION.md",
+              "ToolTip": "P:\\Norsen\\back\\src\\Services\\OrdersServiceNet\\AUTHORIZATION.md",
+              "RelativeToolTip": "src\\Services\\OrdersServiceNet\\AUTHORIZATION.md",
+              "ViewState": "AgIAAF4BAAAAAAAAAIBJwGABAACBAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001818|",
+              "WhenOpened": "2025-09-07T12:41:34.966Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 25,
-              "Title": "ApiGateway",
-              "DocumentMoniker": "P:\\Norsen\\back\\src\\ApiGateway\\ApiGateway.csproj",
-              "RelativeDocumentMoniker": "src\\ApiGateway\\ApiGateway.csproj",
-              "ToolTip": "P:\\Norsen\\back\\src\\ApiGateway\\ApiGateway.csproj",
-              "RelativeToolTip": "src\\ApiGateway\\ApiGateway.csproj",
-              "ViewState": "AgIAAAAAAAAAAAAAAABBwBIAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
-              "WhenOpened": "2025-09-07T10:53:00.721Z",
+              "Title": "OrdersService.http",
+              "DocumentMoniker": "P:\\Norsen\\back\\src\\Services\\OrdersServiceNet\\OrdersService.http",
+              "RelativeDocumentMoniker": "src\\Services\\OrdersServiceNet\\OrdersService.http",
+              "ToolTip": "P:\\Norsen\\back\\src\\Services\\OrdersServiceNet\\OrdersService.http",
+              "RelativeToolTip": "src\\Services\\OrdersServiceNet\\OrdersService.http",
+              "ViewState": "AgIAAP8AAAAAAAAAAEBVwAMBAABAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003502|",
+              "WhenOpened": "2025-09-07T12:40:27.24Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "P:\\Norsen\\back\\src\\Services\\OrdersServiceNet\\appsettings.json",
+              "RelativeDocumentMoniker": "src\\Services\\OrdersServiceNet\\appsettings.json",
+              "ToolTip": "P:\\Norsen\\back\\src\\Services\\OrdersServiceNet\\appsettings.json",
+              "RelativeToolTip": "src\\Services\\OrdersServiceNet\\appsettings.json",
+              "ViewState": "AgIAABYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-09-07T12:38:58.657Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 24,
-              "Title": "NotificationsService",
-              "DocumentMoniker": "P:\\Norsen\\back\\src\\Services\\NotificationsService\\NotificationsService.csproj",
-              "RelativeDocumentMoniker": "src\\Services\\NotificationsService\\NotificationsService.csproj",
-              "ToolTip": "P:\\Norsen\\back\\src\\Services\\NotificationsService\\NotificationsService.csproj",
-              "RelativeToolTip": "src\\Services\\NotificationsService\\NotificationsService.csproj",
-              "ViewState": "AgIAAAAAAAAAAAAAAABBwBgAAAAKAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
-              "WhenOpened": "2025-09-07T10:52:49.315Z",
+              "Title": "Program.cs",
+              "DocumentMoniker": "P:\\Norsen\\back\\src\\Services\\OrdersServiceNet\\Program.cs",
+              "RelativeDocumentMoniker": "src\\Services\\OrdersServiceNet\\Program.cs",
+              "ToolTip": "P:\\Norsen\\back\\src\\Services\\OrdersServiceNet\\Program.cs",
+              "RelativeToolTip": "src\\Services\\OrdersServiceNet\\Program.cs",
+              "ViewState": "AgIAAN0AAAAAAAAAAIBZwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-07T12:38:43.504Z",
               "EditorCaption": ""
             },
             {
@@ -353,126 +252,295 @@
               "RelativeDocumentMoniker": "src\\Services\\OrdersServiceNet\\OrdersServiceNet.csproj",
               "ToolTip": "P:\\Norsen\\back\\src\\Services\\OrdersServiceNet\\OrdersServiceNet.csproj",
               "RelativeToolTip": "src\\Services\\OrdersServiceNet\\OrdersServiceNet.csproj",
-              "ViewState": "AgIAAAAAAAAAAAAAAABBwBcAAAAKAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAABBwBoAAAAKAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
-              "WhenOpened": "2025-09-07T10:52:34.922Z",
+              "WhenOpened": "2025-09-07T12:38:21.529Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 22,
-              "Title": "ChatService",
-              "DocumentMoniker": "P:\\Norsen\\back\\src\\Services\\ChatService\\ChatService.csproj",
-              "RelativeDocumentMoniker": "src\\Services\\ChatService\\ChatService.csproj",
-              "ToolTip": "P:\\Norsen\\back\\src\\Services\\ChatService\\ChatService.csproj",
-              "RelativeToolTip": "src\\Services\\ChatService\\ChatService.csproj",
-              "ViewState": "AgIAAAAAAAAAAAAAAABBwB0AAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
-              "WhenOpened": "2025-09-07T10:52:21.326Z",
+              "DocumentIndex": 1,
+              "Title": "OrdersController.cs",
+              "DocumentMoniker": "P:\\Norsen\\back\\src\\Services\\OrdersServiceNet\\Controllers\\OrdersController.cs",
+              "RelativeDocumentMoniker": "src\\Services\\OrdersServiceNet\\Controllers\\OrdersController.cs",
+              "ToolTip": "P:\\Norsen\\back\\src\\Services\\OrdersServiceNet\\Controllers\\OrdersController.cs",
+              "RelativeToolTip": "src\\Services\\OrdersServiceNet\\Controllers\\OrdersController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-07T12:32:01.402Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 21,
-              "Title": "FilesService",
-              "DocumentMoniker": "P:\\Norsen\\back\\src\\Services\\FilesService\\FilesService.csproj",
-              "RelativeDocumentMoniker": "src\\Services\\FilesService\\FilesService.csproj",
-              "ToolTip": "P:\\Norsen\\back\\src\\Services\\FilesService\\FilesService.csproj",
-              "RelativeToolTip": "src\\Services\\FilesService\\FilesService.csproj",
-              "ViewState": "AgIAAAAAAAAAAAAAAABBwBQAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
-              "WhenOpened": "2025-09-07T10:52:06.13Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 20,
+              "DocumentIndex": 15,
               "Title": "UsersService",
               "DocumentMoniker": "P:\\Norsen\\back\\src\\Services\\UsersService\\UsersService.csproj",
               "RelativeDocumentMoniker": "src\\Services\\UsersService\\UsersService.csproj",
               "ToolTip": "P:\\Norsen\\back\\src\\Services\\UsersService\\UsersService.csproj",
               "RelativeToolTip": "src\\Services\\UsersService\\UsersService.csproj",
-              "ViewState": "AgIAAAAAAAAAAAAAAABBwCMAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAABBwBsAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
-              "WhenOpened": "2025-09-07T10:51:52.921Z",
+              "WhenOpened": "2025-09-07T11:56:56.272Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "ServiceCollectionExtensions.cs",
+              "DocumentMoniker": "P:\\Norsen\\back\\src\\Shared\\Marketplace.Authentication\\Extensions\\ServiceCollectionExtensions.cs",
+              "RelativeDocumentMoniker": "src\\Shared\\Marketplace.Authentication\\Extensions\\ServiceCollectionExtensions.cs",
+              "ToolTip": "P:\\Norsen\\back\\src\\Shared\\Marketplace.Authentication\\Extensions\\ServiceCollectionExtensions.cs",
+              "RelativeToolTip": "src\\Shared\\Marketplace.Authentication\\Extensions\\ServiceCollectionExtensions.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAHoAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-07T11:56:38.741Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "RedisSessionManager.cs",
+              "DocumentMoniker": "P:\\Norsen\\back\\src\\Shared\\Marketplace.Authentication\\Services\\RedisSessionManager.cs",
+              "RelativeDocumentMoniker": "src\\Shared\\Marketplace.Authentication\\Services\\RedisSessionManager.cs",
+              "ToolTip": "P:\\Norsen\\back\\src\\Shared\\Marketplace.Authentication\\Services\\RedisSessionManager.cs",
+              "RelativeToolTip": "src\\Shared\\Marketplace.Authentication\\Services\\RedisSessionManager.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwCAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-07T11:56:19.049Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "JwtTokenService.cs",
+              "DocumentMoniker": "P:\\Norsen\\back\\src\\Shared\\Marketplace.Authentication\\Services\\JwtTokenService.cs",
+              "RelativeDocumentMoniker": "src\\Shared\\Marketplace.Authentication\\Services\\JwtTokenService.cs",
+              "ToolTip": "P:\\Norsen\\back\\src\\Shared\\Marketplace.Authentication\\Services\\JwtTokenService.cs",
+              "RelativeToolTip": "src\\Shared\\Marketplace.Authentication\\Services\\JwtTokenService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAI4AAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-07T11:55:24.656Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "ISessionManager.cs",
+              "DocumentMoniker": "P:\\Norsen\\back\\src\\Shared\\Marketplace.Authentication\\Abstractions\\ISessionManager.cs",
+              "RelativeDocumentMoniker": "src\\Shared\\Marketplace.Authentication\\Abstractions\\ISessionManager.cs",
+              "ToolTip": "P:\\Norsen\\back\\src\\Shared\\Marketplace.Authentication\\Abstractions\\ISessionManager.cs",
+              "RelativeToolTip": "src\\Shared\\Marketplace.Authentication\\Abstractions\\ISessionManager.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABgAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-07T11:55:07.734Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "AuthenticationOptions.cs",
+              "DocumentMoniker": "P:\\Norsen\\back\\src\\Shared\\Marketplace.Authentication\\Configuration\\AuthenticationOptions.cs",
+              "RelativeDocumentMoniker": "src\\Shared\\Marketplace.Authentication\\Configuration\\AuthenticationOptions.cs",
+              "ToolTip": "P:\\Norsen\\back\\src\\Shared\\Marketplace.Authentication\\Configuration\\AuthenticationOptions.cs",
+              "RelativeToolTip": "src\\Shared\\Marketplace.Authentication\\Configuration\\AuthenticationOptions.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACYAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-07T11:54:58.896Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "SessionValidationResult.cs",
+              "DocumentMoniker": "P:\\Norsen\\back\\src\\Shared\\Marketplace.Authentication\\Models\\SessionValidationResult.cs",
+              "RelativeDocumentMoniker": "src\\Shared\\Marketplace.Authentication\\Models\\SessionValidationResult.cs",
+              "ToolTip": "P:\\Norsen\\back\\src\\Shared\\Marketplace.Authentication\\Models\\SessionValidationResult.cs",
+              "RelativeToolTip": "src\\Shared\\Marketplace.Authentication\\Models\\SessionValidationResult.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACMAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-07T11:54:50.299Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "CreateSessionRequest.cs",
+              "DocumentMoniker": "P:\\Norsen\\back\\src\\Shared\\Marketplace.Authentication\\Models\\CreateSessionRequest.cs",
+              "RelativeDocumentMoniker": "src\\Shared\\Marketplace.Authentication\\Models\\CreateSessionRequest.cs",
+              "ToolTip": "P:\\Norsen\\back\\src\\Shared\\Marketplace.Authentication\\Models\\CreateSessionRequest.cs",
+              "RelativeToolTip": "src\\Shared\\Marketplace.Authentication\\Models\\CreateSessionRequest.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-07T11:54:43.751Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "SessionToken.cs",
+              "DocumentMoniker": "P:\\Norsen\\back\\src\\Shared\\Marketplace.Authentication\\Models\\SessionToken.cs",
+              "RelativeDocumentMoniker": "src\\Shared\\Marketplace.Authentication\\Models\\SessionToken.cs",
+              "ToolTip": "P:\\Norsen\\back\\src\\Shared\\Marketplace.Authentication\\Models\\SessionToken.cs",
+              "RelativeToolTip": "src\\Shared\\Marketplace.Authentication\\Models\\SessionToken.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-07T11:54:38.206Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "AuthSession.cs",
+              "DocumentMoniker": "P:\\Norsen\\back\\src\\Shared\\Marketplace.Authentication\\Models\\AuthSession.cs",
+              "RelativeDocumentMoniker": "src\\Shared\\Marketplace.Authentication\\Models\\AuthSession.cs",
+              "ToolTip": "P:\\Norsen\\back\\src\\Shared\\Marketplace.Authentication\\Models\\AuthSession.cs",
+              "RelativeToolTip": "src\\Shared\\Marketplace.Authentication\\Models\\AuthSession.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-07T11:54:32.922Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Marketplace.Authentication.csproj",
+              "DocumentMoniker": "P:\\Norsen\\back\\src\\Shared\\Marketplace.Authentication\\Marketplace.Authentication.csproj",
+              "RelativeDocumentMoniker": "src\\Shared\\Marketplace.Authentication\\Marketplace.Authentication.csproj",
+              "ToolTip": "P:\\Norsen\\back\\src\\Shared\\Marketplace.Authentication\\Marketplace.Authentication.csproj",
+              "RelativeToolTip": "src\\Shared\\Marketplace.Authentication\\Marketplace.Authentication.csproj",
+              "ViewState": "AgIAABYAAAAAAAAAAABBwBcAAAAKAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2025-09-07T11:54:26.195Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "AuthController.cs",
+              "DocumentMoniker": "P:\\Norsen\\back\\src\\Services\\UsersService\\Controllers\\AuthController.cs",
+              "RelativeDocumentMoniker": "src\\Services\\UsersService\\Controllers\\AuthController.cs",
+              "ToolTip": "P:\\Norsen\\back\\src\\Services\\UsersService\\Controllers\\AuthController.cs",
+              "RelativeToolTip": "src\\Services\\UsersService\\Controllers\\AuthController.cs",
+              "ViewState": "AgIAAKsAAAAAAAAAAAAmwKAAAAAOAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-07T11:22:55.81Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 22,
+              "Title": "SUMMARY.md",
+              "DocumentMoniker": "P:\\Norsen\\back\\src\\Shared\\Marketplace.Authentication\\SUMMARY.md",
+              "RelativeDocumentMoniker": "src\\Shared\\Marketplace.Authentication\\SUMMARY.md",
+              "ToolTip": "P:\\Norsen\\back\\src\\Shared\\Marketplace.Authentication\\SUMMARY.md",
+              "RelativeToolTip": "src\\Shared\\Marketplace.Authentication\\SUMMARY.md",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAD0BAAAuAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001818|",
+              "WhenOpened": "2025-09-07T12:16:26.189Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 21,
+              "Title": "MIGRATION.md",
+              "DocumentMoniker": "P:\\Norsen\\back\\src\\Shared\\Marketplace.Authentication\\MIGRATION.md",
+              "RelativeDocumentMoniker": "src\\Shared\\Marketplace.Authentication\\MIGRATION.md",
+              "ToolTip": "P:\\Norsen\\back\\src\\Shared\\Marketplace.Authentication\\MIGRATION.md",
+              "RelativeToolTip": "src\\Shared\\Marketplace.Authentication\\MIGRATION.md",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAN8BAABEAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001818|",
+              "WhenOpened": "2025-09-07T12:15:22.365Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 20,
+              "Title": "AuthController.WithSharedAuth.cs",
+              "DocumentMoniker": "P:\\Norsen\\back\\src\\Shared\\Marketplace.Authentication\\Examples\\AuthController.WithSharedAuth.cs",
+              "RelativeDocumentMoniker": "src\\Shared\\Marketplace.Authentication\\Examples\\AuthController.WithSharedAuth.cs",
+              "ToolTip": "P:\\Norsen\\back\\src\\Shared\\Marketplace.Authentication\\Examples\\AuthController.WithSharedAuth.cs",
+              "RelativeToolTip": "src\\Shared\\Marketplace.Authentication\\Examples\\AuthController.WithSharedAuth.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAL0BAAAOAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-07T12:14:05Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 19,
-              "Title": "ContractMappingExtensions.cs",
-              "DocumentMoniker": "P:\\Norsen\\back\\src\\Services\\ProductsService\\Extensions\\ContractMappingExtensions.cs",
-              "RelativeDocumentMoniker": "src\\Services\\ProductsService\\Extensions\\ContractMappingExtensions.cs",
-              "ToolTip": "P:\\Norsen\\back\\src\\Services\\ProductsService\\Extensions\\ContractMappingExtensions.cs",
-              "RelativeToolTip": "src\\Services\\ProductsService\\Extensions\\ContractMappingExtensions.cs",
-              "ViewState": "AgIAAJsAAAAAAAAAAIBJwJ0AAAABAAAAAAAAAA==",
+              "Title": "ExampleController.cs",
+              "DocumentMoniker": "P:\\Norsen\\back\\src\\Shared\\Marketplace.Authentication\\Examples\\ExampleController.cs",
+              "RelativeDocumentMoniker": "src\\Shared\\Marketplace.Authentication\\Examples\\ExampleController.cs",
+              "ToolTip": "P:\\Norsen\\back\\src\\Shared\\Marketplace.Authentication\\Examples\\ExampleController.cs",
+              "RelativeToolTip": "src\\Shared\\Marketplace.Authentication\\Examples\\ExampleController.cs",
+              "ViewState": "AgIAAFIAAAAAAAAAAABRwFUAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-07T10:49:12.483Z",
+              "WhenOpened": "2025-09-07T12:01:42.691Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 18,
-              "Title": "ProductsService",
-              "DocumentMoniker": "P:\\Norsen\\back\\src\\Services\\ProductsService\\ProductsService.csproj",
-              "RelativeDocumentMoniker": "src\\Services\\ProductsService\\ProductsService.csproj",
-              "ToolTip": "P:\\Norsen\\back\\src\\Services\\ProductsService\\ProductsService.csproj",
-              "RelativeToolTip": "src\\Services\\ProductsService\\ProductsService.csproj",
-              "ViewState": "AgIAAAAAAAAAAAAAAABBwB0AAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
-              "WhenOpened": "2025-09-07T10:47:56.736Z",
+              "Title": "Program.cs",
+              "DocumentMoniker": "P:\\Norsen\\back\\src\\Shared\\Marketplace.Authentication\\Examples\\Program.cs",
+              "RelativeDocumentMoniker": "src\\Shared\\Marketplace.Authentication\\Examples\\Program.cs",
+              "ToolTip": "P:\\Norsen\\back\\src\\Shared\\Marketplace.Authentication\\Examples\\Program.cs",
+              "RelativeToolTip": "src\\Shared\\Marketplace.Authentication\\Examples\\Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACgAAAAKAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-07T12:01:26.955Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 17,
               "Title": "README.md",
-              "DocumentMoniker": "P:\\Norsen\\back\\src\\Shared\\Marketplace.Contracts\\README.md",
-              "RelativeDocumentMoniker": "src\\Shared\\Marketplace.Contracts\\README.md",
-              "ToolTip": "P:\\Norsen\\back\\src\\Shared\\Marketplace.Contracts\\README.md",
-              "RelativeToolTip": "src\\Shared\\Marketplace.Contracts\\README.md",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAG4AAAA8AAAAAAAAAA==",
+              "DocumentMoniker": "P:\\Norsen\\back\\src\\Shared\\Marketplace.Authentication\\README.md",
+              "RelativeDocumentMoniker": "src\\Shared\\Marketplace.Authentication\\README.md",
+              "ToolTip": "P:\\Norsen\\back\\src\\Shared\\Marketplace.Authentication\\README.md",
+              "RelativeToolTip": "src\\Shared\\Marketplace.Authentication\\README.md",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAG8CAAAeAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001818|",
-              "WhenOpened": "2025-09-07T10:31:17.774Z",
+              "WhenOpened": "2025-09-07T12:00:56.507Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 16,
-              "Title": "ChatContracts.cs",
-              "DocumentMoniker": "P:\\Norsen\\back\\src\\Shared\\Marketplace.Contracts\\Chat\\ChatContracts.cs",
-              "RelativeDocumentMoniker": "src\\Shared\\Marketplace.Contracts\\Chat\\ChatContracts.cs",
-              "ToolTip": "P:\\Norsen\\back\\src\\Shared\\Marketplace.Contracts\\Chat\\ChatContracts.cs",
-              "RelativeToolTip": "src\\Shared\\Marketplace.Contracts\\Chat\\ChatContracts.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAFoAAAABAAAAAAAAAA==",
+              "Title": "appsettings.Example.json",
+              "DocumentMoniker": "P:\\Norsen\\back\\src\\Services\\UsersService\\appsettings.Example.json",
+              "RelativeDocumentMoniker": "src\\Services\\UsersService\\appsettings.Example.json",
+              "ToolTip": "P:\\Norsen\\back\\src\\Services\\UsersService\\appsettings.Example.json",
+              "RelativeToolTip": "src\\Services\\UsersService\\appsettings.Example.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACMAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-09-07T11:59:17.407Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "SessionActivityMiddleware.cs",
+              "DocumentMoniker": "P:\\Norsen\\back\\src\\Shared\\Marketplace.Authentication\\Middleware\\SessionActivityMiddleware.cs",
+              "RelativeDocumentMoniker": "src\\Shared\\Marketplace.Authentication\\Middleware\\SessionActivityMiddleware.cs",
+              "ToolTip": "P:\\Norsen\\back\\src\\Shared\\Marketplace.Authentication\\Middleware\\SessionActivityMiddleware.cs",
+              "RelativeToolTip": "src\\Shared\\Marketplace.Authentication\\Middleware\\SessionActivityMiddleware.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAADIAAAABAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-07T10:30:58.216Z",
+              "WhenOpened": "2025-09-07T11:56:47.101Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 3,
-              "Title": "ProductsService.cs",
-              "DocumentMoniker": "P:\\Norsen\\back\\src\\Services\\ProductsService\\Services\\ProductsService.cs",
-              "RelativeDocumentMoniker": "src\\Services\\ProductsService\\Services\\ProductsService.cs",
-              "ToolTip": "P:\\Norsen\\back\\src\\Services\\ProductsService\\Services\\ProductsService.cs",
-              "RelativeToolTip": "src\\Services\\ProductsService\\Services\\ProductsService.cs",
-              "ViewState": "AgIAAJUBAAAAAAAAAAAIwCkBAABsAAAAAAAAAA==",
+              "Title": "Program.cs",
+              "DocumentMoniker": "P:\\Norsen\\back\\src\\Services\\UsersService\\Program.cs",
+              "RelativeDocumentMoniker": "src\\Services\\UsersService\\Program.cs",
+              "ToolTip": "P:\\Norsen\\back\\src\\Services\\UsersService\\Program.cs",
+              "RelativeToolTip": "src\\Services\\UsersService\\Program.cs",
+              "ViewState": "AgIAACoAAAAAAAAAAAAIwAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-07T08:59:34.056Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "IProductsService.cs",
-              "DocumentMoniker": "P:\\Norsen\\back\\src\\Services\\ProductsService\\Services\\Interfaces\\IProductsService.cs",
-              "RelativeDocumentMoniker": "src\\Services\\ProductsService\\Services\\Interfaces\\IProductsService.cs",
-              "ToolTip": "P:\\Norsen\\back\\src\\Services\\ProductsService\\Services\\Interfaces\\IProductsService.cs",
-              "RelativeToolTip": "src\\Services\\ProductsService\\Services\\Interfaces\\IProductsService.cs",
-              "ViewState": "AgIAABYAAAAAAAAAACBhwAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-07T08:59:16.949Z",
+              "WhenOpened": "2025-09-07T11:17:51.311Z",
               "EditorCaption": ""
             }
           ]
