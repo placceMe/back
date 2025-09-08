@@ -1,4 +1,6 @@
-using ProductsService.DTOs;
+using Marketplace.Contracts.Products;
+using Marketplace.Contracts.Files;
+using Marketplace.Contracts.Common;
 
 namespace ProductsService.Services.Interfaces;
 

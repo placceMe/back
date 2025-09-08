@@ -2,7 +2,9 @@ using ProductsService.Models;
 using ProductsService.Data;
 using Microsoft.EntityFrameworkCore;
 using ProductsService.Repositories.Interfaces;
-using ProductsService.DTOs;
+using Marketplace.Contracts.Products;
+using Marketplace.Contracts.Files;
+using Marketplace.Contracts.Common;
 
 
 namespace ProductsService.Repositories;

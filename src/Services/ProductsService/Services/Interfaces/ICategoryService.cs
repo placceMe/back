@@ -1,5 +1,7 @@
 using ProductsService.Models;
-using ProductsService.DTOs;
+using Marketplace.Contracts.Products;
+using Marketplace.Contracts.Files;
+using Marketplace.Contracts.Common;
 
 namespace ProductsService.Services.Interfaces;
 
@@ -14,3 +16,4 @@ public interface ICategoryService
     Task<bool> DeleteCategoryWithTransfer(Guid id, DeleteCategoryDto deleteDto);
     Task<IEnumerable<CategoryFullInfo>> GetAllCategoriesFullInfo();
 }
+

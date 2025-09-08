@@ -1,4 +1,4 @@
-﻿using ChatService.Data;
+using ChatService.Data;
 using ChatService.Hubs;
 using ChatService.Services;
 using Microsoft.EntityFrameworkCore;
@@ -36,7 +36,7 @@ builder.Services.AddScoped<INotificationService, NotificationService>();
 // Add SignalR with configuration
 builder.Services.AddSignalR(options =>
 {
-    options.EnableDetailedErrors = true; // Для debugging
+    options.EnableDetailedErrors = true; // ??? debugging
 });
 
 // Add CORS for SignalR with specific origins to support credentials
@@ -62,7 +62,7 @@ builder.Services.AddSwaggerGen(c =>
     c.SwaggerDoc("v1", new() { 
         Title = "Chat Service API", 
         Version = "v1",
-        Description = "API для управління чатами між покупцями та продавцями по товарах"
+        Description = "API ??? ?????????? ?????? ??? ????????? ?? ?????????? ?? ???????"
     });
     
     // Include XML comments if available

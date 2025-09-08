@@ -8,19 +8,19 @@ namespace Marketplace.Contracts.Products;
 public class CategoryDto
 {
     public Guid Id { get; set; }
-    
+
     [Required]
     [StringLength(100, MinimumLength = 2)]
     public string Name { get; set; } = string.Empty;
-    
+
     [StringLength(500)]
     public string Description { get; set; } = string.Empty;
-    
+
     public Guid? ParentCategoryId { get; set; }
-    
+
     [Url]
     public string ImageUrl { get; set; } = string.Empty;
-    
+
     public List<CategoryDto> SubCategories { get; set; } = new();
 }
 
@@ -32,12 +32,12 @@ public class CreateCategoryDto
     [Required]
     [StringLength(100, MinimumLength = 2)]
     public string Name { get; set; } = string.Empty;
-    
+
     [StringLength(500)]
     public string Description { get; set; } = string.Empty;
-    
+
     public Guid? ParentCategoryId { get; set; }
-    
+
     [Url]
     public string ImageUrl { get; set; } = string.Empty;
 }
@@ -48,11 +48,11 @@ public class CreateCategoryDto
 public class CharacteristicDto
 {
     public Guid Id { get; set; }
-    
+
     [Required]
     [StringLength(200)]
     public string Value { get; set; } = string.Empty;
-    
+
     public Guid CharacteristicDictId { get; set; }
     public CharacteristicDictDto? CharacteristicDict { get; set; }
 }
@@ -65,7 +65,7 @@ public class CreateCharacteristicDto
     [Required]
     [StringLength(200)]
     public string Value { get; set; } = string.Empty;
-    
+
     [Required]
     public Guid CharacteristicDictId { get; set; }
 }
@@ -77,7 +77,7 @@ public class UpdateCharacteristicDto
 {
     [Required]
     public Guid Id { get; set; }
-    
+
     [Required]
     [StringLength(200)]
     public string Value { get; set; } = string.Empty;
@@ -89,11 +89,65 @@ public class UpdateCharacteristicDto
 public class CharacteristicDictDto
 {
     public Guid Id { get; set; }
-    
+
     [Required]
     [StringLength(100)]
     public string Name { get; set; } = string.Empty;
-    
+
     [StringLength(200)]
     public string Description { get; set; } = string.Empty;
+}
+
+/// <summary>
+/// Update category request
+/// </summary>
+public class UpdateCategoryDto
+{
+    [Required]
+    [StringLength(100, MinimumLength = 2)]
+    public string Name { get; set; } = string.Empty;
+
+    [Required]
+    [StringLength(50)]
+    public string Status { get; set; } = string.Empty;
+}
+
+/// <summary>
+/// Category state request
+/// </summary>
+public class CategoryStateDto
+{
+    [Required]
+    [StringLength(50)]
+    public string State { get; set; } = string.Empty;
+}
+
+/// <summary>
+/// Category with full information
+/// </summary>
+public class CategoryFullInfo : CategoryDto
+{
+    public int ProductsCount { get; set; }
+    public int CharacteristicsCount { get; set; }
+}
+
+/// <summary>
+/// Delete category request
+/// </summary>
+public class DeleteCategoryDto
+{
+    [Required]
+    public Guid CategoryId { get; set; }
+
+    public Guid? ReplacementCategoryId { get; set; }
+}
+
+/// <summary>
+/// Base characteristic DTO
+/// </summary>
+public class BaseCharacteristicDto
+{
+    [Required]
+    [StringLength(500)]
+    public string Value { get; set; } = string.Empty;
 }

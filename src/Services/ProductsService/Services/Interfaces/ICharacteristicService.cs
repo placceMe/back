@@ -1,5 +1,7 @@
 using ProductsService.Models;
-using ProductsService.DTOs;
+using Marketplace.Contracts.Products;
+using Marketplace.Contracts.Files;
+using Marketplace.Contracts.Common;
 
 namespace ProductsService.Services.Interfaces;
 
@@ -10,3 +12,4 @@ public interface ICharacteristicService
     Task<bool> DeleteCharacteristicAsync(Guid id);
     Task<Characteristic?> GetCharacteristicByIdAsync(Guid id);
 }
+

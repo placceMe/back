@@ -1,4 +1,6 @@
-using ProductsService.DTOs;
+using Marketplace.Contracts.Products;
+using Marketplace.Contracts.Files;
+using Marketplace.Contracts.Common;
 using ProductsService.Models;
 using ProductsService.Repositories.Interfaces;
 using ProductsService.Services.Interfaces;
@@ -17,3 +19,4 @@ public class CharacteristicService : ICharacteristicService
     public async Task<bool> DeleteCharacteristicAsync(Guid id) => await _repository.DeleteCharacteristicAsync(id);
     public async Task<Characteristic?> GetCharacteristicByIdAsync(Guid id) => await _repository.GetCharacteristicByIdAsync(id);
 }
+

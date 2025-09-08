@@ -1,5 +1,5 @@
 using UsersService.Models;
-using UsersService.DTOs;
+using Marketplace.Contracts.Users;
 
 namespace UsersService.Services;
 
@@ -18,7 +18,7 @@ public interface IUserService
     Task<bool> ConfirmUserAsync(Guid token);
 
     // Authentication methods
-    Task<AuthResponse> LoginAsync(LoginRequest request);
+    Task<AuthResponse> LoginAsync(LoginDto request);
     Task<AuthResponse> RegisterAsync(RegisterRequest request);
     Task<AuthResponse> LogoutAsync(string jti, DateTimeOffset accessTokenExpiry);
     Task<AuthResponse> RefreshTokenAsync(Guid userId, string deviceId, string oldRefreshToken);

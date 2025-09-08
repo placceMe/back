@@ -1,5 +1,7 @@
 using ProductsService.Models;
-using ProductsService.DTOs;
+using Marketplace.Contracts.Products;
+using Marketplace.Contracts.Files;
+using Marketplace.Contracts.Common;
 
 namespace ProductsService.Extensions;
 
@@ -31,8 +33,14 @@ public static class ProductExtensions
             Characteristics = product.Characteristics.Select(c => new CharacteristicDto
             {
                 Id = c.Id,
-                Name = c.CharacteristicDict?.Name ?? string.Empty,
-                Value = c.Value
+                Value = c.Value,
+                CharacteristicDictId = c.CharacteristicDictId,
+                CharacteristicDict = c.CharacteristicDict != null ? new CharacteristicDictDto
+                {
+                    Id = c.CharacteristicDict.Id,
+                    Name = c.CharacteristicDict.Name ?? string.Empty,
+                    Description = string.Empty // No description in local model
+                } : null
             }).ToList()
         };
     }

@@ -24,4 +24,8 @@
     <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.1.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\Shared\Marketplace.Contracts\Marketplace.Contracts.csproj" />
+  </ItemGroup>
+
 </Project>

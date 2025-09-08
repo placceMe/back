@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using UsersService.Services;
-using UsersService.DTOs;
+using Marketplace.Contracts.Users;
 using UsersService.Repositories;
 using System.IdentityModel.Tokens.Jwt;
 
@@ -23,7 +23,7 @@ public class AuthController : ControllerBase
     }
 
     [HttpPost("login")]
-    public async Task<ActionResult<AuthResponse>> Login([FromBody] LoginRequest request)
+    public async Task<ActionResult<AuthResponse>> Login([FromBody] LoginDto request)
     {
         var result = await _usersService.LoginAsync(request);
 

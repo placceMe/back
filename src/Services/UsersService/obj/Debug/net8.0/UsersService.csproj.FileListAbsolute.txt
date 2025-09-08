@@ -550,3 +550,6 @@ P:\Norsen\back\src\Services\UsersService\obj\Debug\net8.0\rjsmcshtml.dswa.cache.
 P:\Norsen\back\src\Services\UsersService\obj\Debug\net8.0\staticwebassets.build.json.cache
 P:\Norsen\back\src\Services\UsersService\obj\Debug\net8.0\staticwebassets.build.endpoints.json
 P:\Norsen\back\src\Services\UsersService\bin\Debug\net8.0\appsettings.Example.json
+p:\Norsen\back\src\Services\UsersService\bin\Debug\net8.0\Marketplace.Contracts.dll
+p:\Norsen\back\src\Services\UsersService\bin\Debug\net8.0\Marketplace.Contracts.pdb
+p:\Norsen\back\src\Services\UsersService\bin\Debug\net8.0\Marketplace.Contracts.xml

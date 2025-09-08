@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using UsersService.DTOs;
+using Marketplace.Contracts.Users;
 using UsersService.Models;
 using UsersService.Services;
 
@@ -14,7 +14,7 @@ public class SalerInfoController : ControllerBase
     public SalerInfoController(ISalerInfoService service) => _service = service;
 
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<SalerInfoResponseDto>>> GetAll()
+    public async Task<ActionResult<IEnumerable<SellerInfoResponseDto>>> GetAll()
     {
         var salerInfos = await _service.GetAllAsync();
         var response = salerInfos.Select(MapToResponseDto);
@@ -22,21 +22,21 @@ public class SalerInfoController : ControllerBase
     }
 
     [HttpGet("{id:guid}")]
-    public async Task<ActionResult<SalerInfoResponseDto>> Get(Guid id)
+    public async Task<ActionResult<SellerInfoResponseDto>> Get(Guid id)
     {
         var salerInfo = await _service.GetByIdAsync(id);
         return salerInfo is null ? NotFound() : Ok(MapToResponseDto(salerInfo));
     }
 
     [HttpGet("by-user/{userId:guid}")]
-    public async Task<ActionResult<SalerInfoResponseDto>> GetByUserId(Guid userId)
+    public async Task<ActionResult<SellerInfoResponseDto>> GetByUserId(Guid userId)
     {
         var salerInfo = await _service.GetByUserIdAsync(userId);
         return salerInfo is null ? NotFound() : Ok(MapToResponseDto(salerInfo));
     }
 
     [HttpPost("by-ids")]
-    public async Task<ActionResult<IEnumerable<SalerInfoResponseDto>>> GetByIds([FromBody] GetSalerInfoByIdsRequest request)
+    public async Task<ActionResult<IEnumerable<SellerInfoResponseDto>>> GetByIds([FromBody] GetSellerInfoByIdsRequest request)
     {
         if (request?.Ids == null || !request.Ids.Any())
         {
@@ -49,7 +49,7 @@ public class SalerInfoController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult<SalerInfoResponseDto>> Create(CreateSalerInfoDto createDto)
+    public async Task<ActionResult<SellerInfoResponseDto>> Create(CreateSellerInfoDto createDto)
     {
         var salerInfo = new SalerInfo
         {
@@ -71,7 +71,7 @@ public class SalerInfoController : ControllerBase
     }
 
     [HttpPut("{id:guid}")]
-    public async Task<ActionResult> Update(Guid id, UpdateSalerInfoDto updateDto)
+    public async Task<ActionResult> Update(Guid id, UpdateSellerInfoDto updateDto)
     {
         var existingSalerInfo = await _service.GetByIdAsync(id);
         if (existingSalerInfo is null) return NotFound();
@@ -96,7 +96,7 @@ public class SalerInfoController : ControllerBase
         return deleted ? NoContent() : NotFound();
     }
 
-    private static SalerInfoResponseDto MapToResponseDto(SalerInfo salerInfo) => new()
+    private static SellerInfoResponseDto MapToResponseDto(SalerInfo salerInfo) => new()
     {
         Id = salerInfo.Id,
         CompanyName = salerInfo.CompanyName,
@@ -111,9 +111,4 @@ public class SalerInfoController : ControllerBase
         CreatedAt = salerInfo.CreatedAt,
         UpdatedAt = salerInfo.UpdatedAt
     };
-}
-
-public class GetSalerInfoByIdsRequest
-{
-    public List<Guid> Ids { get; set; } = new();
 }

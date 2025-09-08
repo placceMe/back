@@ -6,9 +6,9 @@ using ProductsService.Models;
 using ProductsService.Repositories.Interfaces;
 using ProductsService.Extensions;
 using ProductsService.Services.Interfaces;
-using LocalCreateProductWithFilesDto = ProductsService.DTOs.CreateProductWithFilesDto;
-using LocalUpdateProductWithFilesDto = ProductsService.DTOs.UpdateProductWithFilesDto;
-using LocalUpdateCharacteristicDto = ProductsService.DTOs.UpdateCharacteristicDto;
+using LocalCreateProductWithFilesDto = Marketplace.Contracts.Products.CreateProductWithFilesDto;
+using LocalUpdateProductWithFilesDto = Marketplace.Contracts.Products.UpdateProductWithFilesDto;
+using LocalUpdateCharacteristicDto = Marketplace.Contracts.Products.UpdateCharacteristicDto;
 
 namespace ProductsService.Controllers;
 
@@ -107,7 +107,7 @@ public class ProductsController : ControllerBase
                 CategoryId = createProductDto.CategoryId,
                 SellerId = createProductDto.SellerId,
                 Quantity = createProductDto.Quantity,
-                Characteristics = createProductDto.Characteristics?.Select(c => new ProductsService.DTOs.CreateCharacteristicDto
+                Characteristics = createProductDto.Characteristics?.Select(c => new Marketplace.Contracts.Products.CreateCharacteristicDto
                 {
                     Value = c.Value,
                     CharacteristicDictId = c.CharacteristicDictId

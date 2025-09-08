@@ -1,7 +1,9 @@
 using ProductsService.Models;
 using ProductsService.Data;
 using ProductsService.Repositories.Interfaces;
-using ProductsService.DTOs;
+using Marketplace.Contracts.Products;
+using Marketplace.Contracts.Files;
+using Marketplace.Contracts.Common;
 using Microsoft.EntityFrameworkCore;
 
 namespace ProductsService.Repositories;
@@ -68,7 +70,9 @@ public class CategoryRepository : ICategoryRepository
             {
                 Id = category.Id,
                 Name = category.Name,
-                Status = category.Status,
+                Description = string.Empty, // Category doesn't have Description
+                ParentCategoryId = null, // Category doesn't have ParentCategoryId
+                ImageUrl = string.Empty, // Category doesn't have ImageUrl
                 ProductsCount = productsCount,
                 CharacteristicsCount = characteristicsCount
             });
@@ -76,3 +80,4 @@ public class CategoryRepository : ICategoryRepository
         return result;
     }
 }
+

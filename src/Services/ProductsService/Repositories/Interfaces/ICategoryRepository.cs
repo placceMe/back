@@ -1,5 +1,7 @@
 using ProductsService.Models;
-using ProductsService.DTOs;
+using Marketplace.Contracts.Products;
+using Marketplace.Contracts.Files;
+using Marketplace.Contracts.Common;
 
 namespace ProductsService.Repositories.Interfaces;
 
@@ -13,3 +15,4 @@ public interface ICategoryRepository
     Task TransferProductsToCategoryAsync(Guid fromCategoryId, Guid toCategoryId);
     Task<IEnumerable<CategoryFullInfo>> GetAllCategoriesFullInfo();
 }
+

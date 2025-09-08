@@ -1,4 +1,5 @@
-﻿using ChatService.DTOs;
+using Marketplace.Contracts.Chat;
+using Marketplace.Contracts.Common;
 
 namespace ChatService.Services
 {
@@ -14,7 +15,7 @@ namespace ChatService.Services
         }
 
         /// <summary>
-        /// Отримує продукт за ID та перевіряє, чи sellerId відповідає продавцю товару
+        /// ??????? ??????? ?? ID ?? ?????????, ?? sellerId ?????????? ???????? ??????
         /// </summary>
         public async Task<ProductValidationResult> ValidateProductSellerAsync(Guid productId, Guid sellerId)
         {

@@ -1,4 +1,6 @@
-using OrdersServiceNet.DTOs;
+using Marketplace.Contracts.Orders;
+using Marketplace.Contracts.Users;
+using Marketplace.Contracts.Common;
 using System.Text.Json;
 
 namespace OrdersServiceNet.Services;

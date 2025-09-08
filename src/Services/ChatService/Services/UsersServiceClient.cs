@@ -1,4 +1,5 @@
-using ChatService.DTOs;
+using Marketplace.Contracts.Chat;
+using Marketplace.Contracts.Common;
 
 namespace ChatService.Services
 {

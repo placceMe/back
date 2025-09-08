@@ -4,34 +4,12 @@ using ContractChatMessageDto = Marketplace.Contracts.Chat.ChatMessageDto;
 using ContractCreateChatDto = Marketplace.Contracts.Chat.CreateChatDto;
 using ContractCreateMessageDto = Marketplace.Contracts.Chat.CreateMessageDto;
 using ContractMessageNotificationDto = Marketplace.Contracts.Chat.MessageNotificationDto;
-using ContractApiResponse = Marketplace.Contracts.Common.ApiResponse;
-using LocalChatResponse = ChatService.DTOs.ChatResponse;
-using LocalMessageResponse = ChatService.DTOs.MessageResponse;
-using LocalCreateChatRequest = ChatService.DTOs.CreateChatRequest;
-using LocalCreateMessageRequest = ChatService.DTOs.CreateMessageRequest;
-using LocalMessageNotification = ChatService.DTOs.MessageNotification;
 
 namespace ChatService.Extensions;
 
 public static class ContractMappingExtensions
 {
-    // Chat mappings
-    public static ContractChatDto ToContract(this LocalChatResponse localResponse)
-    {
-        return new ContractChatDto
-        {
-            Id = localResponse.Id,
-            ProductId = localResponse.ProductId,
-            SellerId = localResponse.SellerId,
-            BuyerId = localResponse.BuyerId,
-            CreatedAt = localResponse.CreatedAt,
-            ProductTitle = string.Empty, // Will be populated from external service
-            ProductImageUrl = string.Empty,
-            LastMessage = null,
-            UnreadCount = 0
-        };
-    }
-
+    // Chat model to contract mapping
     public static ContractChatDto ToContract(this Chat chat)
     {
         return new ContractChatDto
@@ -41,36 +19,14 @@ public static class ContractMappingExtensions
             SellerId = chat.SellerId,
             BuyerId = chat.BuyerId,
             CreatedAt = chat.CreatedAt,
-            ProductTitle = string.Empty,
-            ProductImageUrl = string.Empty,
-            LastMessage = null,
-            UnreadCount = 0
+            ProductTitle = string.Empty, // Will be filled by service
+            ProductImageUrl = string.Empty, // Will be filled by service
+            LastMessage = null, // Will be filled by service
+            UnreadCount = 0 // Will be filled by service
         };
     }
 
-    public static LocalCreateChatRequest ToLocal(this ContractCreateChatDto contractDto)
-    {
-        return new LocalCreateChatRequest
-        {
-            ProductId = contractDto.ProductId,
-            SellerId = contractDto.SellerId,
-            BuyerId = contractDto.BuyerId
-        };
-    }
-
-    // Message mappings
-    public static ContractChatMessageDto ToContract(this LocalMessageResponse localResponse)
-    {
-        return new ContractChatMessageDto
-        {
-            Id = localResponse.Id,
-            ChatId = localResponse.ChatId,
-            SenderUserId = localResponse.SenderUserId,
-            Body = localResponse.Body,
-            CreatedAt = localResponse.CreatedAt
-        };
-    }
-
+    // ChatMessage model to contract mapping
     public static ContractChatMessageDto ToContract(this ChatMessage message)
     {
         return new ContractChatMessageDto
@@ -83,45 +39,32 @@ public static class ContractMappingExtensions
         };
     }
 
-    public static LocalCreateMessageRequest ToLocal(this ContractCreateMessageDto contractDto)
+    // Contract to local model mappings
+    public static Chat ToLocal(this ContractCreateChatDto contractDto)
     {
-        return new LocalCreateMessageRequest
+        return new Chat
         {
-            SenderUserId = contractDto.SenderUserId,
-            Body = contractDto.Body
+            ProductId = contractDto.ProductId,
+            SellerId = contractDto.SellerId,
+            BuyerId = contractDto.BuyerId,
+            CreatedAt = DateTime.UtcNow
         };
     }
 
-    // Notification mappings
-    public static ContractMessageNotificationDto ToContract(this LocalMessageNotification localNotification)
+    public static ChatMessage ToLocal(this ContractCreateMessageDto contractDto)
     {
-        return new ContractMessageNotificationDto
+        return new ChatMessage
         {
-            ChatId = localNotification.ChatId,
-            ProductId = localNotification.ProductId,
-            SenderUserId = localNotification.SenderUserId,
-            SenderName = localNotification.SenderName,
-            MessagePreview = localNotification.MessagePreview,
-            CreatedAt = localNotification.CreatedAt,
-            ProductTitle = localNotification.ProductTitle,
-            ProductImageUrl = localNotification.ProductImageUrl ?? string.Empty
+            SenderUserId = contractDto.SenderUserId,
+            Body = contractDto.Body,
+            CreatedAt = DateTime.UtcNow
         };
     }
 
     // Collection mappings
-    public static IEnumerable<ContractChatDto> ToContract(this IEnumerable<LocalChatResponse> localResponses)
-    {
-        return localResponses.Select(r => r.ToContract());
-    }
-
     public static IEnumerable<ContractChatDto> ToContract(this IEnumerable<Chat> chats)
     {
         return chats.Select(c => c.ToContract());
-    }
-
-    public static IEnumerable<ContractChatMessageDto> ToContract(this IEnumerable<LocalMessageResponse> localResponses)
-    {
-        return localResponses.Select(r => r.ToContract());
     }
 
     public static IEnumerable<ContractChatMessageDto> ToContract(this IEnumerable<ChatMessage> messages)

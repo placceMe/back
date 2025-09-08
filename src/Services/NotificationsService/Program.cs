@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using NotificationsService.Contracts;
+using Marketplace.Contracts.Notifications;
 using NotificationsService.Email;
 using Serilog;
 

@@ -3,7 +3,7 @@ using System.Security.Claims;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.EntityFrameworkCore;
-using UsersService.DTOs;
+using Marketplace.Contracts.Users;
 using UsersService.Models;
 using UsersService.Repositories;
 using System.Security.Cryptography;
@@ -116,7 +116,7 @@ public class UserService : IUserService
     }
 
     // Authentication Methods
-    public async Task<AuthResponse> LoginAsync(LoginRequest request)
+    public async Task<AuthResponse> LoginAsync(LoginDto request)
     {
         try
         {
@@ -633,12 +633,18 @@ public class UserService : IUserService
             Surname = user.Surname,
             Email = user.Email,
             Roles = user.Roles,
-            SalerInfo = sellerInfo != null ? new SalerInfoResponseDto
+            SellerInfo = sellerInfo != null ? new SellerInfoDto
             {
                 Id = sellerInfo.Id,
                 Description = sellerInfo.Description,
                 CompanyName = sellerInfo.CompanyName,
-                Schedule = sellerInfo.Schedule
+                Schedule = sellerInfo.Schedule,
+                UserId = sellerInfo.UserId,
+                Contacts = sellerInfo.Contacts.Select(c => new ContactDto
+                {
+                    Type = c.Type,
+                    Value = c.Value
+                }).ToList()
             } : null
         };
     }
@@ -658,15 +664,13 @@ public class UserService : IUserService
                 Surname = user.Surname,
                 Email = user.Email,
                 Roles = user.Roles,
-                SalerInfo = sellerInfo != null ? new SalerInfoResponseDto
+                SellerInfo = sellerInfo != null ? new SellerInfoDto
                 {
                     Id = sellerInfo.Id,
                     Description = sellerInfo.Description,
                     CompanyName = sellerInfo.CompanyName,
                     Schedule = sellerInfo.Schedule,
                     UserId = sellerInfo.UserId,
-                    CreatedAt = sellerInfo.CreatedAt,
-                    UpdatedAt = sellerInfo.UpdatedAt,
                     Contacts = sellerInfo.Contacts.Select(c => new ContactDto
                     {
                         Type = c.Type,
@@ -679,3 +683,4 @@ public class UserService : IUserService
         return (usersWithSellerInfo, totalCount);
     }
 }
+

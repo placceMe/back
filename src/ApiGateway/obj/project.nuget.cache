@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "BiqYJiKNi5E=",
+  "dgSpecHash": "5t0ZrZwsPvA=",
   "success": true,
-  "projectFilePath": "P:\\Norsen\\back\\src\\ApiGateway\\ApiGateway.csproj",
+  "projectFilePath": "p:\\Norsen\\back\\src\\ApiGateway\\ApiGateway.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\aleks\\.nuget\\packages\\microsoft.aspnetcore.http.features\\2.2.0\\microsoft.aspnetcore.http.features.2.2.0.nupkg.sha512",
     "C:\\Users\\aleks\\.nuget\\packages\\microsoft.extensions.primitives\\2.2.0\\microsoft.extensions.primitives.2.2.0.nupkg.sha512",

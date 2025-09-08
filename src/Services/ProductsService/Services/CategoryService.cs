@@ -1,4 +1,6 @@
-using ProductsService.DTOs;
+using Marketplace.Contracts.Products;
+using Marketplace.Contracts.Files;
+using Marketplace.Contracts.Common;
 using ProductsService.Models;
 using ProductsService.Repositories.Interfaces;
 using ProductsService.Services.Interfaces;
@@ -22,7 +24,7 @@ public class CategoryService : ICategoryService
     {
         return _repository.GetAllCategories().ToList();
     }
-    public async Task<bool> UpdateCategoryState(Guid id, DTOs.CategoryStateDto stateDto)
+    public async Task<bool> UpdateCategoryState(Guid id, CategoryStateDto stateDto)
     {
         var category = _repository.GetCategoryById(id);
         if (category == null) return false;
@@ -31,18 +33,18 @@ public class CategoryService : ICategoryService
         return _repository.UpdateCategory(id, category);
     }
 
-    public async Task<bool> DeleteCategoryWithTransfer(Guid id, DTOs.DeleteCategoryDto deleteDto)
+    public async Task<bool> DeleteCategoryWithTransfer(Guid id, DeleteCategoryDto deleteDto)
     {
         var category = _repository.GetCategoryById(id);
         if (category == null) return false;
 
         // If transfer category is specified, transfer all products first
-        if (deleteDto.TransferToCategoryId.HasValue)
+        if (deleteDto.ReplacementCategoryId.HasValue)
         {
-            var targetCategory = _repository.GetCategoryById(deleteDto.TransferToCategoryId.Value);
+            var targetCategory = _repository.GetCategoryById(deleteDto.ReplacementCategoryId.Value);
             if (targetCategory == null) return false;
 
-            await _repository.TransferProductsToCategoryAsync(id, deleteDto.TransferToCategoryId.Value);
+            await _repository.TransferProductsToCategoryAsync(id, deleteDto.ReplacementCategoryId.Value);
         }
 
         // Change category status to Deleted
@@ -55,3 +57,4 @@ public class CategoryService : ICategoryService
         return await _repository.GetAllCategoriesFullInfo();
     }
 }
+

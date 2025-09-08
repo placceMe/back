@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using UsersService.Models;
 using UsersService.Services;
-using UsersService.DTOs;
+using Marketplace.Contracts.Users;
 
 namespace UsersService.Controllers;
 
@@ -48,15 +48,13 @@ public class UsersController : ControllerBase
         if (pageSize > 100) pageSize = 100; // Limit max page size
 
         var (users, totalCount) = await _service.GetAllWithSellerInfoAsync(page, pageSize);
-        var totalPages = (int)Math.Ceiling((double)totalCount / pageSize);
 
         return Ok(new PaginatedUsersWithSellerInfoDto
         {
-            Users = users,
+            Users = users.ToList(),
             TotalCount = totalCount,
             Page = page,
-            PageSize = pageSize,
-            TotalPages = totalPages
+            PageSize = pageSize
         });
     }
 
@@ -96,7 +94,7 @@ public class UsersController : ControllerBase
     public class MakeSellerRequest
     {
         public Guid Id { get; set; }
-        public UpdateSalerInfoDto SalerInfo { get; set; } = new UpdateSalerInfoDto();
+        public UpdateSellerInfoDto SalerInfo { get; set; } = new UpdateSellerInfoDto();
     }
 
     [HttpPut("make-saler")]

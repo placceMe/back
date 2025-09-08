@@ -1,4 +1,5 @@
-using OrdersServiceNet.DTOs;
+using Marketplace.Contracts.Orders;
+using Marketplace.Contracts.Common;
 using OrdersServiceNet.Models;
 using OrdersServiceNet.Repositories;
 
@@ -84,7 +85,9 @@ public class OrderService : IOrderService
                 var emailRequest = new OrderCreatedEmailRequest
                 {
                     To = user.Email,
-                    UserDisplayName = user.DisplayName ?? "Користувач",
+                    UserDisplayName = !string.IsNullOrEmpty(user.Name) || !string.IsNullOrEmpty(user.Surname)
+                        ? $"{user.Name} {user.Surname}".Trim()
+                        : "Користувач",
                     OrderId = createdOrder.Id.ToString(),
                     TotalAmount = createdOrder.TotalAmount,
                     DeliveryAddress = createdOrder.DeliveryAddress,

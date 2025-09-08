@@ -1,5 +1,7 @@
 using ProductsService.Models;
-using ProductsService.DTOs;
+using Marketplace.Contracts.Products;
+using Marketplace.Contracts.Files;
+using Marketplace.Contracts.Common;
 
 namespace ProductsService.Extensions;
 
@@ -11,7 +13,9 @@ public static class CategoryExtensions
         {
             Id = category.Id,
             Name = category.Name,
-            Status = category.Status
+            Description = string.Empty, // Category model doesn't have Description
+            ParentCategoryId = null, // Category model doesn't have ParentCategoryId
+            ImageUrl = string.Empty // Category model doesn't have ImageUrl
         };
     }
 
@@ -20,5 +24,6 @@ public static class CategoryExtensions
         return categories.Select(c => c.ToDto());
     }
 }
+
 
 

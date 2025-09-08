@@ -1,4 +1,5 @@
-using OrdersServiceNet.DTOs;
+using Marketplace.Contracts.Orders;
+using Marketplace.Contracts.Common;
 
 namespace OrdersServiceNet.Services;
 

@@ -1,5 +1,7 @@
 using ProductsService.Models;
-using ProductsService.DTOs;
+using Marketplace.Contracts.Products;
+using Marketplace.Contracts.Files;
+using Marketplace.Contracts.Common;
 using ProductsService.Repositories.Interfaces;
 using ProductsService.Services.Interfaces;
 using ProductsService.Extensions;

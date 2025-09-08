@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.SignalR;
 using ChatService.Hubs;
-using ChatService.DTOs;
+using Marketplace.Contracts.Chat;
+using Marketplace.Contracts.Common;
 using ChatService.Services;
 using ChatService.Models;
 
@@ -44,9 +45,9 @@ namespace ChatService.Services
 
                 // ????????? ?????????? ??? ?????
                 var productInfo = await _productsServiceClient.GetProductInfoAsync(chat.ProductId);
-                
+
                 // ????????? ???????????
-                var notification = new MessageNotification
+                var notification = new MessageNotificationDto
                 {
                     ChatId = message.ChatId,
                     ProductId = chat.ProductId,
@@ -60,12 +61,12 @@ namespace ChatService.Services
 
                 // ?????????? ??? ??? ???????? ??????????? (??? ???????? ???? ???????????)
                 var recipientIds = new List<Guid>();
-                
+
                 if (chat.SellerId != message.SenderUserId)
                 {
                     recipientIds.Add(chat.SellerId);
                 }
-                
+
                 if (chat.BuyerId != message.SenderUserId)
                 {
                     recipientIds.Add(chat.BuyerId);
@@ -78,7 +79,7 @@ namespace ChatService.Services
                     await _hubContext.Clients.Group(userGroupName)
                         .SendAsync("MessageNotification", notification);
 
-                    _logger.LogInformation("Sent message notification to user {UserId} for message {MessageId}", 
+                    _logger.LogInformation("Sent message notification to user {UserId} for message {MessageId}",
                         recipientId, message.Id);
                 }
             }

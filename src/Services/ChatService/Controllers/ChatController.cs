@@ -1,9 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.SignalR;
 using ChatService.Data;
 using ChatService.Models;
-using ChatService.DTOs;
+using Marketplace.Contracts.Chat;
+using Marketplace.Contracts.Common;
 using ChatService.Hubs;
 using ChatService.Services;
 using ChatService.Extensions;
@@ -13,7 +14,7 @@ using Marketplace.Contracts.Common;
 namespace ChatService.Controllers
 {
     /// <summary>
-    /// API для управління чатами між покупцями та продавцями
+    /// API ??? ?????????? ?????? ??? ????????? ?? ??????????
     /// </summary>
     [ApiController]
     [Route("api/[controller]")]
@@ -41,13 +42,13 @@ namespace ChatService.Controllers
         }
 
         /// <summary>
-        /// Створює новий чат або повертає існуючий
+        /// ??????? ????? ??? ??? ???????? ????????
         /// </summary>
-        /// <param name="request">Дані для створення чату</param>
-        /// <returns>Інформація про чат</returns>
-        /// <response code="200">Чат успішно створено або знайдено існуючий</response>
-        /// <response code="400">Невалідні дані запиту або продавець не є власником товару</response>
-        /// <response code="500">Внутрішня помилка сервера</response>
+        /// <param name="request">???? ??? ????????? ????</param>
+        /// <returns>?????????? ??? ???</returns>
+        /// <response code="200">??? ??????? ???????? ??? ???????? ????????</response>
+        /// <response code="400">????????? ???? ?????? ??? ????????? ?? ? ????????? ??????</response>
+        /// <response code="500">????????? ??????? ???????</response>
         [HttpPost]
         [ProducesResponseType(typeof(ApiResponse<ChatDto>), 200)]
         [ProducesResponseType(typeof(ApiResponse<ChatDto>), 400)]
@@ -56,14 +57,14 @@ namespace ChatService.Controllers
         {
             try
             {
-                // Мапінг з контракту до локального DTO
+                // ?????? ? ????????? ?? ?????????? DTO
                 var localRequest = request.ToLocal();
 
-                // Валідація відповідності sellerId продавцю товару productId
+                // ????????? ????????????? sellerId ???????? ?????? productId
                 var validation = await _productsServiceClient.ValidateProductSellerAsync(request.ProductId, request.SellerId);
                 if (!validation.IsValid)
                 {
-                    return BadRequest(ApiResponse<ChatDto>.ErrorResult(validation.Error ?? "Невалідний продавець для товару"));
+                    return BadRequest(ApiResponse<ChatDto>.ErrorResult(validation.Error ?? "?????????? ????????? ??? ??????"));
                 }
 
                 // Check if chat already exists
@@ -100,20 +101,20 @@ namespace ChatService.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error creating/getting chat for product {ProductId}", request.ProductId);
-                return StatusCode(500, ApiResponse<ChatDto>.ErrorResult("Внутрішня помилка сервера"));
+                return StatusCode(500, ApiResponse<ChatDto>.ErrorResult("????????? ??????? ???????"));
             }
         }
 
         /// <summary>
-        /// Отримує список чатів з фільтрацією та пагінацією
+        /// ??????? ?????? ????? ? ??????????? ?? ??????????
         /// </summary>
-        /// <param name="sellerId">ID продавця для фільтрації</param>
-        /// <param name="buyerId">ID покупця для фільтрації</param>
-        /// <param name="skip">Кількість чатів для пропуску</param>
-        /// <param name="take">Кількість чатів для повернення</param>
-        /// <returns>Список чатів</returns>
-        /// <response code="200">Успішно отримано список чатів</response>
-        /// <response code="500">Внутрішня помилка сервера</response>
+        /// <param name="sellerId">ID ???????? ??? ??????????</param>
+        /// <param name="buyerId">ID ??????? ??? ??????????</param>
+        /// <param name="skip">????????? ????? ??? ????????</param>
+        /// <param name="take">????????? ????? ??? ??????????</param>
+        /// <returns>?????? ?????</returns>
+        /// <response code="200">??????? ???????? ?????? ?????</response>
+        /// <response code="500">????????? ??????? ???????</response>
         [HttpGet]
         [ProducesResponseType(typeof(ApiResponse<IEnumerable<ChatDto>>), 200)]
         [ProducesResponseType(typeof(ApiResponse<IEnumerable<ChatDto>>), 500)]
@@ -132,7 +133,7 @@ namespace ChatService.Controllers
                     queryable = queryable.Skip(skip);
                 }
                         
-                // Фільтрація за sellerId або buyerId
+                // ?????????? ?? sellerId ??? buyerId
                 if (sellerId.HasValue)
                 {
                     queryable = queryable.Where(c => c.SellerId == sellerId.Value);
@@ -153,18 +154,18 @@ namespace ChatService.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error retrieving chats");
-                return StatusCode(500, ApiResponse<IEnumerable<ChatDto>>.ErrorResult("Внутрішня помилка сервера"));
+                return StatusCode(500, ApiResponse<IEnumerable<ChatDto>>.ErrorResult("????????? ??????? ???????"));
             }
         }
 
         /// <summary>
-        /// Отримує деталі конкретного чату
+        /// ??????? ?????? ??????????? ????
         /// </summary>
-        /// <param name="chatId">ID чату</param>
-        /// <returns>Деталі чату</returns>
-        /// <response code="200">Чат знайдено</response>
-        /// <response code="404">Чат не знайдено</response>
-        /// <response code="500">Внутрішня помилка сервера</response>
+        /// <param name="chatId">ID ????</param>
+        /// <returns>?????? ????</returns>
+        /// <response code="200">??? ????????</response>
+        /// <response code="404">??? ?? ????????</response>
+        /// <response code="500">????????? ??????? ???????</response>
         [HttpGet("{chatId}")]
         [ProducesResponseType(typeof(ApiResponse<ChatDto>), 200)]
         [ProducesResponseType(typeof(ApiResponse<ChatDto>), 404)]
@@ -177,7 +178,7 @@ namespace ChatService.Controllers
                 
                 if (chat == null)
                 {
-                    return NotFound(ApiResponse<ChatDto>.ErrorResult("Чат не знайдено"));
+                    return NotFound(ApiResponse<ChatDto>.ErrorResult("??? ?? ????????"));
                 }
 
                 return Ok(ApiResponse<ChatDto>.SuccessResult(chat.ToContract()));
@@ -185,21 +186,21 @@ namespace ChatService.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error retrieving chat {ChatId}", chatId);
-                return StatusCode(500, ApiResponse<ChatDto>.ErrorResult("Внутрішня помилка сервера"));
+                return StatusCode(500, ApiResponse<ChatDto>.ErrorResult("????????? ??????? ???????"));
             }
         }
 
         /// <summary>
-        /// Отримує повідомлення чату
+        /// ??????? ???????????? ????
         /// </summary>
-        /// <param name="chatId">ID чату</param>
-        /// <param name="after">Дата після якої отримувати повідомлення</param>
-        /// <param name="skip">Кількість повідомлень для пропуску</param>
-        /// <param name="take">Кількість повідомлень для повернення</param>
-        /// <returns>Список повідомлень</returns>
-        /// <response code="200">Успішно отримано повідомлення</response>
-        /// <response code="404">Чат не знайдено</response>
-        /// <response code="500">Внутрішня помилка сервера</response>
+        /// <param name="chatId">ID ????</param>
+        /// <param name="after">???? ????? ???? ?????????? ????????????</param>
+        /// <param name="skip">????????? ??????????? ??? ????????</param>
+        /// <param name="take">????????? ??????????? ??? ??????????</param>
+        /// <returns>?????? ???????????</returns>
+        /// <response code="200">??????? ???????? ????????????</response>
+        /// <response code="404">??? ?? ????????</response>
+        /// <response code="500">????????? ??????? ???????</response>
         [HttpGet("{chatId}/messages")]
         [ProducesResponseType(typeof(ApiResponse<IEnumerable<ChatMessageDto>>), 200)]
         [ProducesResponseType(typeof(ApiResponse<IEnumerable<ChatMessageDto>>), 404)]
@@ -216,14 +217,14 @@ namespace ChatService.Controllers
                 var chatExists = await _context.Chats.AnyAsync(c => c.Id == chatId);
                 if (!chatExists)
                 {
-                    return NotFound(ApiResponse<IEnumerable<ChatMessageDto>>.ErrorResult("Чат не знайдено"));
+                    return NotFound(ApiResponse<IEnumerable<ChatMessageDto>>.ErrorResult("??? ?? ????????"));
                 }
 
                 var queryable = _context.ChatMessages
                     .Where(m => m.ChatId == chatId)
                     .AsQueryable();
 
-                // Фільтрація за датою якщо вказано
+                // ?????????? ?? ????? ???? ???????
                 if (after.HasValue)
                 {
                     queryable = queryable.Where(m => m.CreatedAt > after.Value);
@@ -240,20 +241,20 @@ namespace ChatService.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error retrieving messages for chat {ChatId}", chatId);
-                return StatusCode(500, ApiResponse<IEnumerable<ChatMessageDto>>.ErrorResult("Внутрішня помилка сервера"));
+                return StatusCode(500, ApiResponse<IEnumerable<ChatMessageDto>>.ErrorResult("????????? ??????? ???????"));
             }
         }
 
         /// <summary>
-        /// Відправляє повідомлення в чат
+        /// ?????????? ???????????? ? ???
         /// </summary>
-        /// <param name="chatId">ID чату</param>
-        /// <param name="request">Дані повідомлення</param>
-        /// <returns>Створене повідомлення</returns>
-        /// <response code="200">Повідомлення успішно відправлено</response>
-        /// <response code="400">Невалідні дані повідомлення</response>
-        /// <response code="404">Чат не знайдено</response>
-        /// <response code="500">Внутрішня помилка сервера</response>
+        /// <param name="chatId">ID ????</param>
+        /// <param name="request">???? ????????????</param>
+        /// <returns>???????? ????????????</returns>
+        /// <response code="200">???????????? ??????? ???????????</response>
+        /// <response code="400">????????? ???? ????????????</response>
+        /// <response code="404">??? ?? ????????</response>
+        /// <response code="500">????????? ??????? ???????</response>
         [HttpPost("{chatId}/messages")]
         [ProducesResponseType(typeof(ApiResponse<ChatMessageDto>), 200)]
         [ProducesResponseType(typeof(ApiResponse<ChatMessageDto>), 400)]
@@ -263,20 +264,20 @@ namespace ChatService.Controllers
         {
             try
             {
-                // Мапінг з контракту до локального DTO
+                // ?????? ? ????????? ?? ?????????? DTO
                 var localRequest = request.ToLocal();
 
                 // Validate body is not empty/whitespace
                 if (string.IsNullOrWhiteSpace(request.Body))
                 {
-                    return BadRequest(ApiResponse<ChatMessageDto>.ErrorResult("Текст повідомлення не може бути порожнім"));
+                    return BadRequest(ApiResponse<ChatMessageDto>.ErrorResult("????? ???????????? ?? ???? ???? ????????"));
                 }
 
                 // Check if chat exists and get chat info
                 var chat = await _context.Chats.FindAsync(chatId);
                 if (chat == null)
                 {
-                    return NotFound(ApiResponse<ChatMessageDto>.ErrorResult("Чат не знайдено"));
+                    return NotFound(ApiResponse<ChatMessageDto>.ErrorResult("??? ?? ????????"));
                 }
 
                 var message = new ChatMessage
@@ -310,7 +311,7 @@ namespace ChatService.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error sending message to chat {ChatId}", chatId);
-                return StatusCode(500, ApiResponse<ChatMessageDto>.ErrorResult("Внутрішня помилка сервера"));
+                return StatusCode(500, ApiResponse<ChatMessageDto>.ErrorResult("????????? ??????? ???????"));
             }
         }
     }

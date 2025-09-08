@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
-using OrdersServiceNet.DTOs;
+using Marketplace.Contracts.Orders;
+using Marketplace.Contracts.Common;
 using OrdersServiceNet.Services;
 using System.Security.Claims;
 

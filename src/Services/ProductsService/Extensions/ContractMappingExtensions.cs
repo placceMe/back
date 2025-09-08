@@ -6,13 +6,13 @@ using ContractCategoryDto = Marketplace.Contracts.Products.CategoryDto;
 using ContractCharacteristicDto = Marketplace.Contracts.Products.CharacteristicDto;
 using ContractAttachmentDto = Marketplace.Contracts.Files.AttachmentDto;
 using ContractPaginationInfo = Marketplace.Contracts.Common.PaginationInfo;
-using LocalProductDto = ProductsService.DTOs.ProductDto;
-using LocalProductsDto = ProductsService.DTOs.ProductsDto;
-using LocalSearchProductsDto = ProductsService.DTOs.SearchProductsDto;
-using LocalCategoryDto = ProductsService.DTOs.CategoryDto;
-using LocalCharacteristicDto = ProductsService.DTOs.CharacteristicDto;
-using LocalAttachmentDto = ProductsService.DTOs.AttachmentDto;
-using LocalPaginationInfo = ProductsService.DTOs.PaginationInfo;
+using LocalProductDto = Marketplace.Contracts.Products.ProductDto;
+using LocalProductsDto = Marketplace.Contracts.Products.ProductsDto;
+using LocalSearchProductsDto = Marketplace.Contracts.Products.SearchProductsDto;
+using LocalCategoryDto = Marketplace.Contracts.Products.CategoryDto;
+using LocalCharacteristicDto = Marketplace.Contracts.Products.CharacteristicDto;
+using LocalAttachmentDto = Marketplace.Contracts.Files.AttachmentDto;
+using LocalPaginationInfo = Marketplace.Contracts.Common.PaginationInfo;
 
 namespace ProductsService.Extensions;
 
@@ -121,7 +121,7 @@ public static class ContractMappingExtensions
             CharacteristicDict = new Marketplace.Contracts.Products.CharacteristicDictDto
             {
                 Id = localDto.CharacteristicDictId,
-                Name = localDto.Name, // Use Name from local DTO
+                Name = localDto.Value, // Use Value from local DTO as Name
                 Description = string.Empty
             }
         };

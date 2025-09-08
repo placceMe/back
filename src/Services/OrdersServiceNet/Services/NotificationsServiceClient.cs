@@ -1,6 +1,7 @@
 using System.Text;
 using System.Text.Json;
-using OrdersServiceNet.DTOs;
+using Marketplace.Contracts.Orders;
+using Marketplace.Contracts.Common;
 
 namespace OrdersServiceNet.Services;
 
@@ -69,3 +70,4 @@ public class OrderItemEmailInfo
     public required int Quantity { get; set; }
     public required decimal Price { get; set; }
 }
+

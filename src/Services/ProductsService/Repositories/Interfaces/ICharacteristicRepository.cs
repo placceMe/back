@@ -1,5 +1,7 @@
 using ProductsService.Models;
-using ProductsService.DTOs;
+using Marketplace.Contracts.Products;
+using Marketplace.Contracts.Files;
+using Marketplace.Contracts.Common;
 
 namespace ProductsService.Repositories.Interfaces;
 
@@ -11,3 +13,4 @@ public interface ICharacteristicRepository
     Task<Characteristic?> GetCharacteristicByIdAsync(Guid id);
     Task<IEnumerable<Characteristic>> GetCharacteristicsByProductIdAsync(Guid productId);
 }
+
