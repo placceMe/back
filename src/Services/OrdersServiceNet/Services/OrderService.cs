@@ -9,25 +9,28 @@ public class OrderService : IOrderService
     private readonly IOrderRepository _orderRepository;
     private readonly ProductsServiceClient _productsClient;
     private readonly UsersServiceClient _usersClient;
+    private readonly NotificationsServiceClient _notificationsClient;
     private readonly ILogger<OrderService> _logger;
 
     public OrderService(
         IOrderRepository orderRepository,
         ProductsServiceClient productsClient,
         UsersServiceClient usersClient,
+        NotificationsServiceClient notificationsClient,
         ILogger<OrderService> logger)
     {
         _orderRepository = orderRepository;
         _productsClient = productsClient;
         _usersClient = usersClient;
+        _notificationsClient = notificationsClient;
         _logger = logger;
     }
 
     public async Task<OrderResponse> CreateOrderAsync(CreateOrderRequest request)
     {
-        // Validate user exists
-        var userExists = await _usersClient.UserExistsAsync(request.UserId);
-        if (!userExists)
+        // Validate user exists and get user info
+        var user = await _usersClient.GetUserByIdAsync(request.UserId);
+        if (user == null)
             throw new ArgumentException($"User {request.UserId} not found");
 
         // Get all unique product IDs
@@ -72,6 +75,50 @@ public class OrderService : IOrderService
 
         var createdOrder = await _orderRepository.CreateOrderAsync(order);
         _logger.LogInformation("Order {OrderId} created for user {UserId}", createdOrder.Id, createdOrder.UserId);
+
+        // Send order confirmation email (асинхронно, без блокування)
+        _ = Task.Run(async () =>
+        {
+            try
+            {
+                var emailRequest = new OrderCreatedEmailRequest
+                {
+                    To = user.Email,
+                    UserDisplayName = user.DisplayName ?? "Користувач",
+                    OrderId = createdOrder.Id.ToString(),
+                    TotalAmount = createdOrder.TotalAmount,
+                    DeliveryAddress = createdOrder.DeliveryAddress,
+                    Notes = createdOrder.Notes,
+                    Items = createdOrder.OrderItems.Select(item =>
+                    {
+                        productsDict.TryGetValue(item.ProductId, out var product);
+                        return new OrderItemEmailInfo
+                        {
+                            ProductName = product?.Name ?? $"Product {item.ProductId}",
+                            Quantity = item.Quantity,
+                            Price = item.Price
+                        };
+                    }).ToList()
+                };
+
+                var emailSent = await _notificationsClient.SendOrderCreatedEmailAsync(emailRequest);
+
+                if (emailSent)
+                {
+                    _logger.LogInformation("Order confirmation email sent successfully for order {OrderId} to {Email}",
+                        createdOrder.Id, user.Email);
+                }
+                else
+                {
+                    _logger.LogWarning("Failed to send order confirmation email for order {OrderId} to {Email}",
+                        createdOrder.Id, user.Email);
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error sending order confirmation email for order {OrderId}", createdOrder.Id);
+            }
+        });
 
         return await MapToOrderResponseAsync(createdOrder);
     }

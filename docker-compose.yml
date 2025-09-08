@@ -176,6 +176,7 @@ services:
       - ConnectionStrings__DefaultConnection=Host=${DB_HOST:-postgres-db};Port=5432;Database=marketplace_db;Username=marketplace;Password=marketplace_password;Search Path=orders_service;
       - ProductsService__BaseUrl=${PRODUCTS_SERVICE_URL:-http://products-service:80/}
       - UsersService__BaseUrl=${USERS_SERVICE_URL:-http://users-service:80/}
+      - NotificationsService__BaseUrl=${NOTIFICATIONS_SERVICE_URL:-http://notifications-service:8080/}
       - ALLOWED_ORIGINS=${FRONTEND_URL:-http://localhost:5173}
     depends_on:
       postgres-db:
@@ -183,6 +184,8 @@ services:
       products-service:
         condition: service_started
       users-service:
+        condition: service_started
+      notifications-service:
         condition: service_started
     restart: on-failure
     networks:

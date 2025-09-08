@@ -1,0 +1,20 @@
+{
+  "to": "test@example.com",
+  "userDisplayName": "Іван Петренко",
+  "orderId": "123e4567-e89b-12d3-a456-426614174000",
+  "totalAmount": 1250.50,
+  "items": [
+    {
+      "productName": "Смартфон Samsung Galaxy",
+      "quantity": 1,
+      "price": 800.00
+    },
+    {
+      "productName": "Чохол для телефону",
+      "quantity": 2,
+      "price": 225.25
+    }
+  ],
+  "deliveryAddress": "вул. Шевченка 1, Київ, 01001",
+  "notes": "Обережно з пакуванням"
+}

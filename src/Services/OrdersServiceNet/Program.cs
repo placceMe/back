@@ -84,12 +84,12 @@ builder.Services.AddAuthentication(options =>
             }
             else if (context.Exception is SecurityTokenInvalidIssuerException)
             {
-                Log.Warning("Invalid token issuer for request: {Path}. Expected: {ExpectedIssuer}", 
+                Log.Warning("Invalid token issuer for request: {Path}. Expected: {ExpectedIssuer}",
                     context.Request.Path, jwtIssuer);
             }
             else if (context.Exception is SecurityTokenInvalidAudienceException)
             {
-                Log.Warning("Invalid token audience for request: {Path}. Expected: {ExpectedAudience}", 
+                Log.Warning("Invalid token audience for request: {Path}. Expected: {ExpectedAudience}",
                     context.Request.Path, jwtAudience);
             }
             return Task.CompletedTask;
@@ -98,7 +98,7 @@ builder.Services.AddAuthentication(options =>
         {
             // 🎯 Логування успішної аутентифікації
             var userId = context.Principal?.FindFirst(System.Security.Claims.ClaimTypes.NameIdentifier)?.Value;
-            Log.Information("JWT Token validated successfully for user: {UserId} on path: {Path}", 
+            Log.Information("JWT Token validated successfully for user: {UserId} on path: {Path}",
                 userId, context.Request.Path);
             return Task.CompletedTask;
         }
@@ -118,6 +118,12 @@ builder.Services.AddHttpClient<UsersServiceClient>((serviceProvider, client) =>
 {
     var configuration = serviceProvider.GetRequiredService<IConfiguration>();
     client.BaseAddress = new Uri(configuration["UsersService:BaseUrl"] ?? "http://localhost:5002/");
+});
+
+builder.Services.AddHttpClient<NotificationsServiceClient>((serviceProvider, client) =>
+{
+    var configuration = serviceProvider.GetRequiredService<IConfiguration>();
+    client.BaseAddress = new Uri(configuration["NotificationsService:BaseUrl"] ?? "http://localhost:5007/");
 });
 
 builder.Services.AddScoped<DatabaseMigrationService>();
@@ -147,7 +153,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new() { Title = "OrdersService API", Version = "v1" });
-    
+
     // 🔐 Add JWT authentication to Swagger
     c.AddSecurityDefinition("Bearer", new Microsoft.OpenApi.Models.OpenApiSecurityScheme
     {
