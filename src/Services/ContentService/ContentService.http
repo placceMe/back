@@ -1,0 +1,46 @@
+### ContentService API Testing
+
+@baseUrl = http://localhost:5006
+@dockerUrl = http://localhost:80
+
+### Health Check - Development
+GET {{baseUrl}}/api/content/health
+
+### Health Check - Docker
+GET {{dockerUrl}}/api/content/health
+
+### FAQ Endpoints
+
+### Get all visible FAQs (Public)
+GET {{baseUrl}}/api/faq/visible
+
+### Get all FAQs (Admin only - requires auth)
+GET {{baseUrl}}/api/faq
+
+### Get FAQ by ID (Admin only - requires auth)
+GET {{baseUrl}}/api/faq/1
+
+### Create new FAQ (Admin only - requires auth)
+POST {{baseUrl}}/api/faq
+Content-Type: application/json
+
+{
+  "question": "Як зареєструватися на сайті?",
+  "content": "Для реєстрації натисніть кнопку 'Реєстрація' у верхньому правому куті сайту і заповніть форму.",
+  "isVisible": true,
+  "order": 1
+}
+
+### Update FAQ (Admin only - requires auth)
+PUT {{baseUrl}}/api/faq/1
+Content-Type: application/json
+
+{
+  "question": "Як зареєструватися на сайті?",
+  "content": "Для реєстрації натисніть кнопку 'Реєстрація' у верхньому правому куті сайту і заповніть всі обов'язкові поля форми.",
+  "isVisible": true,
+  "order": 1
+}
+
+### Delete FAQ (Admin only - requires auth)
+DELETE {{baseUrl}}/api/faq/1

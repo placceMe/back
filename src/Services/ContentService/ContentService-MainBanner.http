@@ -1,0 +1,48 @@
+### ContentService MainBanner API Tests
+
+@baseUrl = http://localhost:5006/api
+
+### Get all banners
+GET {{baseUrl}}/MainBanner
+
+### Get visible banners
+GET {{baseUrl}}/MainBanner/visible
+
+### Get banner by ID
+GET {{baseUrl}}/MainBanner/1
+
+### Create new banner (form data)
+POST {{baseUrl}}/MainBanner
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="Image"; filename="banner.jpg"
+Content-Type: image/jpeg
+
+< ./test-banner.jpg
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="IsVisible"
+
+true
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="Order"
+
+1
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+### Update banner (form data)
+PUT {{baseUrl}}/MainBanner/1
+Content-Type: multipart/form-data; boundary=----WebKitFormBoundary7MA4YWxkTrZu0gW
+
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="IsVisible"
+
+false
+------WebKitFormBoundary7MA4YWxkTrZu0gW
+Content-Disposition: form-data; name="Order"
+
+2
+------WebKitFormBoundary7MA4YWxkTrZu0gW--
+
+### Delete banner
+DELETE {{baseUrl}}/MainBanner/1

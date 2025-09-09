@@ -163,6 +163,25 @@ services:
     networks:
       - app-network
 
+  content-service:
+    build:
+      context: .
+      dockerfile: src/Services/ContentService/Dockerfile
+    container_name: content-service
+    ports:
+      - "5006:80"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=${ENVIRONMENT:-Production}
+      - ASPNETCORE_URLS=http://+:80
+      - ConnectionStrings__DefaultConnection=Host=${DB_HOST:-postgres-db};Port=5432;Database=marketplace_db;Username=marketplace;Password=marketplace_password;Search Path=content_service;
+      - ALLOWED_ORIGINS=${FRONTEND_URL:-http://localhost:5173}
+    depends_on:
+      postgres-db:
+        condition: service_healthy
+    restart: on-failure
+    networks:
+      - app-network
+
   orders-service:
     build:
       context: .
@@ -233,6 +252,7 @@ services:
       - FilesService__BaseUrl=http://files-service:80/
       - ChatService__BaseUrl=http://chat-service:80/
       - OrdersService__BaseUrl=http://orders-service:80/
+      - ContentService__BaseUrl=http://content-service:80/
       - NotificationsService__BaseUrl=http://notifications-service:8080/
     depends_on:
       - users-service
@@ -240,6 +260,7 @@ services:
       - files-service
       - chat-service
       - orders-service
+      - content-service
       - notifications-service
     restart: on-failure
     networks:
