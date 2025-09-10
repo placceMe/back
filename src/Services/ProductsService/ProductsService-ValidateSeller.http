@@ -1,0 +1,29 @@
+### Test Product Seller Validation Endpoint
+### These tests verify the validate-seller endpoint functionality
+
+### Test 1: Validate seller for valid product and seller
+GET http://localhost:5003/api/products/{{productId}}/validate-seller/{{sellerId}}
+Content-Type: application/json
+
+### Variables for testing
+# @productId = existing product ID (replace with actual)
+# @sellerId = existing seller ID (replace with actual)
+
+### Test 2: Validate seller for non-existent product
+GET http://localhost:5003/api/products/00000000-0000-0000-0000-000000000000/validate-seller/{{sellerId}}
+Content-Type: application/json
+
+### Test 3: Validate seller for product with different seller
+GET http://localhost:5003/api/products/{{productId}}/validate-seller/00000000-0000-0000-0000-000000000000
+Content-Type: application/json
+
+### Test 4: Test with invalid GUIDs (should return BadRequest)
+GET http://localhost:5003/api/products/invalid-guid/validate-seller/another-invalid-guid
+Content-Type: application/json
+
+###
+# Expected responses:
+# Test 1: 200 OK with IsValid: true, Product details
+# Test 2: 200 OK with IsValid: false, Error: "Product not found"
+# Test 3: 200 OK with IsValid: false, Error: "Product does not belong to the specified seller"
+# Test 4: 400 BadRequest for invalid GUID format

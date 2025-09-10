@@ -1,5 +1,6 @@
 using Marketplace.Contracts.Chat;
 using Marketplace.Contracts.Common;
+using Marketplace.Contracts.Products;
 
 namespace ChatService.Services
 {
@@ -22,33 +23,53 @@ namespace ChatService.Services
             try
             {
                 var response = await _httpClient.GetAsync($"/api/products/{productId}/validate-seller/{sellerId}");
-                
+
                 if (response.IsSuccessStatusCode)
                 {
-                    var result = await response.Content.ReadFromJsonAsync<ProductValidationResult>();
-                    return result ?? new ProductValidationResult { IsValid = false, Error = "Invalid response" };
+                    var result = await response.Content.ReadFromJsonAsync<ProductValidationResultDto>();
+
+                    if (result == null)
+                    {
+                        return new ProductValidationResult { IsValid = false, Error = "Invalid response" };
+                    }
+
+                    return new ProductValidationResult
+                    {
+                        IsValid = result.IsValid,
+                        Error = result.Error,
+                        Product = result.Product != null ? new ProductInfo
+                        {
+                            Id = result.Product.Id,
+                            Title = result.Product.Title,
+                            Description = result.Product.Description,
+                            Price = result.Product.Price,
+                            MainImageUrl = result.Product.MainImageUrl,
+                            SellerId = result.Product.SellerId,
+                            CreatedAt = result.Product.CreatedAt
+                        } : null
+                    };
                 }
                 else
                 {
-                    _logger.LogWarning("Product seller validation failed for product {ProductId} and seller {SellerId}. Status: {StatusCode}", 
+                    _logger.LogWarning("Product seller validation failed for product {ProductId} and seller {SellerId}. Status: {StatusCode}",
                         productId, sellerId, response.StatusCode);
-                    
-                    return new ProductValidationResult 
-                    { 
-                        IsValid = false, 
-                        Error = $"Validation request failed with status {response.StatusCode}" 
+
+                    return new ProductValidationResult
+                    {
+                        IsValid = false,
+                        Error = $"Validation request failed with status {response.StatusCode}"
                     };
                 }
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error validating product seller for product {ProductId} and seller {SellerId}", 
+                _logger.LogError(ex, "Error validating product seller for product {ProductId} and seller {SellerId}",
                     productId, sellerId);
-                
-                return new ProductValidationResult 
-                { 
-                    IsValid = false, 
-                    Error = "Service error during validation" 
+
+                return new ProductValidationResult
+                {
+                    IsValid = false,
+                    Error = "Service error during validation"
                 };
             }
         }
@@ -58,7 +79,7 @@ namespace ChatService.Services
             try
             {
                 var response = await _httpClient.GetAsync($"/api/products/{productId}");
-                
+
                 if (response.IsSuccessStatusCode)
                 {
                     var productInfo = await response.Content.ReadFromJsonAsync<ProductInfo>();
@@ -66,7 +87,7 @@ namespace ChatService.Services
                 }
                 else
                 {
-                    _logger.LogWarning("Failed to get product info for product {ProductId}. Status: {StatusCode}", 
+                    _logger.LogWarning("Failed to get product info for product {ProductId}. Status: {StatusCode}",
                         productId, response.StatusCode);
                     return null;
                 }

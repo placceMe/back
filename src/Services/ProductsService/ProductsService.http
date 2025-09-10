@@ -4,3 +4,16 @@ GET {{ProductsService_HostAddress}}/weatherforecast/
 Accept: application/json
 
 ###
+
+# Get all products to find test product IDs
+GET {{ProductsService_HostAddress}}/api/products?offset=0&limit=10
+Accept: application/json
+
+###
+
+# Test validate product seller endpoint with example IDs
+# First get products to find real IDs, then replace the IDs below
+GET {{ProductsService_HostAddress}}/api/products/12345678-1234-1234-1234-123456789abc/validate-seller/87654321-4321-4321-4321-cba987654321
+Accept: application/json
+
+###

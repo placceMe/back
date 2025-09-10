@@ -74,7 +74,7 @@ public class ProductsService : IProductsService
                 SellerId = createDto.SellerId,
                 Quantity = createDto.Quantity,
                 Category = category,
-               Producer = createDto.Producer,
+                Producer = createDto.Producer,
                 IsNew = createDto.IsNew,
 
             };
@@ -455,5 +455,50 @@ public class ProductsService : IProductsService
         };
 
         return productsDto;
+    }
+
+    public async Task<ProductValidationResultDto> ValidateProductSellerAsync(Guid productId, Guid sellerId)
+    {
+        try
+        {
+            var product = await GetProductByIdAsync(productId);
+
+            if (product == null)
+            {
+                return new ProductValidationResultDto
+                {
+                    IsValid = false,
+                    Error = "Product not found"
+                };
+            }
+
+            var isValid = product.SellerId == sellerId;
+
+            return new ProductValidationResultDto
+            {
+                IsValid = isValid,
+                Error = isValid ? null : "Product does not belong to the specified seller",
+                Product = isValid ? new ProductInfoDto
+                {
+                    Id = product.Id,
+                    Title = product.Title,
+                    Description = product.Description,
+                    Price = product.Price,
+                    MainImageUrl = product.MainImageUrl,
+                    SellerId = product.SellerId,
+                    CreatedAt = product.CreatedAt
+                } : null
+            };
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error validating product seller for product {ProductId} and seller {SellerId}",
+                productId, sellerId);
+            return new ProductValidationResultDto
+            {
+                IsValid = false,
+                Error = "Service error during validation"
+            };
+        }
     }
 }

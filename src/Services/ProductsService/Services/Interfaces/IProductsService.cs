@@ -26,4 +26,5 @@ public interface IProductsService
     Task<bool> ChangeProductQuantityAsync(Guid id, string operation, int quantity);
     Task<IEnumerable<Product>> GetProductsByStateAsync(string state);
     Task<ProductsDto> GetProductsWithFilterAsync(int offset, int limit, Guid? sellerId = null, Guid? categoryId = null, string? status = null);
+    Task<ProductValidationResultDto> ValidateProductSellerAsync(Guid productId, Guid sellerId);
 }

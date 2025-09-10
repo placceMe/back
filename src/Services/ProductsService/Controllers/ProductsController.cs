@@ -115,7 +115,7 @@ public class ProductsController : ControllerBase
             };
 
             var product = await _productsService.CreateProductWithFilesAsync(localDto, cancellationToken);
-            return CreatedAtAction(nameof(GetProduct), new { id = product.Id }, 
+            return CreatedAtAction(nameof(GetProduct), new { id = product.Id },
                 ApiResponse<ProductDto>.SuccessResult(product.ToDto().ToContract(), "Product created successfully"));
         }
         catch (ArgumentException ex)
@@ -156,7 +156,7 @@ public class ProductsController : ControllerBase
         // Load the category for the response
         product.Category = category;
 
-        return CreatedAtAction(nameof(GetProduct), new { id = product.Id }, 
+        return CreatedAtAction(nameof(GetProduct), new { id = product.Id },
             ApiResponse<ProductDto>.SuccessResult(product.ToDto().ToContract(), "Product created successfully"));
     }
 
@@ -192,7 +192,7 @@ public class ProductsController : ControllerBase
             };
 
             var updatedProduct = await _productsService.UpdateProductWithFilesAsync(id, localDto, cancellationToken);
-            
+
             if (updatedProduct == null)
             {
                 return NotFound(ApiResponse<ProductDto>.ErrorResult("Product not found"));
@@ -306,11 +306,18 @@ public class ProductsController : ControllerBase
         [FromQuery] ProductFilterDto filterDto)
     {
         var products = await _productsService.GetProductsWithFilterAsync(
-            paginationDto.Offset, 
-            paginationDto.Limit, 
-            filterDto.SellerId, 
-            filterDto.CategoryId, 
+            paginationDto.Offset,
+            paginationDto.Limit,
+            filterDto.SellerId,
+            filterDto.CategoryId,
             filterDto.Status);
         return Ok(ApiResponse<ProductsDto>.SuccessResult(products.ToContract()));
+    }
+
+    [HttpGet("{id}/validate-seller/{sellerId}")]
+    public async Task<ActionResult<ProductValidationResultDto>> ValidateProductSeller(Guid id, Guid sellerId)
+    {
+        var result = await _productsService.ValidateProductSellerAsync(id, sellerId);
+        return Ok(result);
     }
 }

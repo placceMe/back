@@ -302,3 +302,27 @@ public class CreateProductCharacteristicDto
     [StringLength(500)]
     public string Value { get; set; } = string.Empty;
 }
+
+/// <summary>
+/// Product seller validation result
+/// </summary>
+public class ProductValidationResultDto
+{
+    public bool IsValid { get; set; }
+    public string? Error { get; set; }
+    public ProductInfoDto? Product { get; set; }
+}
+
+/// <summary>
+/// Product info for validation
+/// </summary>
+public class ProductInfoDto
+{
+    public Guid Id { get; set; }
+    public string Title { get; set; } = string.Empty;
+    public string Description { get; set; } = string.Empty;
+    public decimal Price { get; set; }
+    public string? MainImageUrl { get; set; }
+    public Guid SellerId { get; set; }
+    public DateTime CreatedAt { get; set; }
+}
