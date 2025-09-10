@@ -32,29 +32,70 @@ Creates a new order in the system.
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
 | userId | GUID | Yes | ID of the user placing the order |
+| notes | String | No | Optional notes for the order |
+| deliveryAddress | String | No | Delivery address for the order |
 | items | Array | Yes | List of order items |
 | items[].productId | GUID | Yes | ID of the product being ordered |
 | items[].quantity | Integer | Yes | Quantity of the product |
-| items[].price | Decimal | Yes | Price per unit of the product |
-| totalAmount | Decimal | Yes | Total amount for the order |
-| shippingAddress | String | Yes | Shipping address for the order |
 
 #### Response
-**Status Code:** `201 Created`
+**Status Code:** `201 Created` or `200 OK`
+
+**Single Seller Response:**
 ```json
 {
-  "id": "guid",
-  "userId": "guid",
-  "items": [...],
+  "orders": [
+    {
+      "id": "guid",
+      "userId": "guid",
+      "items": [...],
+      "totalAmount": "decimal",
+      "status": "string",
+      "createdAt": "datetime",
+      "deliveryAddress": "string"
+    }
+  ],
   "totalAmount": "decimal",
-  "status": "string",
-  "createdAt": "datetime",
-  "shippingAddress": "string"
+  "ordersCount": 1,
+  "message": "Замовлення успішно створено."
 }
 ```
 
+**Multiple Sellers Response:**
+```json
+{
+  "orders": [
+    {
+      "id": "guid1",
+      "userId": "guid",
+      "items": [...],
+      "totalAmount": "decimal1",
+      "status": "string",
+      "createdAt": "datetime",
+      "deliveryAddress": "string"
+    },
+    {
+      "id": "guid2",
+      "userId": "guid",
+      "items": [...],
+      "totalAmount": "decimal2",
+      "status": "string",
+      "createdAt": "datetime",
+      "deliveryAddress": "string"
+    }
+  ],
+  "totalAmount": "decimal_total",
+  "ordersCount": 2,
+  "message": "Ваші товари від 2 різних продавців були розділені на окремі замовлення."
+}
+```
+
+**Note:** If the order contains products from multiple sellers, the system will automatically create separate orders for each seller while maintaining the same delivery address and notes.
+
 #### Error Responses
 - **400 Bad Request**: Invalid request data
+- **403 Forbidden**: User can only create orders for themselves
+- **404 Not Found**: User or product not found
 - **500 Internal Server Error**: Server error
 
 ---
@@ -116,7 +157,40 @@ Retrieves all orders for a specific user.
 
 ---
 
-### 4. Get All Orders
+### 4. Get Orders by Seller
+**GET** `/api/orders/by-seller/{id}`
+
+Retrieves all orders that contain products sold by a specific seller.
+
+#### Path Parameters
+| Parameter | Type | Required | Description |
+|-----------|------|----------|-------------|
+| id | GUID | Yes | Unique identifier of the seller |
+
+#### Response
+**Status Code:** `200 OK`
+```json
+[
+  {
+    "id": "guid",
+    "userId": "guid",
+    "items": [...],
+    "totalAmount": "decimal",
+    "status": "string",
+    "createdAt": "datetime",
+    "shippingAddress": "string"
+  }
+]
+```
+
+#### Authorization
+- Requires valid JWT token
+- Sellers can only view their own orders
+- Admins can view any seller's orders
+
+---
+
+### 5. Get All Orders
 **GET** `/api/orders`
 
 Retrieves all orders in the system.
@@ -139,7 +213,7 @@ Retrieves all orders in the system.
 
 ---
 
-### 5. Update Order Status
+### 6. Update Order Status
 **PUT** `/api/orders/{id}/status`
 
 Updates the status of an existing order.
@@ -180,7 +254,7 @@ Updates the status of an existing order.
 
 ---
 
-### 6. Delete Order
+### 7. Delete Order
 **DELETE** `/api/orders/{id}`
 
 Deletes an order from the system.

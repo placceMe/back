@@ -79,7 +79,7 @@ services:
       - ConnectionStrings__DefaultConnection=Host=${DB_HOST:-postgres-db};Port=5432;Database=marketplace_db;Username=marketplace;Password=marketplace_password;Search Path=users_service;
       - ConnectionStrings__Redis=${REDIS_HOST:-redis}:6379
       - ALLOWED_ORIGINS=${FRONTEND_URL:-http://localhost:5173}
-      - NotificationsService__BaseUrl=${NOTIFICATIONS_SERVICE_URL:-http://notifications-service:80/}
+      - NotificationsService__BaseUrl=${NOTIFICATIONS_SERVICE_URL:-http://notifications-service:8080/}
       - Frontend__BaseUrl=${FRONTEND_URL:-http://frontend:80/}
     depends_on:
       postgres-db:

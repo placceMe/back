@@ -62,6 +62,62 @@ public class ProductsServiceClient
         return new Dictionary<Guid, ProductInfo>();
     }
 
+    public async Task<Dictionary<Guid, Guid>> GetProductSellerMappingAsync(IEnumerable<Guid> productIds)
+    {
+        try
+        {
+            var mapping = new Dictionary<Guid, Guid>();
+            var productIdsList = productIds.ToList();
+
+            // Process in batches to avoid too many concurrent requests
+            const int batchSize = 10;
+            for (int i = 0; i < productIdsList.Count; i += batchSize)
+            {
+                var batch = productIdsList.Skip(i).Take(batchSize);
+                var batchTasks = batch.Select(async productId =>
+                {
+                    try
+                    {
+                        var response = await _httpClient.GetAsync($"api/products/{productId}");
+                        if (response.IsSuccessStatusCode)
+                        {
+                            var productData = await response.Content.ReadAsStringAsync();
+                            var productJson = System.Text.Json.JsonDocument.Parse(productData);
+
+                            if (productJson.RootElement.TryGetProperty("sellerId", out var sellerIdElement) &&
+                                sellerIdElement.TryGetGuid(out var sellerId))
+                            {
+                                return new KeyValuePair<Guid, Guid>(productId, sellerId);
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        _logger.LogWarning("Error fetching seller info for product {ProductId}: {Error}",
+                            productId, ex.Message);
+                    }
+                    return (KeyValuePair<Guid, Guid>?)null;
+                });
+
+                var batchResults = await Task.WhenAll(batchTasks);
+                foreach (var result in batchResults)
+                {
+                    if (result.HasValue)
+                    {
+                        mapping[result.Value.Key] = result.Value.Value;
+                    }
+                }
+            }
+
+            return mapping;
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Error fetching product seller mapping");
+        }
+        return new Dictionary<Guid, Guid>();
+    }
+
     public async Task<bool> ChangeProductQuantityAsync(Guid productId, string operation, int quantity)
     {
         try

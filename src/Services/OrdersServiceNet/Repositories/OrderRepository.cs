@@ -36,6 +36,25 @@ public class OrderRepository : IOrderRepository
             .ToListAsync();
     }
 
+    public async Task<IEnumerable<Order>> GetOrdersBySellerIdAsync(Guid sellerId, Dictionary<Guid, Guid> productSellerMap)
+    {
+        // Get all product IDs that belong to this seller
+        var sellerProductIds = productSellerMap
+            .Where(kvp => kvp.Value == sellerId)
+            .Select(kvp => kvp.Key)
+            .ToHashSet();
+
+        if (!sellerProductIds.Any())
+            return Enumerable.Empty<Order>();
+
+        // Get orders that contain products from this seller
+        return await _context.Orders
+            .Include(o => o.OrderItems)
+            .Where(o => o.OrderItems.Any(oi => sellerProductIds.Contains(oi.ProductId)))
+            .OrderByDescending(o => o.CreatedAt)
+            .ToListAsync();
+    }
+
     public async Task<IEnumerable<Order>> GetAllOrdersAsync()
     {
         return await _context.Orders

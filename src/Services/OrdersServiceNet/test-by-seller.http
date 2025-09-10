@@ -1,0 +1,14 @@
+### Test Orders by Seller endpoint
+
+# Get orders by seller ID
+GET http://localhost:5004/api/orders/by-seller/{{sellerId}}
+Authorization: Bearer {{authToken}}
+
+### Variables for testing
+# You need to replace these with actual values when testing:
+# @sellerId = actual-seller-guid-here
+# @authToken = actual-jwt-token-here
+
+### Example with placeholder values
+GET http://localhost:5004/api/orders/by-seller/00000000-0000-0000-0000-000000000001
+Authorization: Bearer your-jwt-token-here

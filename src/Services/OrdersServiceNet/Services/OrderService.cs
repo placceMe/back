@@ -27,7 +27,7 @@ public class OrderService : IOrderService
         _logger = logger;
     }
 
-    public async Task<OrderResponse> CreateOrderAsync(CreateOrderRequest request)
+    public async Task<CreateOrdersResponse> CreateOrderAsync(CreateOrderRequest request)
     {
         // Validate user exists and get user info
         var user = await _usersClient.GetUserByIdAsync(request.UserId);
@@ -40,90 +40,138 @@ public class OrderService : IOrderService
         // Fetch all products in one request
         var productsDict = await _productsClient.GetProductsManyAsync(productIds);
 
-        decimal totalAmount = 0;
-        var orderItems = new List<OrderItem>();
+        // Get product-seller mapping
+        var productSellerMap = await _productsClient.GetProductSellerMappingAsync(productIds);
 
-        // Validate products and calculate total
+        // Group items by seller
+        var itemsBySeller = new Dictionary<Guid, List<OrderItemRequest>>();
+
         foreach (var item in request.Items)
         {
             if (!productsDict.TryGetValue(item.ProductId, out var product))
                 throw new ArgumentException($"Product {item.ProductId} not found");
 
-            var orderItem = new OrderItem
-            {
-                Id = Guid.NewGuid(),
-                ProductId = item.ProductId,
-                Quantity = item.Quantity,
-                Price = product.Price
-            };
+            if (!productSellerMap.TryGetValue(item.ProductId, out var sellerId))
+                throw new ArgumentException($"Seller not found for product {item.ProductId}");
 
-            orderItems.Add(orderItem);
-            totalAmount += product.Price * item.Quantity;
+            if (!itemsBySeller.ContainsKey(sellerId))
+                itemsBySeller[sellerId] = new List<OrderItemRequest>();
+
+            itemsBySeller[sellerId].Add(item);
         }
 
-        var order = new Order
-        {
-            Id = Guid.NewGuid(),
-            UserId = request.UserId,
-            TotalAmount = totalAmount,
-            Status = OrderStatus.Pending,
-            Notes = request.Notes,
-            DeliveryAddress = request.DeliveryAddress,
-            CreatedAt = DateTime.UtcNow,
-            UpdatedAt = DateTime.UtcNow,
-            OrderItems = orderItems
-        };
+        var createdOrders = new List<OrderResponse>();
+        decimal totalAmount = 0;
 
-        var createdOrder = await _orderRepository.CreateOrderAsync(order);
-        _logger.LogInformation("Order {OrderId} created for user {UserId}", createdOrder.Id, createdOrder.UserId);
-
-        // Send order confirmation email (асинхронно, без блокування)
-        _ = Task.Run(async () =>
+        // Create separate order for each seller
+        foreach (var sellerItems in itemsBySeller)
         {
-            try
+            var sellerId = sellerItems.Key;
+            var items = sellerItems.Value;
+
+            var orderItems = new List<OrderItem>();
+            decimal orderAmount = 0;
+
+            // Validate products and calculate total for this seller
+            foreach (var item in items)
             {
-                var emailRequest = new OrderCreatedEmailRequest
+                if (!productsDict.TryGetValue(item.ProductId, out var product))
+                    throw new ArgumentException($"Product {item.ProductId} not found");
+
+                var orderItem = new OrderItem
                 {
-                    To = user.Email,
-                    UserDisplayName = !string.IsNullOrEmpty(user.Name) || !string.IsNullOrEmpty(user.Surname)
-                        ? $"{user.Name} {user.Surname}".Trim()
-                        : "Користувач",
-                    OrderId = createdOrder.Id.ToString(),
-                    TotalAmount = createdOrder.TotalAmount,
-                    DeliveryAddress = createdOrder.DeliveryAddress,
-                    Notes = createdOrder.Notes,
-                    Items = createdOrder.OrderItems.Select(item =>
-                    {
-                        productsDict.TryGetValue(item.ProductId, out var product);
-                        return new OrderItemEmailInfo
-                        {
-                            ProductName = product?.Name ?? $"Product {item.ProductId}",
-                            Quantity = item.Quantity,
-                            Price = item.Price
-                        };
-                    }).ToList()
+                    Id = Guid.NewGuid(),
+                    ProductId = item.ProductId,
+                    Quantity = item.Quantity,
+                    Price = product.Price
                 };
 
-                var emailSent = await _notificationsClient.SendOrderCreatedEmailAsync(emailRequest);
-
-                if (emailSent)
-                {
-                    _logger.LogInformation("Order confirmation email sent successfully for order {OrderId} to {Email}",
-                        createdOrder.Id, user.Email);
-                }
-                else
-                {
-                    _logger.LogWarning("Failed to send order confirmation email for order {OrderId} to {Email}",
-                        createdOrder.Id, user.Email);
-                }
+                orderItems.Add(orderItem);
+                orderAmount += product.Price * item.Quantity;
             }
-            catch (Exception ex)
+
+            var order = new Order
             {
-                _logger.LogError(ex, "Error sending order confirmation email for order {OrderId}", createdOrder.Id);
-            }
-        });
+                Id = Guid.NewGuid(),
+                UserId = request.UserId,
+                TotalAmount = orderAmount,
+                Status = OrderStatus.Pending,
+                Notes = request.Notes,
+                DeliveryAddress = request.DeliveryAddress,
+                CreatedAt = DateTime.UtcNow,
+                UpdatedAt = DateTime.UtcNow,
+                OrderItems = orderItems
+            };
 
-        return await MapToOrderResponseAsync(createdOrder);
+            var createdOrder = await _orderRepository.CreateOrderAsync(order);
+            _logger.LogInformation("Order {OrderId} created for user {UserId} with seller {SellerId}",
+                createdOrder.Id, createdOrder.UserId, sellerId);
+
+            var orderResponse = await MapToOrderResponseAsync(createdOrder);
+            createdOrders.Add(orderResponse);
+            totalAmount += orderAmount;
+
+            // Send order confirmation email for each order (асинхронно, без блокування)
+            _ = Task.Run(async () =>
+            {
+                try
+                {
+                    var emailRequest = new OrderCreatedEmailRequest
+                    {
+                        To = user.Email,
+                        UserDisplayName = !string.IsNullOrEmpty(user.Name) || !string.IsNullOrEmpty(user.Surname)
+                            ? $"{user.Name} {user.Surname}".Trim()
+                            : "Користувач",
+                        OrderId = createdOrder.Id.ToString(),
+                        TotalAmount = createdOrder.TotalAmount,
+                        DeliveryAddress = createdOrder.DeliveryAddress,
+                        Notes = createdOrder.Notes,
+                        Items = createdOrder.OrderItems.Select(item =>
+                        {
+                            productsDict.TryGetValue(item.ProductId, out var product);
+                            return new OrderItemEmailInfo
+                            {
+                                ProductName = product?.Name ?? $"Product {item.ProductId}",
+                                Quantity = item.Quantity,
+                                Price = item.Price
+                            };
+                        }).ToList()
+                    };
+
+                    var emailSent = await _notificationsClient.SendOrderCreatedEmailAsync(emailRequest);
+
+                    if (emailSent)
+                    {
+                        _logger.LogInformation("Order confirmation email sent successfully for order {OrderId} to {Email}",
+                            createdOrder.Id, user.Email);
+                    }
+                    else
+                    {
+                        _logger.LogWarning("Failed to send order confirmation email for order {OrderId} to {Email}",
+                            createdOrder.Id, user.Email);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, "Error sending order confirmation email for order {OrderId}", createdOrder.Id);
+                }
+            });
+        }
+
+        var response = new CreateOrdersResponse
+        {
+            Orders = createdOrders,
+            TotalAmount = totalAmount,
+            OrdersCount = createdOrders.Count,
+            Message = createdOrders.Count > 1
+                ? $"Ваші товари від {createdOrders.Count} різних продавців були розділені на окремі замовлення."
+                : "Замовлення успішно створено."
+        };
+
+        _logger.LogInformation("Created {OrdersCount} orders with total amount {TotalAmount} for user {UserId}",
+            response.OrdersCount, response.TotalAmount, request.UserId);
+
+        return response;
     }
 
     public async Task<OrderResponse?> GetOrderByIdAsync(Guid id)
@@ -138,6 +186,30 @@ public class OrderService : IOrderService
         var responses = new List<OrderResponse>();
 
         foreach (var order in orders)
+        {
+            responses.Add(await MapToOrderResponseAsync(order));
+        }
+
+        return responses;
+    }
+
+    public async Task<IEnumerable<OrderResponse>> GetOrdersBySellerIdAsync(Guid sellerId)
+    {
+        // Get all orders first to collect all product IDs
+        var allOrders = await _orderRepository.GetAllOrdersAsync();
+        var allProductIds = allOrders.SelectMany(o => o.OrderItems.Select(oi => oi.ProductId)).Distinct().ToList();
+
+        if (!allProductIds.Any())
+            return Enumerable.Empty<OrderResponse>();
+
+        // Get product-seller mapping
+        var productSellerMap = await _productsClient.GetProductSellerMappingAsync(allProductIds);
+
+        // Get orders that contain products from the specified seller
+        var sellerOrders = await _orderRepository.GetOrdersBySellerIdAsync(sellerId, productSellerMap);
+        var responses = new List<OrderResponse>();
+
+        foreach (var order in sellerOrders)
         {
             responses.Add(await MapToOrderResponseAsync(order));
         }

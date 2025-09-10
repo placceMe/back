@@ -5,9 +5,10 @@ namespace OrdersServiceNet.Services;
 
 public interface IOrderService
 {
-    Task<OrderResponse> CreateOrderAsync(CreateOrderRequest request);
+    Task<CreateOrdersResponse> CreateOrderAsync(CreateOrderRequest request);
     Task<OrderResponse?> GetOrderByIdAsync(Guid id);
     Task<IEnumerable<OrderResponse>> GetOrdersByUserIdAsync(Guid userId);
+    Task<IEnumerable<OrderResponse>> GetOrdersBySellerIdAsync(Guid sellerId);
     Task<IEnumerable<OrderResponse>> GetAllOrdersAsync();
     Task<OrderResponse?> ConfirmOrderAsync(Guid id);
     Task<OrderResponse?> RejectOrderAsync(Guid id);

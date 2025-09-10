@@ -23,6 +23,7 @@ public class AuthController : ControllerBase
     }
 
     [HttpPost("login")]
+    [AllowAnonymous]
     public async Task<ActionResult<AuthResponse>> Login([FromBody] LoginDto request)
     {
         var result = await _usersService.LoginAsync(request);
@@ -62,6 +63,7 @@ public class AuthController : ControllerBase
     }
 
     [HttpPost("register")]
+    [AllowAnonymous]
     public async Task<ActionResult<AuthResponse>> Register([FromBody] RegisterRequest request)
     {
         var result = await _usersService.RegisterAsync(request);
@@ -250,6 +252,7 @@ public class AuthController : ControllerBase
     }
 
     [HttpPost("forgot-password")]
+    [AllowAnonymous]
     public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordRequest request)
     {
         if (!ModelState.IsValid)
@@ -268,6 +271,7 @@ public class AuthController : ControllerBase
     }
 
     [HttpPost("reset-password")]
+    [AllowAnonymous]
     public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordRequest request)
     {
         if (!ModelState.IsValid)
@@ -286,6 +290,7 @@ public class AuthController : ControllerBase
     }
 
     [HttpGet("confirm-registration")]
+    [AllowAnonymous]
     public async Task<IActionResult> ConfirmRegistration([FromQuery] Guid token)
     {
         if (!ModelState.IsValid)

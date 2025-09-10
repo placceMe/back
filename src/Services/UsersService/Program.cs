@@ -101,7 +101,7 @@ builder.Services.AddCors(options =>
 builder.Services.AddHttpClient<INotificationServiceClient, NotificationServiceClient>((serviceProvider, client) =>
 {
     var configuration = serviceProvider.GetRequiredService<IConfiguration>();
-    var baseUrl = configuration["NotificationsService:BaseUrl"] ?? "http://notifications-service:80/";
+    var baseUrl = configuration["NotificationsService:BaseUrl"] ?? "http://notifications-service:8080/";
     client.BaseAddress = new Uri(baseUrl);
 });
 

@@ -232,3 +232,22 @@ public class OrderUserInfo
         ? $"{FirstName} {LastName}".Trim()
         : Email.Split('@')[0];
 }
+
+/// <summary>
+/// Response for creating multiple orders (when items belong to different sellers)
+/// </summary>
+public class CreateOrdersResponse
+{
+    [Required]
+    public List<OrderResponse> Orders { get; set; } = new();
+
+    [Required]
+    [Range(0, double.MaxValue)]
+    public decimal TotalAmount { get; set; }
+
+    [Required]
+    [Range(1, int.MaxValue)]
+    public int OrdersCount { get; set; }
+
+    public string? Message { get; set; }
+}
