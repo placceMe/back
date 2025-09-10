@@ -8,6 +8,7 @@ COPY *.sln ./
 COPY src/Services/OrdersServiceNet/OrdersServiceNet.csproj src/Services/OrdersServiceNet/
 COPY src/Shared/Marketplace.Contracts/Marketplace.Contracts.csproj src/Shared/Marketplace.Contracts/
 
+
 # Restore dependencies
 RUN dotnet restore src/Services/OrdersServiceNet/OrdersServiceNet.csproj
 

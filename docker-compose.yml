@@ -193,12 +193,15 @@ services:
       - ASPNETCORE_ENVIRONMENT=${ENVIRONMENT:-Production}
       - ASPNETCORE_URLS=http://+:80
       - ConnectionStrings__DefaultConnection=Host=${DB_HOST:-postgres-db};Port=5432;Database=marketplace_db;Username=marketplace;Password=marketplace_password;Search Path=orders_service;
+      - ConnectionStrings__Redis=${REDIS_HOST:-redis}:6379
       - ProductsService__BaseUrl=${PRODUCTS_SERVICE_URL:-http://products-service:80/}
       - UsersService__BaseUrl=${USERS_SERVICE_URL:-http://users-service:80/}
       - NotificationsService__BaseUrl=${NOTIFICATIONS_SERVICE_URL:-http://notifications-service:8080/}
       - ALLOWED_ORIGINS=${FRONTEND_URL:-http://localhost:5173}
     depends_on:
       postgres-db:
+        condition: service_healthy
+      redis:
         condition: service_healthy
       products-service:
         condition: service_started
@@ -237,34 +240,34 @@ services:
       timeout: 10s
       retries: 3
 
-  api-gateway:
-    build:
-      context: .
-      dockerfile: src/ApiGateway/Dockerfile
-    container_name: api-gateway
-    ports:
-      - "5000:80"
-    environment:
-      - ASPNETCORE_ENVIRONMENT=${ENVIRONMENT:-Production}
-      - ASPNETCORE_URLS=http://+:80
-      - UsersService__BaseUrl=http://users-service:80/
-      - ProductsService__BaseUrl=http://products-service:80/
-      - FilesService__BaseUrl=http://files-service:80/
-      - ChatService__BaseUrl=http://chat-service:80/
-      - OrdersService__BaseUrl=http://orders-service:80/
-      - ContentService__BaseUrl=http://content-service:80/
-      - NotificationsService__BaseUrl=http://notifications-service:8080/
-    depends_on:
-      - users-service
-      - products-service
-      - files-service
-      - chat-service
-      - orders-service
-      - content-service
-      - notifications-service
-    restart: on-failure
-    networks:
-      - app-network
+  # api-gateway:
+  #   build:
+  #     context: .
+  #     dockerfile: src/ApiGateway/Dockerfile
+  #   container_name: api-gateway
+  #   ports:
+  #     - "5000:80"
+  #   environment:
+  #     - ASPNETCORE_ENVIRONMENT=${ENVIRONMENT:-Production}
+  #     - ASPNETCORE_URLS=http://+:80
+  #     - UsersService__BaseUrl=http://users-service:80/
+  #     - ProductsService__BaseUrl=http://products-service:80/
+  #     - FilesService__BaseUrl=http://files-service:80/
+  #     - ChatService__BaseUrl=http://chat-service:80/
+  #     - OrdersService__BaseUrl=http://orders-service:80/
+  #     - ContentService__BaseUrl=http://content-service:80/
+  #     - NotificationsService__BaseUrl=http://notifications-service:8080/
+  #   depends_on:
+  #     - users-service
+  #     - products-service
+  #     - files-service
+  #     - chat-service
+  #     - orders-service
+  #     - content-service
+  #     - notifications-service
+  #   restart: on-failure
+  #   networks:
+  #     - app-network
 
   nginx-gateway:
     image: nginx:latest
@@ -274,8 +277,8 @@ services:
     volumes:
       - ./nginx.conf:/etc/nginx/nginx.conf:ro
     restart: on-failure
-    depends_on:
-      - api-gateway
+    # depends_on:
+      # - api-gateway
     networks:
       - app-network
 
