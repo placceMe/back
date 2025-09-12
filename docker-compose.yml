@@ -56,6 +56,7 @@ services:
       retries: 3
 
   mailhog:
+    container_name: mailhog
     image: mailhog/mailhog:latest
     ports:
       - "8025:8025"   # UI

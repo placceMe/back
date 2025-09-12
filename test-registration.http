@@ -1,0 +1,49 @@
+### Debug endpoint - test what data is received
+
+POST http://localhost/api/auth/debug-register
+Content-Type: application/json
+
+{
+  "name": "John",
+  "surname": "Doe", 
+  "email": "john.doe@example.com",
+  "password": "password123",
+  "phone": "+1234567890"
+}
+
+### Test registration with all required fields
+
+POST http://localhost/api/auth/register
+Content-Type: application/json
+
+{
+  "name": "John",
+  "surname": "Doe", 
+  "email": "john.doe@example.com",
+  "password": "password123",
+  "phone": "+1234567890"
+}
+
+### Test registration with minimal required fields
+
+POST http://localhost/api/auth/register
+Content-Type: application/json
+
+{
+  "name": "Jane",
+  "surname": "Smith", 
+  "email": "jane.smith@example.com",
+  "password": "password456"
+}
+
+### Test registration with invalid data to see validation errors
+
+POST http://localhost/api/auth/register
+Content-Type: application/json
+
+{
+  "name": "J",
+  "surname": "",
+  "email": "invalid-email",
+  "password": "short"
+}

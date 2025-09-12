@@ -66,6 +66,13 @@ public class AuthController : ControllerBase
     [AllowAnonymous]
     public async Task<ActionResult<AuthResponse>> Register([FromBody] RegisterRequest request)
     {
+        if (!ModelState.IsValid)
+        {
+            _logger.LogWarning("Registration failed due to validation errors: {ValidationErrors}",
+                string.Join("; ", ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage)));
+            return BadRequest(ModelState);
+        }
+
         var result = await _usersService.RegisterAsync(request);
 
         if (result.Success && result.User != null)
@@ -93,6 +100,22 @@ public class AuthController : ControllerBase
         }
 
         return result.Success ? Ok(result) : BadRequest(result);
+    }
+
+    [HttpPost("debug-register")]
+    [AllowAnonymous]
+    public IActionResult DebugRegister([FromBody] object request)
+    {
+        _logger.LogInformation("Raw request received: {Request}", System.Text.Json.JsonSerializer.Serialize(request));
+        _logger.LogInformation("ModelState.IsValid: {IsValid}", ModelState.IsValid);
+
+        if (!ModelState.IsValid)
+        {
+            var errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage);
+            _logger.LogInformation("Validation errors: {Errors}", string.Join("; ", errors));
+        }
+
+        return Ok(new { received = request, modelState = ModelState.IsValid });
     }
 
     [HttpPost("logout")]
