@@ -193,13 +193,15 @@ public class RedisSessionManager : ISessionManager
             
             // ????????? ?????
             var sessionKey = GetSessionKey(sessionId);
-            batch.KeyDeleteAsync(sessionKey);
+            var task1 = batch.KeyDeleteAsync(sessionKey);
             
             // ????????? refresh token
             var refreshTokenKey = GetRefreshTokenKey(sessionId);
-            batch.KeyDeleteAsync(refreshTokenKey);
+            var task2 = batch.KeyDeleteAsync(refreshTokenKey);
             
-            await batch.ExecuteAsync();
+            batch.Execute();
+            
+            await Task.WhenAll(task1, task2);
             
             _logger.LogInformation("Invalidated session {SessionId}", sessionId);
             return true;
@@ -217,17 +219,19 @@ public class RedisSessionManager : ISessionManager
         {
             var sessions = await GetUserSessionsAsync(userId, cancellationToken);
             var batch = _database.CreateBatch();
+            var tasks = new List<Task>();
 
             foreach (var session in sessions)
             {
                 var sessionKey = GetSessionKey(session.Id.ToString());
                 var refreshTokenKey = GetRefreshTokenKey(session.Id.ToString());
                 
-                batch.KeyDeleteAsync(sessionKey);
-                batch.KeyDeleteAsync(refreshTokenKey);
+                tasks.Add(batch.KeyDeleteAsync(sessionKey));
+                tasks.Add(batch.KeyDeleteAsync(refreshTokenKey));
             }
 
-            await batch.ExecuteAsync();
+            batch.Execute();
+            await Task.WhenAll(tasks);
             
             _logger.LogInformation("Invalidated all sessions for user {UserId}", userId);
             return true;
@@ -466,17 +470,27 @@ public class RedisSessionManager : ISessionManager
         var batch = _database.CreateBatch();
         
         // ?????????? ?????
-        batch.StringSetAsync(sessionKey, sessionData, ttl);
+        var task1 = batch.StringSetAsync(sessionKey, sessionData, ttl);
         
         // ?????????? refresh token ???? ?
+        Task? task2 = null;
         if (sessionToken != null)
         {
             var refreshTokenKey = GetRefreshTokenKey(session.Id.ToString());
             var refreshTtl = sessionToken.RefreshTokenExpiry - DateTime.UtcNow;
-            batch.StringSetAsync(refreshTokenKey, sessionToken.RefreshToken, refreshTtl);
+            task2 = batch.StringSetAsync(refreshTokenKey, sessionToken.RefreshToken, refreshTtl);
         }
 
-        await batch.ExecuteAsync();
+        batch.Execute();
+        
+        if (task2 != null)
+        {
+            await Task.WhenAll(task1, task2);
+        }
+        else
+        {
+            await task1;
+        }
     }
 
     private async Task<string?> FindSessionByRefreshTokenAsync(string refreshToken, CancellationToken cancellationToken = default)

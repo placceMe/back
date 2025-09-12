@@ -3,8 +3,10 @@ using Marketplace.Authentication.Configuration;
 using Marketplace.Authentication.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.DataProtection;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using StackExchange.Redis;
 using System.Security.Claims;
@@ -79,11 +81,16 @@ public static class ServiceCollectionExtensions
                     {
                         var sessionManager = context.HttpContext.RequestServices.GetRequiredService<ISessionManager>();
                         
-                        // ??????????? ?????
-                        var sessionValidation = await sessionManager.ValidateSessionAsync(context.Token!);
-                        if (!sessionValidation.IsValid)
+                        // Отримуємо токен з заголовка Authorization
+                        var authHeader = context.HttpContext.Request.Headers.Authorization.FirstOrDefault();
+                        if (!string.IsNullOrEmpty(authHeader) && authHeader.StartsWith("Bearer "))
                         {
-                            context.Fail(sessionValidation.ErrorMessage ?? "Session validation failed");
+                            var token = authHeader.Replace("Bearer ", "");
+                            var sessionValidation = await sessionManager.ValidateSessionAsync(token);
+                            if (!sessionValidation.IsValid)
+                            {
+                                context.Fail(sessionValidation.ErrorMessage ?? "Session validation failed");
+                            }
                         }
                     },
 
