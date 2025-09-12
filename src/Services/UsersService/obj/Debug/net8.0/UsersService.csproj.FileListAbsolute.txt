@@ -429,3 +429,14 @@ P:\Norsen\back\src\Services\UsersService\obj\Debug\net8.0\refint\UsersService.dl
 P:\Norsen\back\src\Services\UsersService\obj\Debug\net8.0\UsersService.pdb
 P:\Norsen\back\src\Services\UsersService\obj\Debug\net8.0\UsersService.genruntimeconfig.cache
 P:\Norsen\back\src\Services\UsersService\obj\Debug\net8.0\ref\UsersService.dll
+P:\Norsen\back\src\Services\UsersService\bin\Debug\net8.0\Microsoft.AspNetCore.Cryptography.Internal.dll
+P:\Norsen\back\src\Services\UsersService\bin\Debug\net8.0\Microsoft.AspNetCore.DataProtection.dll
+P:\Norsen\back\src\Services\UsersService\bin\Debug\net8.0\Microsoft.AspNetCore.DataProtection.Abstractions.dll
+P:\Norsen\back\src\Services\UsersService\bin\Debug\net8.0\Microsoft.AspNetCore.DataProtection.StackExchangeRedis.dll
+P:\Norsen\back\src\Services\UsersService\bin\Debug\net8.0\Microsoft.Extensions.Caching.StackExchangeRedis.dll
+P:\Norsen\back\src\Services\UsersService\bin\Debug\net8.0\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+P:\Norsen\back\src\Services\UsersService\bin\Debug\net8.0\Microsoft.Extensions.Logging.Abstractions.dll
+P:\Norsen\back\src\Services\UsersService\bin\Debug\net8.0\Microsoft.Extensions.Options.dll
+P:\Norsen\back\src\Services\UsersService\bin\Debug\net8.0\System.Security.Cryptography.Xml.dll
+P:\Norsen\back\src\Services\UsersService\bin\Debug\net8.0\Marketplace.Authentication.dll
+P:\Norsen\back\src\Services\UsersService\bin\Debug\net8.0\Marketplace.Authentication.pdb

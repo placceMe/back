@@ -9,6 +9,7 @@
   <ItemGroup>
     <!-- Existing shared contracts -->
     <ProjectReference Include="..\..\Shared\Marketplace.Contracts\Marketplace.Contracts.csproj" />
+    <ProjectReference Include="..\..\Shared\Marketplace.Authentication\Marketplace.Authentication.csproj" />
   </ItemGroup>
 
   <ItemGroup>
