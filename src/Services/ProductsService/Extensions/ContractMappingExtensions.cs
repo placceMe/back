@@ -121,7 +121,7 @@ public static class ContractMappingExtensions
             CharacteristicDict = new Marketplace.Contracts.Products.CharacteristicDictDto
             {
                 Id = localDto.CharacteristicDictId,
-                Name = localDto.Value, // Use Value from local DTO as Name
+                Name = localDto.Name, // Use Name from local DTO as Name
                 Description = string.Empty
             }
         };

@@ -52,7 +52,7 @@ public class CharacteristicDto
     [Required]
     [StringLength(200)]
     public string Value { get; set; } = string.Empty;
-
+    public string Name { get; set; } = string.Empty;
     public Guid CharacteristicDictId { get; set; }
     public CharacteristicDictDto? CharacteristicDict { get; set; }
 }
