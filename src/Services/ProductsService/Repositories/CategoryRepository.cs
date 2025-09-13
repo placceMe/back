@@ -70,9 +70,8 @@ public class CategoryRepository : ICategoryRepository
             {
                 Id = category.Id,
                 Name = category.Name,
-                Description = string.Empty, // Category doesn't have Description
-                ParentCategoryId = null, // Category doesn't have ParentCategoryId
-                ImageUrl = string.Empty, // Category doesn't have ImageUrl
+                Status = category.Status,
+                CreatedAt = category.CreatedAt,
                 ProductsCount = productsCount,
                 CharacteristicsCount = characteristicsCount
             });

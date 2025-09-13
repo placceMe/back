@@ -12,20 +12,14 @@ public class CategoryDto
     [Required]
     [StringLength(100, MinimumLength = 2)]
     public string Name { get; set; } = string.Empty;
+    public string Status { get; set; } = string.Empty;
+    public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
-    [StringLength(500)]
-    public string Description { get; set; } = string.Empty;
-
-    public Guid? ParentCategoryId { get; set; }
-
-    [Url]
-    public string ImageUrl { get; set; } = string.Empty;
-
-    public List<CategoryDto> SubCategories { get; set; } = new();
 }
 
 /// <summary>
 /// Create category request
+/// </summary>
 /// </summary>
 public class CreateCategoryDto
 {
@@ -33,13 +27,6 @@ public class CreateCategoryDto
     [StringLength(100, MinimumLength = 2)]
     public string Name { get; set; } = string.Empty;
 
-    [StringLength(500)]
-    public string Description { get; set; } = string.Empty;
-
-    public Guid? ParentCategoryId { get; set; }
-
-    [Url]
-    public string ImageUrl { get; set; } = string.Empty;
 }
 
 /// <summary>

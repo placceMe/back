@@ -103,10 +103,8 @@ public static class ContractMappingExtensions
         {
             Id = localDto.Id,
             Name = localDto.Name,
-            Description = string.Empty, // Local DTO doesn't have Description
-            ParentCategoryId = null, // Local DTO doesn't have ParentCategoryId
-            ImageUrl = string.Empty, // Local DTO doesn't have ImageUrl
-            SubCategories = new List<ContractCategoryDto>() // Local DTO doesn't have SubCategories
+            Status = localDto.Status,
+            CreatedAt = localDto.CreatedAt
         };
     }
 

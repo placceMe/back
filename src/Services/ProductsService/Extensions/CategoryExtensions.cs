@@ -13,9 +13,8 @@ public static class CategoryExtensions
         {
             Id = category.Id,
             Name = category.Name,
-            Description = string.Empty, // Category model doesn't have Description
-            ParentCategoryId = null, // Category model doesn't have ParentCategoryId
-            ImageUrl = string.Empty // Category model doesn't have ImageUrl
+            Status = category.Status,
+            CreatedAt = category.CreatedAt
         };
     }
 
