@@ -69,6 +69,13 @@ public class FeedbackController : ControllerBase
         return Ok(feedbacks);
     }
 
+    [HttpGet("status/{status}")]
+    public async Task<ActionResult<IEnumerable<FeedbackDto>>> GetFeedbacksByStatus(string status)
+    {
+        var feedbacks = await _feedbackService.GetFeedbacksByStatusAsync(status);
+        return Ok(feedbacks);
+    }
+
     [HttpGet("product/{productId}/summary")]
     public async Task<ActionResult<FeedbackSummaryDto>> GetFeedbackSummaryByProductId(Guid productId)
     {
