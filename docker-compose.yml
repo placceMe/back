@@ -1,3 +1,5 @@
+version: '3.8'
+
 services:
   postgres-db:
     image: postgres:16
@@ -56,8 +58,8 @@ services:
       retries: 3
 
   mailhog:
-    container_name: mailhog
     image: mailhog/mailhog:latest
+    container_name: mailhog
     ports:
       - "8025:8025"   # UI
       - "1025:1025"   # SMTP
@@ -284,9 +286,9 @@ services:
       - app-network
 
 volumes:
-  minio_data:
-  postgres_data:
-  redis_data:
+  minio_data: {}
+  postgres_data: {}
+  redis_data: {}
 
 networks:
   app-network:
