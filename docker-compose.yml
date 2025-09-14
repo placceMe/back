@@ -75,13 +75,13 @@ services:
       - "5002:80"
     environment:
       - ASPNETCORE_HTTP_PORTS=80
-      - ASPNETCORE_ENVIRONMENT=${ENVIRONMENT:-Production}
+      - ASPNETCORE_ENVIRONMENT=$${ENVIRONMENT:-Production}
       - ASPNETCORE_URLS=http://+:80
-      - ConnectionStrings__DefaultConnection=Host=${DB_HOST:-postgres-db};Port=5432;Database=marketplace_db;Username=marketplace;Password=marketplace_password;Search Path=users_service;
-      - ConnectionStrings__Redis=${REDIS_HOST:-redis}:6379
-      - ALLOWED_ORIGINS=${FRONTEND_URL:-http://localhost:5173}
-      - NotificationsService__BaseUrl=${NOTIFICATIONS_SERVICE_URL:-http://notifications-service:8080/}
-      - Frontend__BaseUrl=${FRONTEND_URL:-http://frontend:80/}
+      - ConnectionStrings__DefaultConnection=Host=$${DB_HOST:-postgres-db};Port=5432;Database=marketplace_db;Username=marketplace;Password=marketplace_password;Search Path=users_service;
+      - ConnectionStrings__Redis=$${REDIS_HOST:-redis}:6379
+      - ALLOWED_ORIGINS=$${FRONTEND_URL:-http://localhost:5173}
+      - NotificationsService__BaseUrl=$${NOTIFICATIONS_SERVICE_URL:-http://notifications-service:8080/}
+      - Frontend__BaseUrl=$${FRONTEND_URL:-http://frontend:80/}
     depends_on:
       postgres-db:
         condition: service_healthy
@@ -101,11 +101,11 @@ services:
     ports:
       - "5003:80"
     environment:
-      - ASPNETCORE_ENVIRONMENT=${ENVIRONMENT:-Production}
+      - ASPNETCORE_ENVIRONMENT=$${ENVIRONMENT:-Production}
       - ASPNETCORE_URLS=http://+:80
-      - ConnectionStrings__DefaultConnection=Host=${DB_HOST:-postgres-db};Port=5432;Database=marketplace_db;Username=marketplace;Password=marketplace_password;Search Path=products_service;
-      - FilesService__BaseUrl=${FILES_SERVICE_URL:-http://files-service:80/}
-      - ALLOWED_ORIGINS=${FRONTEND_URL:-http://localhost:5173}
+      - ConnectionStrings__DefaultConnection=Host=$${DB_HOST:-postgres-db};Port=5432;Database=marketplace_db;Username=marketplace;Password=marketplace_password;Search Path=products_service;
+      - FilesService__BaseUrl=$${FILES_SERVICE_URL:-http://files-service:80/}
+      - ALLOWED_ORIGINS=$${FRONTEND_URL:-http://localhost:5173}
     depends_on:
       postgres-db:
         condition: service_healthy
@@ -123,15 +123,15 @@ services:
     ports:
       - "5001:80"
     environment:
-      - ASPNETCORE_ENVIRONMENT=${ENVIRONMENT:-Production}
+      - ASPNETCORE_ENVIRONMENT=$${ENVIRONMENT:-Production}
       - ASPNETCORE_URLS=http://+:80
       - ASPNETCORE_HTTP_PORTS=80
-      - MinIO__Endpoint=${MINIO_HOST:-minio}:9000
+      - MinIO__Endpoint=$${MINIO_HOST:-minio}:9000
       - MinIO__AccessKey=minioadmin
       - MinIO__SecretKey=minioadmin123
       - MinIO__BucketName=images
       - MinIO__Secure=false
-      - ALLOWED_ORIGINS=${FRONTEND_URL:-http://localhost:5173}
+      - ALLOWED_ORIGINS=$${FRONTEND_URL:-http://localhost:5173}
     depends_on:
       - minio
     networks:
@@ -145,12 +145,12 @@ services:
     ports:
       - "5005:80"
     environment:
-      - ASPNETCORE_ENVIRONMENT=${ENVIRONMENT:-Production}
+      - ASPNETCORE_ENVIRONMENT=$${ENVIRONMENT:-Production}
       - ASPNETCORE_URLS=http://+:80
-      - ConnectionStrings__DefaultConnection=Host=${DB_HOST:-postgres-db};Port=5432;Database=marketplace_db;Username=marketplace;Password=marketplace_password;Search Path=chat_service;
-      - UsersService__BaseUrl=${USERS_SERVICE_URL:-http://users-service:80/}
-      - ProductsService__BaseUrl=${PRODUCTS_SERVICE_URL:-http://products-service:80/}
-      - Cors__AllowedOrigins__0=${FRONTEND_URL:-http://localhost:5173}
+      - ConnectionStrings__DefaultConnection=Host=$${DB_HOST:-postgres-db};Port=5432;Database=marketplace_db;Username=marketplace;Password=marketplace_password;Search Path=chat_service;
+      - UsersService__BaseUrl=$${USERS_SERVICE_URL:-http://users-service:80/}
+      - ProductsService__BaseUrl=$${PRODUCTS_SERVICE_URL:-http://products-service:80/}
+      - Cors__AllowedOrigins__0=$${FRONTEND_URL:-http://localhost:5173}
       - Cors__AllowedOrigins__1=http://localhost:3000
       - Cors__AllowedOrigins__2=http://localhost:8080
     depends_on:
@@ -172,10 +172,10 @@ services:
     ports:
       - "5006:80"
     environment:
-      - ASPNETCORE_ENVIRONMENT=${ENVIRONMENT:-Production}
+      - ASPNETCORE_ENVIRONMENT=$${ENVIRONMENT:-Production}
       - ASPNETCORE_URLS=http://+:80
-      - ConnectionStrings__DefaultConnection=Host=${DB_HOST:-postgres-db};Port=5432;Database=marketplace_db;Username=marketplace;Password=marketplace_password;Search Path=content_service;
-      - ALLOWED_ORIGINS=${FRONTEND_URL:-http://localhost:5173}
+      - ConnectionStrings__DefaultConnection=Host=$${DB_HOST:-postgres-db};Port=5432;Database=marketplace_db;Username=marketplace;Password=marketplace_password;Search Path=content_service;
+      - ALLOWED_ORIGINS=$${FRONTEND_URL:-http://localhost:5173}
     depends_on:
       postgres-db:
         condition: service_healthy
@@ -191,14 +191,14 @@ services:
     ports:
       - "5004:80"
     environment:
-      - ASPNETCORE_ENVIRONMENT=${ENVIRONMENT:-Production}
+      - ASPNETCORE_ENVIRONMENT=$${ENVIRONMENT:-Production}
       - ASPNETCORE_URLS=http://+:80
-      - ConnectionStrings__DefaultConnection=Host=${DB_HOST:-postgres-db};Port=5432;Database=marketplace_db;Username=marketplace;Password=marketplace_password;Search Path=orders_service;
-      - ConnectionStrings__Redis=${REDIS_HOST:-redis}:6379
-      - ProductsService__BaseUrl=${PRODUCTS_SERVICE_URL:-http://products-service:80/}
-      - UsersService__BaseUrl=${USERS_SERVICE_URL:-http://users-service:80/}
-      - NotificationsService__BaseUrl=${NOTIFICATIONS_SERVICE_URL:-http://notifications-service:8080/}
-      - ALLOWED_ORIGINS=${FRONTEND_URL:-http://localhost:5173}
+      - ConnectionStrings__DefaultConnection=Host=$${DB_HOST:-postgres-db};Port=5432;Database=marketplace_db;Username=marketplace;Password=marketplace_password;Search Path=orders_service;
+      - ConnectionStrings__Redis=$${REDIS_HOST:-redis}:6379
+      - ProductsService__BaseUrl=$${PRODUCTS_SERVICE_URL:-http://products-service:80/}
+      - UsersService__BaseUrl=$${USERS_SERVICE_URL:-http://users-service:80/}
+      - NotificationsService__BaseUrl=$${NOTIFICATIONS_SERVICE_URL:-http://notifications-service:8080/}
+      - ALLOWED_ORIGINS=$${FRONTEND_URL:-http://localhost:5173}
     depends_on:
       postgres-db:
         condition: service_healthy
@@ -220,12 +220,12 @@ services:
       dockerfile: src/Services/NotificationsService/Dockerfile
     container_name: notifications-service
     environment:
-      - ASPNETCORE_ENVIRONMENT=${ENVIRONMENT:-Production}
+      - ASPNETCORE_ENVIRONMENT=$${ENVIRONMENT:-Production}
       - ASPNETCORE_URLS=http://+:8080
       - Email__Provider=Smtp
       - Email__FromName=Marketplace
       - Email__FromAddress=no-reply@marketplace.local
-      - Email__Smtp__Host=${MAILHOG_HOST:-mailhog}
+      - Email__Smtp__Host=$${MAILHOG_HOST:-mailhog}
       - Email__Smtp__Port=1025
       - Email__Smtp__UseSsl=false
     ports:
