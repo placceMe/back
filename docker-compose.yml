@@ -220,14 +220,14 @@ services:
       dockerfile: src/Services/NotificationsService/Dockerfile
     container_name: notifications-service
     environment:
-      ASPNETCORE_ENVIRONMENT: ${ENVIRONMENT:-Production}
-      ASPNETCORE_URLS: http://+:8080
-      Email__Provider: Smtp
-      Email__FromName: "Marketplace"
-      Email__FromAddress: "no-reply@marketplace.local"
-      Email__Smtp__Host: ${MAILHOG_HOST:-mailhog}
-      Email__Smtp__Port: 1025
-      Email__Smtp__UseSsl: "false"
+      - ASPNETCORE_ENVIRONMENT=${ENVIRONMENT:-Production}
+      - ASPNETCORE_URLS=http://+:8080
+      - Email__Provider=Smtp
+      - Email__FromName=Marketplace
+      - Email__FromAddress=no-reply@marketplace.local
+      - Email__Smtp__Host=${MAILHOG_HOST:-mailhog}
+      - Email__Smtp__Port=1025
+      - Email__Smtp__UseSsl=false
     ports:
       - "5007:8080"
     depends_on:
